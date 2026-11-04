@@ -1,0 +1,34 @@
+# Cloudflare Pages Configuration for FindCollege.ai Course Platform
+name = "findcollege-courses"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "."
+
+# 1. Cloudflare D1 Database Binding
+# Bind as 'DB' in Pages Functions (accessible via context.env.DB)
+[[d1_databases]]
+binding = "DB"
+database_name = "findcollege_courses_db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+# 2. Cloudflare R2 Storage Bucket Binding
+# Bind as 'BUCKET' in Pages Functions (accessible via context.env.BUCKET)
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "findcollege-course-assets"
+
+# 3. Environment Variables (Non-secret defaults)
+[vars]
+COMPANY_NAME = "FindCollege.ai"
+SUPPORT_EMAIL = "support@findcollege.ai"
+CURRENCY = "INR"
+META_PIXEL_ID = "" # Configure via Cloudflare Dashboard or .dev.vars
+EMAIL_FROM = "FindCollege.ai <courses@findcollege.ai>"
+
+# Secret Variables (Set in Cloudflare Dashboard > Pages > Settings > Environment Variables):
+# - RAZORPAY_KEY_ID
+# - RAZORPAY_KEY_SECRET
+# - RAZORPAY_WEBHOOK_SECRET
+# - RESEND_API_KEY
+# - ADMIN_PASSWORD_HASH
+# - ADMIN_JWT_SECRET

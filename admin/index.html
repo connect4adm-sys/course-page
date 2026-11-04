@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindCollege.ai — Admin Portal</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0d0624;
+      --bg-surface: #170d38;
+      --bg-card: #20134d;
+      --bg-card-hover: #291863;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-accent: rgba(140, 56, 244, 0.35);
+      --primary: #8c38f4;
+      --primary-glow: rgba(140, 56, 244, 0.4);
+      --accent: #ffcf11;
+      --text: #ffffff;
+      --text-muted: #a699d6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-base); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: var(--accent); text-decoration: none; }
+
+    /* Login Screen */
+    .login-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .login-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+    .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; justify-content: center; }
+    .login-brand img { width: 40px; height: 40px; }
+    .login-brand span { font-size: 20px; font-weight: 800; }
+    .login-brand span strong { color: var(--primary); }
+    .login-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+    .login-subtitle { font-size: 13px; color: var(--text-muted); text-align: center; margin-bottom: 28px; }
+
+    /* Form controls */
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+    .form-control { width: 100%; padding: 12px 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 14px; transition: border-color 0.2s; }
+    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #8c38f4, #6d1fe0); color: #fff; width: 100%; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px var(--primary-glow); }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid var(--border); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+    /* Admin App Layout */
+    .admin-app { display: none; min-height: 100vh; flex-direction: column; }
+    .admin-nav { background: var(--bg-surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .admin-nav-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; }
+    .admin-nav-brand img { width: 32px; height: 32px; }
+    .nav-tabs { display: flex; gap: 8px; }
+    .nav-tab { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13.5px; cursor: pointer; transition: all 0.2s; }
+    .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .nav-tab.active { color: #fff; background: var(--primary); }
+    .admin-user { display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--text-muted); }
+
+    /* Main Container */
+    .admin-main { flex: 1; padding: 28px 24px; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+    .page-title { font-size: 24px; font-weight: 800; }
+
+    /* Metric Cards Grid */
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 28px; }
+    .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: transform 0.2s; }
+    .metric-card:hover { transform: translateY(-2px); border-color: var(--border-accent); }
+    .metric-label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .metric-value { font-size: 28px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; }
+    .metric-value.highlight { color: var(--accent); }
+    .metric-value.success { color: var(--success); }
+    .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+    /* Tables */
+    .table-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; margin-top: 16px; }
+    .admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+    .admin-table th { background: rgba(0,0,0,0.25); padding: 14px 16px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .admin-table td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); white-space: nowrap; }
+    .admin-table tr:hover td { background: var(--bg-card-hover); }
+
+    /* Badges */
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 50px; font-size: 11.5px; font-weight: 700; }
+    .badge-paid, .badge-sent, .badge-active { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-created, .badge-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-failed { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* Filters Bar */
+    .filter-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .filter-bar input, .filter-bar select { padding: 8px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 13px; }
+
+    /* Settings list */
+    .settings-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+    .settings-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .settings-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .settings-detail { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 8px; }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; background: var(--bg-surface); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; display: none; }
+    .toast.show { display: block; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    @media (max-width: 800px) {
+      .admin-nav { flex-direction: column; gap: 14px; align-items: flex-start; }
+      .nav-tabs { width: 100%; overflow-x: auto; padding-bottom: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. LOGIN SCREEN -->
+  <div id="login-section" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="/logo.png" alt="FindCollege.ai">
+        <span>FINDCOLLEGE<strong>.AI</strong></span>
+      </div>
+      <h2 class="login-title">Admin Portal</h2>
+      <p class="login-subtitle">Sign in to manage courses, leads, and orders</p>
+      
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Admin Username</label>
+          <input type="text" id="login-username" class="form-control" placeholder="admin" required autofocus>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">Admin Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••••••" required>
+        </div>
+        <div id="login-error" style="color: var(--danger); font-size: 13px; margin-bottom: 14px;"></div>
+        <button type="submit" id="login-submit-btn" class="btn btn-primary">Sign In to Dashboard →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. ADMIN DASHBOARD APP -->
+  <div id="admin-app" class="admin-app">
+    <!-- Navbar -->
+    <header class="admin-nav">
+      <div class="admin-nav-brand">
+        <img src="/logo.png" alt="FindCollege.ai">
+        <span>FINDCOLLEGE<strong>.AI</strong> &nbsp;<span style="font-size: 12px; color: var(--accent); background: rgba(255,207,17,0.15); padding: 3px 8px; border-radius: 50px;">Admin Portal</span></span>
+      </div>
+
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="tab-overview">Overview</button>
+        <button class="nav-tab" data-tab="tab-leads">Sample Leads</button>
+        <button class="nav-tab" data-tab="tab-orders">Orders & Payments</button>
+        <button class="nav-tab" data-tab="tab-products">Course Catalog</button>
+        <button class="nav-tab" data-tab="tab-emails">Email Logs</button>
+        <button class="nav-tab" data-tab="tab-settings">System Status</button>
+      </nav>
+
+      <div class="admin-user">
+        <span id="nav-username">Admin</span>
+        <button id="logout-btn" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      
+      <!-- TAB 1: OVERVIEW METRICS -->
+      <section id="tab-overview" class="tab-pane active">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Executive Overview</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Real-time business performance & payment settlement</p>
+          </div>
+          <div>
+            <select id="metrics-filter" class="form-control" style="width: auto;">
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="7d">Last 7 Days</option>
+              <option value="30d">Last 30 Days</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Total Verified Revenue</div>
+            <div class="metric-value highlight" id="m-revenue">₹0</div>
+            <div class="metric-sub" id="m-today-revenue">Today: ₹0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Successful Purchases</div>
+            <div class="metric-value success" id="m-paid-orders">0</div>
+            <div class="metric-sub" id="m-total-orders">Total Orders: 0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Pending / Incomplete</div>
+            <div class="metric-value" id="m-pending-orders">0</div>
+            <div class="metric-sub" id="m-failed-orders">Failed: 0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Free Sample Leads</div>
+            <div class="metric-value" id="m-leads">0</div>
+            <div class="metric-sub" id="m-today-leads">Today: 0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Email Deliveries</div>
+            <div class="metric-value success" id="m-emails-sent">0</div>
+            <div class="metric-sub" id="m-emails-failed" style="color: var(--danger);">Failed: 0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: SAMPLE LEADS -->
+      <section id="tab-leads" class="tab-pane" style="display: none;">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Sample Leads</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Students who requested free chapter notes & study samples</p>
+          </div>
+          <div>
+            <button id="export-leads-btn" class="btn btn-secondary btn-sm">📥 Export Leads to CSV</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <input type="text" id="leads-search" placeholder="Search name, email, phone..." style="min-width: 250px;">
+          <select id="leads-course-filter">
+            <option value="">All Courses</option>
+            <option value="jee-full">JEE Full Course</option>
+            <option value="neet-full">NEET Full Course</option>
+            <option value="foundation-9-10">Foundation 9–10</option>
+            <option value="junior-6-8">Junior Foundation 6–8</option>
+          </select>
+          <button id="leads-refresh-btn" class="btn btn-secondary btn-sm">Refresh</button>
+        </div>
+
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Submission Date</th>
+                <th>Student Name</th>
+                <th>Mobile Number</th>
+                <th>Email Address</th>
+                <th>Course Requested</th>
+                <th>Sample Email Status</th>
+              </tr>
+            </thead>
+            <tbody id="leads-table-body">
+              <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading leads...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 3: ORDERS & PAYMENTS -->
+      <section id="tab-orders" class="tab-pane" style="display: none;">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Orders & Payments</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Verified Razorpay transactions & course entitlements</p>
+          </div>
+          <div>
+            <button id="export-orders-btn" class="btn btn-secondary btn-sm">📥 Export Orders to CSV</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <input type="text" id="orders-search" placeholder="Search order ID, payment ID, email..." style="min-width: 260px;">
+          <select id="orders-status-filter">
+            <option value="">All Payment Statuses</option>
+            <option value="paid">Paid (Verified)</option>
+            <option value="created">Created (Pending)</option>
+            <option value="failed">Failed</option>
+          </select>
+          <select id="orders-course-filter">
+            <option value="">All Courses</option>
+            <option value="jee-full">JEE Full Course</option>
+            <option value="neet-full">NEET Full Course</option>
+            <option value="foundation-9-10">Foundation 9–10</option>
+            <option value="junior-6-8">Junior Foundation 6–8</option>
+          </select>
+          <button id="orders-refresh-btn" class="btn btn-secondary btn-sm">Refresh</button>
+        </div>
+
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Student Name</th>
+                <th>Email & Phone</th>
+                <th>Course</th>
+                <th>Amount</th>
+                <th>Razorpay Order ID</th>
+                <th>Payment ID</th>
+                <th>Status</th>
+                <th>Delivery</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <tr><td colspan="10" style="text-align: center; color: var(--text-muted);">Loading orders...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 4: COURSE CATALOG -->
+      <section id="tab-products" class="tab-pane" style="display: none;">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Course Catalog & Pricing</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Server-enforced prices, active status & R2 storage file mapping</p>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Course ID</th>
+                <th>Course Title</th>
+                <th>Price (INR)</th>
+                <th>Status</th>
+                <th>Sample File Key</th>
+                <th>Full Bundle File Key</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body">
+              <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading catalog...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 5: EMAIL LOGS -->
+      <section id="tab-emails" class="tab-pane" style="display: none;">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Email Dispatch Logs</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Audit trail of Resend transactional emails sent to students</p>
+          </div>
+          <div>
+            <button id="emails-refresh-btn" class="btn btn-secondary btn-sm">Refresh</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Recipient</th>
+                <th>Type</th>
+                <th>Reference ID</th>
+                <th>Delivery Status</th>
+                <th>Error Details</th>
+              </tr>
+            </thead>
+            <tbody id="emails-table-body">
+              <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 6: SETTINGS & HEALTH CHECK -->
+      <section id="tab-settings" class="tab-pane" style="display: none;">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">System Infrastructure Status</h1>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Health check of connected Cloudflare and third-party APIs (Secrets are strictly masked)</p>
+          </div>
+          <div>
+            <button id="settings-refresh-btn" class="btn btn-secondary btn-sm">Run Health Check</button>
+          </div>
+        </div>
+
+        <div class="settings-list" id="settings-list-container">
+          <div class="settings-card">
+            <div class="settings-title">Checking system status...</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    (function() {
+      // Tab switcher
+      const tabs = document.querySelectorAll('.nav-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const target = tab.dataset.tab;
+          document.querySelectorAll('.tab-pane').forEach(p => {
+            p.style.display = p.id === target ? 'block' : 'none';
+          });
+          if (target === 'tab-overview') loadMetrics();
+          if (target === 'tab-leads') loadLeads();
+          if (target === 'tab-orders') loadOrders();
+          if (target === 'tab-products') loadProducts();
+          if (target === 'tab-emails') loadEmails();
+          if (target === 'tab-settings') loadSettings();
+        });
+      });
+
+      function showToast(msg, isError) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.borderColor = isError ? 'var(--danger)' : 'var(--success)';
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 4000);
+      }
+
+      // Check Session on start
+      fetch('/api/admin/me')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.authenticated) {
+            showApp(data.username);
+          } else {
+            showLogin();
+          }
+        })
+        .catch(() => showLogin());
+
+      function showApp(username) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('admin-app').style.display = 'flex';
+        document.getElementById('nav-username').textContent = username || 'Admin';
+        loadMetrics();
+      }
+
+      function showLogin() {
+        document.getElementById('login-section').style.display = 'flex';
+        document.getElementById('admin-app').style.display = 'none';
+      }
+
+      // Login form
+      document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value;
+        const errEl = document.getElementById('login-error');
+        const btn = document.getElementById('login-submit-btn');
+
+        errEl.textContent = '';
+        btn.disabled = true;
+        btn.textContent = 'Authenticating...';
+
+        try {
+          const res = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+          const data = await res.json();
+          btn.disabled = false;
+          btn.textContent = 'Sign In to Dashboard →';
+
+          if (data.success) {
+            showApp(username);
+          } else {
+            errEl.textContent = data.message || 'Login failed';
+          }
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = 'Sign In to Dashboard →';
+          errEl.textContent = 'Connection error: ' + err.message;
+        }
+      });
+
+      // Logout
+      document.getElementById('logout-btn').addEventListener('click', async () => {
+        await fetch('/api/admin/logout', { method: 'POST' });
+        showLogin();
+      });
+
+      // Load Metrics
+      async function loadMetrics() {
+        const filter = document.getElementById('metrics-filter').value;
+        try {
+          const res = await fetch(`/api/admin/dashboard?filter=${filter}`);
+          const data = await res.json();
+          if (data.success && data.metrics) {
+            const m = data.metrics;
+            document.getElementById('m-revenue').textContent = '₹' + m.totalRevenueInr.toLocaleString('en-IN');
+            document.getElementById('m-today-revenue').textContent = `Today: ₹${m.todayRevenueInr.toLocaleString('en-IN')}`;
+            document.getElementById('m-paid-orders').textContent = m.successfulPayments;
+            document.getElementById('m-total-orders').textContent = `Total Orders: ${m.totalOrders}`;
+            document.getElementById('m-pending-orders').textContent = m.pendingPayments;
+            document.getElementById('m-failed-orders').textContent = `Failed: ${m.failedPayments}`;
+            document.getElementById('m-leads').textContent = m.totalLeads;
+            document.getElementById('m-today-leads').textContent = `Today: ${m.todayLeads}`;
+            document.getElementById('m-emails-sent').textContent = m.successfulEmailDeliveries;
+            document.getElementById('m-emails-failed').textContent = `Failed: ${m.failedEmailDeliveries}`;
+          }
+        } catch (e) {
+          console.error('Metrics error:', e);
+        }
+      }
+
+      document.getElementById('metrics-filter').addEventListener('change', loadMetrics);
+
+      // Load Leads
+      async function loadLeads() {
+        const search = encodeURIComponent(document.getElementById('leads-search').value.trim());
+        const courseId = document.getElementById('leads-course-filter').value;
+        const tbody = document.getElementById('leads-table-body');
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Fetching leads...</td></tr>';
+
+        try {
+          const res = await fetch(`/api/admin/leads?search=${search}&courseId=${courseId}`);
+          const data = await res.json();
+          if (!data.leads || data.leads.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No sample leads recorded yet.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.leads.map(l => `
+            <tr>
+              <td>${new Date(l.created_at).toLocaleString('en-IN')}</td>
+              <td><strong>${escapeHtml(l.student_name)}</strong></td>
+              <td>${escapeHtml(l.phone)}</td>
+              <td>${escapeHtml(l.email)}</td>
+              <td><span style="font-family: monospace;">${escapeHtml(l.course_id)}</span></td>
+              <td><span class="badge badge-${l.email_status}">${l.email_status.toUpperCase()}</span></td>
+            </tr>
+          `).join('');
+        } catch (e) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--danger);">Failed to load leads</td></tr>';
+        }
+      }
+
+      document.getElementById('leads-search').addEventListener('input', debounce(loadLeads, 400));
+      document.getElementById('leads-course-filter').addEventListener('change', loadLeads);
+      document.getElementById('leads-refresh-btn').addEventListener('click', loadLeads);
+      document.getElementById('export-leads-btn').addEventListener('click', () => {
+        window.location.href = '/api/admin/leads?export=csv';
+      });
+
+      // Load Orders
+      async function loadOrders() {
+        const search = encodeURIComponent(document.getElementById('orders-search').value.trim());
+        const status = document.getElementById('orders-status-filter').value;
+        const courseId = document.getElementById('orders-course-filter').value;
+        const tbody = document.getElementById('orders-table-body');
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--text-muted);">Fetching orders...</td></tr>';
+
+        try {
+          const res = await fetch(`/api/admin/orders?search=${search}&status=${status}&courseId=${courseId}`);
+          const data = await res.json();
+          if (!data.orders || data.orders.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--text-muted);">No orders recorded yet.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.orders.map(o => `
+            <tr>
+              <td>${new Date(o.paid_at || o.created_at).toLocaleString('en-IN')}</td>
+              <td><strong>${escapeHtml(o.student_name)}</strong></td>
+              <td><div>${escapeHtml(o.email)}</div><div style="font-size: 11px; color: var(--text-muted);">${escapeHtml(o.phone)}</div></td>
+              <td><span style="font-family: monospace;">${escapeHtml(o.course_id)}</span></td>
+              <td><strong>₹${Math.round(o.amount_paise / 100)}</strong></td>
+              <td style="font-family: monospace; font-size: 11.5px;">${escapeHtml(o.order_id || '')}</td>
+              <td style="font-family: monospace; font-size: 11.5px;">${escapeHtml(o.payment_id || '-')}</td>
+              <td><span class="badge badge-${o.payment_status}">${(o.payment_status || 'created').toUpperCase()}</span></td>
+              <td><span class="badge badge-${o.delivery_status}">${(o.delivery_status || 'pending').toUpperCase()}</span></td>
+              <td>
+                ${o.payment_status === 'paid' ? `
+                  <button class="btn btn-secondary btn-sm" onclick="resendOrderAccess('${o.order_id}')">Resend Access ✉️</button>
+                ` : `<span style="font-size: 11px; color: var(--text-muted);">Unpaid</span>`}
+              </td>
+            </tr>
+          `).join('');
+        } catch (e) {
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--danger);">Failed to load orders</td></tr>';
+        }
+      }
+
+      window.resendOrderAccess = async function(orderId) {
+        if (!confirm(`Resend course access email to order ${orderId}?`)) return;
+        try {
+          const res = await fetch('/api/admin/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'resend_email', orderId })
+          });
+          const data = await res.json();
+          if (data.success) {
+            showToast('Access email resent successfully!');
+            loadOrders();
+          } else {
+            showToast(data.message || 'Failed to resend access email', true);
+          }
+        } catch (err) {
+          showToast('Network error: ' + err.message, true);
+        }
+      };
+
+      document.getElementById('orders-search').addEventListener('input', debounce(loadOrders, 400));
+      document.getElementById('orders-status-filter').addEventListener('change', loadOrders);
+      document.getElementById('orders-course-filter').addEventListener('change', loadOrders);
+      document.getElementById('orders-refresh-btn').addEventListener('click', loadOrders);
+      document.getElementById('export-orders-btn').addEventListener('click', () => {
+        window.location.href = '/api/admin/orders?export=csv';
+      });
+
+      // Load Products
+      async function loadProducts() {
+        const tbody = document.getElementById('products-table-body');
+        try {
+          const res = await fetch('/api/admin/products');
+          const data = await res.json();
+          if (!data.products) return;
+
+          tbody.innerHTML = data.products.map(p => `
+            <tr>
+              <td style="font-family: monospace; font-weight: bold;">${p.id}</td>
+              <td><input type="text" id="p-name-${p.id}" value="${escapeHtml(p.course_name)}" class="form-control" style="padding: 6px 10px; width: 220px;"></td>
+              <td><input type="number" id="p-price-${p.id}" value="${Math.round(p.price_paise / 100)}" class="form-control" style="padding: 6px 10px; width: 90px;"></td>
+              <td>
+                <select id="p-active-${p.id}" class="form-control" style="padding: 6px 10px; width: 110px;">
+                  <option value="1" ${p.active ? 'selected' : ''}>Active</option>
+                  <option value="0" ${!p.active ? 'selected' : ''}>Disabled</option>
+                </select>
+              </td>
+              <td><input type="text" id="p-sample-${p.id}" value="${escapeHtml(p.sample_file_key || '')}" class="form-control" style="padding: 6px 10px; font-family: monospace; font-size: 11.5px; width: 200px;"></td>
+              <td><input type="text" id="p-bundle-${p.id}" value="${escapeHtml(p.full_course_file_keys || '')}" class="form-control" style="padding: 6px 10px; font-family: monospace; font-size: 11.5px; width: 200px;"></td>
+              <td><button class="btn btn-primary btn-sm" onclick="saveProduct('${p.id}')">Save</button></td>
+            </tr>
+          `).join('');
+        } catch (e) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--danger);">Failed to load products</td></tr>';
+        }
+      }
+
+      window.saveProduct = async function(id) {
+        const courseName = document.getElementById(`p-name-${id}`).value.trim();
+        const priceInr = document.getElementById(`p-price-${id}`).value.trim();
+        const active = document.getElementById(`p-active-${id}`).value === '1';
+        const sampleFileKey = document.getElementById(`p-sample-${id}`).value.trim();
+        const fullCourseFileKeys = document.getElementById(`p-bundle-${id}`).value.trim();
+
+        try {
+          const res = await fetch('/api/admin/products', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, courseName, priceInr, active, sampleFileKey, fullCourseFileKeys })
+          });
+          const data = await res.json();
+          if (data.success) {
+            showToast(`Product ${id} saved successfully!`);
+          } else {
+            showToast(data.message || 'Error saving product', true);
+          }
+        } catch (err) {
+          showToast('Network error: ' + err.message, true);
+        }
+      };
+
+      // Load Email Logs
+      async function loadEmails() {
+        const tbody = document.getElementById('emails-table-body');
+        try {
+          const res = await fetch('/api/admin/emails');
+          const data = await res.json();
+          if (!data.logs || data.logs.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No email logs recorded yet.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.logs.map(e => `
+            <tr>
+              <td>${new Date(e.created_at).toLocaleString('en-IN')}</td>
+              <td><strong>${escapeHtml(e.recipient)}</strong></td>
+              <td><span style="font-family: monospace;">${escapeHtml(e.email_type)}</span></td>
+              <td style="font-family: monospace; font-size: 11.5px;">${escapeHtml(e.reference_id || '-')}</td>
+              <td><span class="badge badge-${e.delivery_status}">${e.delivery_status.toUpperCase()}</span></td>
+              <td style="color: ${e.error_message ? 'var(--danger)' : 'var(--text-muted)'}; font-size: 12px;">${escapeHtml(e.error_message || 'None')}</td>
+            </tr>
+          `).join('');
+        } catch (err) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--danger);">Failed to load emails</td></tr>';
+        }
+      }
+
+      document.getElementById('emails-refresh-btn').addEventListener('click', loadEmails);
+
+      // Load Settings
+      async function loadSettings() {
+        const container = document.getElementById('settings-list-container');
+        try {
+          const res = await fetch('/api/admin/settings');
+          const data = await res.json();
+          if (!data.services) return;
+          const s = data.services;
+
+          container.innerHTML = `
+            <div class="settings-card">
+              <div class="settings-title">
+                <span>Razorpay Gateway</span>
+                <span class="badge badge-${s.razorpay.configured ? 'paid' : 'pending'}">${s.razorpay.configured ? 'Active' : 'Sandbox Demo'}</span>
+              </div>
+              <div class="settings-detail">Status: <strong>${s.razorpay.status}</strong></div>
+              <div class="settings-detail">Key ID Prefix: <code>${s.razorpay.keyIdPrefix}</code></div>
+              <div class="settings-detail">Webhook Secret: ${s.razorpay.webhookConfigured ? '✅ Configured' : '⚠️ Pending'}</div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-title">
+                <span>Resend Transactional Email</span>
+                <span class="badge badge-${s.resend.configured ? 'paid' : 'pending'}">${s.resend.configured ? 'Active' : 'Simulation'}</span>
+              </div>
+              <div class="settings-detail">Status: <strong>${s.resend.status}</strong></div>
+              <div class="settings-detail">Sender Address: <code>${escapeHtml(s.resend.senderEmail)}</code></div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-title">
+                <span>Cloudflare D1 Database</span>
+                <span class="badge badge-${s.databaseD1.configured ? 'paid' : 'pending'}">${s.databaseD1.configured ? 'Bound' : 'In-Memory Fallback'}</span>
+              </div>
+              <div class="settings-detail">Status: <strong>${s.databaseD1.status}</strong></div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-title">
+                <span>Cloudflare R2 File Storage</span>
+                <span class="badge badge-${s.storageR2.configured ? 'paid' : 'pending'}">${s.storageR2.configured ? 'Bound' : 'Tokenized Virtualizer'}</span>
+              </div>
+              <div class="settings-detail">Status: <strong>${s.storageR2.status}</strong></div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-title">
+                <span>Meta Pixel Advertising</span>
+                <span class="badge badge-${s.metaPixel.configured ? 'paid' : 'pending'}">${s.metaPixel.configured ? 'Configured' : 'Pending'}</span>
+              </div>
+              <div class="settings-detail">Status: <strong>${s.metaPixel.status}</strong></div>
+              <div class="settings-detail">Pixel ID: <code>${s.metaPixel.pixelId || 'Enter in SETUP_GUIDE.md or .env'}</code></div>
+            </div>
+          `;
+        } catch (e) {
+          container.innerHTML = '<div style="color: var(--danger);">Failed to load settings</div>';
+        }
+      }
+
+      document.getElementById('settings-refresh-btn').addEventListener('click', loadSettings);
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function debounce(fn, ms) {
+        let t;
+        return function(...args) {
+          clearTimeout(t);
+          t = setTimeout(() => fn.apply(this, args), ms);
+        };
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1103,6 +1103,274 @@
       box-shadow: 0 12px 28px rgba(255, 210, 31, 0.5);
     }
 
+    /* CARD ACTION BUTTONS */
+    .card-action-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .btn-card-sample {
+      flex: 1;
+      padding: 9px 4px;
+      border-radius: 999px;
+      border: 1.5px solid #6b26da;
+      color: #6b26da;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-card-sample:hover {
+      background: rgba(107, 38, 218, 0.08);
+      border-color: #551db3;
+      color: #551db3;
+    }
+
+    .btn-card-buy {
+      flex: 1.25;
+      padding: 9px 4px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #7b29e2, #6425d5);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(100, 37, 213, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-card-buy:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(100, 37, 213, 0.5);
+      background: linear-gradient(135deg, #8c38f4, #6d1fe0);
+    }
+
+    /* MODAL STYLES */
+    .fcai-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 28, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s;
+    }
+
+    .fcai-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .fcai-modal {
+      background: #1b1049;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(140, 56, 244, 0.2);
+      overflow: hidden;
+      transform: scale(0.94) translateY(10px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .fcai-modal-backdrop.active .fcai-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .fcai-modal-header {
+      background: linear-gradient(135deg, #27146e 0%, #1a0f44 100%);
+      padding: 24px 28px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .fcai-modal-header h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .fcai-modal-header p {
+      font-size: 13px;
+      color: #b7a9e6;
+    }
+
+    .fcai-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .fcai-modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .fcai-modal-body {
+      padding: 24px 28px 28px;
+    }
+
+    .fcai-form-group {
+      margin-bottom: 16px;
+    }
+
+    .fcai-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #c4b9ee;
+      margin-bottom: 6px;
+    }
+
+    .fcai-input, .fcai-select {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14.5px;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .fcai-input:focus, .fcai-select:focus {
+      outline: none;
+      border-color: #8c38f4;
+      box-shadow: 0 0 0 3px rgba(140, 56, 244, 0.35);
+    }
+
+    .fcai-select option {
+      background: #1b1049;
+      color: #fff;
+    }
+
+    .fcai-btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #ffcf11 0%, #ffb800 100%);
+      color: #160a45;
+      font-weight: 800;
+      font-size: 15.5px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 207, 17, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .fcai-btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(255, 207, 17, 0.5);
+    }
+
+    .fcai-btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .fcai-alert {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .fcai-alert-success {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .fcai-alert-error {
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    .fcai-alert-info {
+      background: rgba(140, 56, 244, 0.14);
+      border: 1px solid rgba(140, 56, 244, 0.4);
+      color: #c4b9ee;
+    }
+
+    .fcai-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(22, 10, 69, 0.25);
+      border-top-color: #160a45;
+      border-radius: 50%;
+      animation: fcaiSpin 0.7s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes fcaiSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast */
+    .fcai-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1b1049;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 14px 22px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+      z-index: 20000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .fcai-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .fcai-toast-success { border-color: #10b981; }
+    .fcai-toast-error { border-color: #ef4444; }
+    .fcai-toast-info { border-color: #8c38f4; }
+
     /* RESPONSIVE STYLES */
     @media (max-width: 1024px) {
       .navlinks {
@@ -1685,7 +1953,10 @@
               <span class="price-current">₹499</span>
               <span class="discount-badge">67% OFF</span>
             </div>
-            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('jee-full')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('jee-full')">Buy Now →</button>
+            </div>
           </article>
 
           <!-- Card 2: NEET Full Course -->
@@ -1701,7 +1972,10 @@
               <span class="price-current">₹499</span>
               <span class="discount-badge">67% OFF</span>
             </div>
-            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('neet-full')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('neet-full')">Buy Now →</button>
+            </div>
           </article>
 
           <!-- Card 3: Foundation Course -->
@@ -1717,7 +1991,10 @@
               <span class="price-current">₹399</span>
               <span class="discount-badge">95% OFF</span>
             </div>
-            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('foundation-9-10')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('foundation-9-10')">Buy Now →</button>
+            </div>
           </article>
 
           <!-- Card 4: Junior Foundation -->
@@ -1733,7 +2010,10 @@
               <span class="price-current">₹399</span>
               <span class="discount-badge">95% OFF</span>
             </div>
-            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('junior-6-8')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('junior-6-8')">Buy Now →</button>
+            </div>
           </article>
         </div>
       </div>
@@ -2084,7 +2364,127 @@
         </div>
       </div>
     </section>
+
+    <!-- 1. GET FREE SAMPLE MODAL -->
+    <div id="sample-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="sample-modal-title">
+      <div class="fcai-modal">
+        <div class="fcai-modal-header">
+          <button type="button" class="fcai-modal-close" onclick="closeSampleModal()" aria-label="Close modal">&times;</button>
+          <h3 id="sample-modal-title">Get Free Sample Material</h3>
+          <p>Instant sample notes & practice questions delivered to your email</p>
+        </div>
+        <div class="fcai-modal-body">
+          <div id="sample-modal-status"></div>
+          <form id="sample-request-form">
+            <input type="text" id="sample-hp" name="website_url" style="display:none" tabindex="-1" autocomplete="off">
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="sample-course-select">Selected Course</label>
+              <select id="sample-course-select" class="fcai-select" required>
+                <option value="jee-full">JEE Full Course (Class 11-12)</option>
+                <option value="neet-full">NEET Full Course (Class 11-12)</option>
+                <option value="foundation-9-10">Foundation Course (Class 9-10)</option>
+                <option value="junior-6-8">Junior Foundation (Class 6-8)</option>
+              </select>
+            </div>
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="sample-name">Student Full Name</label>
+              <input type="text" id="sample-name" class="fcai-input" placeholder="e.g. Aarav Sharma" required>
+            </div>
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="sample-phone">Mobile Number (WhatsApp updates)</label>
+              <input type="tel" id="sample-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10" required>
+            </div>
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="sample-email">Email Address (For instant PDF delivery)</label>
+              <input type="email" id="sample-email" class="fcai-input" placeholder="student@example.com" required>
+            </div>
+            <button type="submit" id="sample-submit-btn" class="fcai-btn-submit">
+              Get Free Sample Now →
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. BUY NOW CHECKOUT MODAL -->
+    <div id="buy-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="buy-modal-title">
+      <div class="fcai-modal">
+        <div class="fcai-modal-header">
+          <button type="button" class="fcai-modal-close" onclick="closeBuyModal()" aria-label="Close modal">&times;</button>
+          <h3 id="buy-modal-title">Secure Course Enrollment</h3>
+          <p><span id="buy-modal-course-title">JEE Full Course</span> — <span id="buy-modal-price" style="color: #ffdb3b; font-weight: 800;">₹499</span></p>
+        </div>
+        <div class="fcai-modal-body">
+          <div id="buy-modal-status"></div>
+          <form id="buy-checkout-form">
+            <input type="hidden" id="buy-course-id" value="jee-full">
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="buy-name">Full Name</label>
+              <input type="text" id="buy-name" class="fcai-input" placeholder="Student name" required>
+            </div>
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="buy-phone">Mobile Number</label>
+              <input type="tel" id="buy-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10" required>
+            </div>
+            <div class="fcai-form-group">
+              <label class="fcai-label" for="buy-email">Email Address (For Lifetime Access Delivery)</label>
+              <input type="email" id="buy-email" class="fcai-input" placeholder="student@example.com" required>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #a99ed6; display: flex; align-items: center; gap: 8px;">
+              <span>🔒 256-bit Encrypted Checkout via Razorpay (UPI, GooglePay, PhonePe, Cards, Netbanking)</span>
+            </div>
+
+            <button type="submit" id="buy-submit-btn" class="fcai-btn-submit">
+              Proceed to Secure Payment →
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SUCCESS CELEBRATION MODAL -->
+    <div id="success-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="success-modal-title">
+      <div class="fcai-modal" style="text-align: center;">
+        <div class="fcai-modal-header" style="text-align: center;">
+          <button type="button" class="fcai-modal-close" onclick="closeSuccessModal()" aria-label="Close modal">&times;</button>
+          <div style="font-size: 40px; margin-bottom: 8px;">🎉</div>
+          <h3 id="success-modal-title">Payment Successful!</h3>
+          <p>Your complete course materials have been sent to your email.</p>
+        </div>
+        <div class="fcai-modal-body" style="text-align: left;">
+          <div class="fcai-alert fcai-alert-success">
+            <strong>Enrollment Confirmed!</strong>
+            <p style="margin-top: 4px; font-size: 13px;">Course: <strong id="success-course-name"></strong></p>
+            <p style="font-size: 13px;">Delivered to: <strong id="success-email"></strong></p>
+          </div>
+
+          <div style="margin: 16px 0;">
+            <span style="font-size: 12.5px; color: #b7a9e6;">Your Student Access Code:</span>
+            <div id="success-access-code" style="font-family: monospace; font-size: 18px; font-weight: 800; color: #ffdb3b; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; text-align: center; margin-top: 6px; letter-spacing: 1px;"></div>
+          </div>
+
+          <p style="font-size: 12.5px; color: #cbd5e1; line-height: 1.5; margin-bottom: 20px;">
+            Check your inbox (and spam folder just in case) for your purchase confirmation and direct download link. You have lifetime access.
+          </p>
+
+          <button type="button" class="fcai-btn-submit" onclick="closeSuccessModal()">
+            Got It! Check My Email ➔
+          </button>
+        </div>
+      </div>
+    </div>
+
   </main>
+
+  <!-- Razorpay Standard Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Centralized Meta Pixel Tracking -->
+  <script src="js/meta-pixel.js"></script>
+
+  <!-- Course Sales & Sample Capture Platform Logic -->
+  <script src="js/course-platform.js"></script>
 
   <script>
     // Smooth scrolling & mobile menu close
