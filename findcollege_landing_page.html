@@ -1004,6 +1004,163 @@
       letter-spacing: 1px;
     }
 
+    /* FAQ ACCORDION SECTION */
+    .faq-section {
+      padding: 40px 0 65px;
+      position: relative;
+    }
+
+    .faq-header {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 38px;
+    }
+
+    .faq-badge {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 999px;
+      background: rgba(140, 56, 244, 0.1);
+      border: 1px solid rgba(140, 56, 244, 0.22);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #8c38f4;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .faq-section h2 {
+      font-size: 32px;
+      font-weight: 900;
+      color: #17104b;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .faq-subtitle {
+      font-size: 15px;
+      color: #635e80;
+      line-height: 1.5;
+    }
+
+    .faq-list {
+      max-width: 880px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: #ffffff;
+      border: 1.5px solid #ebe6f9;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(35, 14, 82, 0.04);
+    }
+
+    .faq-item:hover {
+      border-color: #d1c4f9;
+      box-shadow: 0 8px 24px rgba(140, 56, 244, 0.08);
+    }
+
+    .faq-item[open] {
+      border-color: #8c38f4;
+      box-shadow: 0 8px 28px rgba(140, 56, 244, 0.12);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #17104b;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-question-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(140, 56, 244, 0.08);
+      color: #8c38f4;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .faq-question-text {
+      flex: 1;
+      text-align: left;
+    }
+
+    .faq-chevron {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f2edf9;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+    }
+
+    .faq-chevron svg {
+      width: 12px;
+      height: 12px;
+      stroke: #6823da;
+      stroke-width: 2.5;
+      fill: none;
+      transition: transform 0.25s;
+    }
+
+    .faq-item[open] .faq-chevron {
+      background: #8c38f4;
+      transform: rotate(180deg);
+    }
+
+    .faq-item[open] .faq-chevron svg {
+      stroke: #ffffff;
+    }
+
+    .faq-answer {
+      padding: 0 24px 20px 68px;
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #555075;
+      border-top: 1px dashed rgba(140, 56, 244, 0.15);
+      padding-top: 14px;
+      margin-top: -2px;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .faq-question {
+        padding: 16px 18px;
+        font-size: 15px;
+        gap: 12px;
+      }
+      .faq-answer {
+        padding: 0 18px 16px 18px;
+        font-size: 14px;
+      }
+    }
+
     /* FINAL CTA BANNER */
     .cta-banner-section {
       padding: 10px 0 50px;
@@ -2320,8 +2477,165 @@
       </div>
     </section>
 
+    <!-- FAQ SECTION -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+        <div class="faq-header reveal">
+          <span class="faq-badge">Got Questions?</span>
+          <h2>Frequently Asked Questions</h2>
+          <p class="faq-subtitle">Everything you need to know about our courses, study materials, and delivery process.</p>
+        </div>
+
+        <div class="faq-list">
+          <!-- FAQ 1 -->
+          <details class="faq-item reveal stagger-1" open>
+            <summary class="faq-question">
+              <span class="faq-question-num">01</span>
+              <span class="faq-question-text">What is FindCollege.ai?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              FindCollege.ai provides affordable digital study materials for students preparing for JEE, NEET and Foundation-level examinations.
+            </div>
+          </details>
+
+          <!-- FAQ 2 -->
+          <details class="faq-item reveal stagger-2">
+            <summary class="faq-question">
+              <span class="faq-question-num">02</span>
+              <span class="faq-question-text">What will I get after purchasing a course?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              You will receive the complete digital study materials included in your selected course. The exact materials and subjects depend on the course you purchase.
+            </div>
+          </details>
+
+          <!-- FAQ 3 -->
+          <details class="faq-item reveal stagger-3">
+            <summary class="faq-question">
+              <span class="faq-question-num">03</span>
+              <span class="faq-question-text">Can I see a sample before purchasing?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              Yes! You can request a free sample by selecting your preferred course and submitting your name, mobile number and email address. We will send the relevant sample to your email.
+            </div>
+          </details>
+
+          <!-- FAQ 4 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">04</span>
+              <span class="faq-question-text">Will I receive the sample immediately?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              Yes. Once you successfully submit your details, the selected course sample is automatically sent to your registered email address.
+            </div>
+          </details>
+
+          <!-- FAQ 5 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">05</span>
+              <span class="faq-question-text">How will I receive my purchased course materials?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              After successful payment verification, your complete course materials will be sent to your registered email address with secure download links.
+            </div>
+          </details>
+
+          <!-- FAQ 6 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">06</span>
+              <span class="faq-question-text">Will I receive materials for all courses after purchasing one course?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              No. You will receive only the complete materials for the specific course you purchased. Each course is sold separately.
+            </div>
+          </details>
+
+          <!-- FAQ 7 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">07</span>
+              <span class="faq-question-text">Do you provide video lectures or live classes?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              No. FindCollege.ai currently focuses on digital study materials. Video lectures, live classes and personal coaching are not included.
+            </div>
+          </details>
+
+          <!-- FAQ 8 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">08</span>
+              <span class="faq-question-text">Can I access the materials on my mobile phone or laptop?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              Yes. You can download and access your digital study materials on compatible devices that support the respective file formats.
+            </div>
+          </details>
+
+          <!-- FAQ 9 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">09</span>
+              <span class="faq-question-text">How long will I have access to my purchased materials?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              Your purchase includes lifetime access to the purchased course materials. If a download link expires, you can request a fresh access link.
+            </div>
+          </details>
+
+          <!-- FAQ 10 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">10</span>
+              <span class="faq-question-text">What payment methods are accepted?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              Payments are processed securely through Razorpay. Available payment methods will be displayed during checkout.
+            </div>
+          </details>
+
+          <!-- FAQ 11 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">11</span>
+              <span class="faq-question-text">What should I do if I don't receive my sample or purchased materials?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              First, check your Spam, Promotions and Updates folders. If you still cannot find the email, contact our support team with your registered email address and payment details, if applicable.
+            </div>
+          </details>
+
+          <!-- FAQ 12 -->
+          <details class="faq-item reveal">
+            <summary class="faq-question">
+              <span class="faq-question-num">12</span>
+              <span class="faq-question-text">Can I purchase more than one course?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </summary>
+            <div class="faq-answer">
+              Yes. You can purchase multiple courses separately. Each purchase will provide access to its respective course materials.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <!-- FINAL CTA BANNER -->
-    <section class="cta-banner-section" id="faq">
+    <section class="cta-banner-section" id="cta">
       <div class="container">
         <div class="cta-banner reveal">
           <div class="cta-banner-bg" aria-hidden="true">
