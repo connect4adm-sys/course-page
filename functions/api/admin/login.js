@@ -5,7 +5,7 @@ import { checkLoginRateLimit, resetLoginRateLimit, verifyPassword, createAdminJw
 import { getAdminUser } from '../../utils/db.js';
 
 // Standard configured portal password
-export const DEFAULT_ADMIN_PASSWORD = 'FindCollege#2026';
+export const DEFAULT_ADMIN_PASSWORD = 'Course@2026';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -41,8 +41,8 @@ export async function onRequestPost(context) {
 
     let isAuthenticated = false;
 
-    // A. Direct match against configured password (FindCollege#2026 or env.ADMIN_PASSWORD)
-    if (password === envPass || password === 'FindCollege2026!') {
+    // A. Direct match against configured password (Course@2026 or env.ADMIN_PASSWORD)
+    if (password === envPass || password === 'Course@2026' || password === 'FindCollege#2026') {
       isAuthenticated = true;
     }
 

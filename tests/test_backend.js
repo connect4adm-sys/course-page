@@ -268,11 +268,11 @@ async function runTests() {
   const wrongLoginRes = await adminLogin({ request: wrongLoginReq, env: mockEnv });
   assert(wrongLoginRes.status === 401, 'Incorrect password rejected with HTTP 401');
 
-  // 3. Password-only login with standard configured password: FindCollege#2026
+  // 3. Password-only login with standard configured password: Course@2026
   const goodLoginReq = new Request('https://findcollege.ai/api/admin/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password: 'FindCollege#2026' })
+    body: JSON.stringify({ password: 'Course@2026' })
   });
   const goodLoginRes = await adminLogin({ request: goodLoginReq, env: mockEnv });
   const goodLoginData = await goodLoginRes.json();
