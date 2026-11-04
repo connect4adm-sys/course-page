@@ -272,6 +272,7 @@
       gap: 8px;
       border-radius: 999px;
       font-weight: 700;
+      font-family: inherit;
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
@@ -1249,7 +1250,8 @@
       margin-bottom: 6px;
     }
 
-    .fcai-input, .fcai-select {
+    .fcai-input,
+    .fcai-select {
       width: 100%;
       padding: 12px 14px;
       background: rgba(0, 0, 0, 0.3);
@@ -1261,7 +1263,8 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .fcai-input:focus, .fcai-select:focus {
+    .fcai-input:focus,
+    .fcai-select:focus {
       outline: none;
       border-color: #8c38f4;
       box-shadow: 0 0 0 3px rgba(140, 56, 244, 0.35);
@@ -1338,7 +1341,9 @@
     }
 
     @keyframes fcaiSpin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* Toast */
@@ -1367,9 +1372,17 @@
       pointer-events: auto;
     }
 
-    .fcai-toast-success { border-color: #10b981; }
-    .fcai-toast-error { border-color: #ef4444; }
-    .fcai-toast-info { border-color: #8c38f4; }
+    .fcai-toast-success {
+      border-color: #10b981;
+    }
+
+    .fcai-toast-error {
+      border-color: #ef4444;
+    }
+
+    .fcai-toast-info {
+      border-color: #8c38f4;
+    }
 
     /* RESPONSIVE STYLES */
     @media (max-width: 1024px) {
@@ -1472,6 +1485,7 @@
 
     /* Tablet to Mobile Breakpoint: triggers hamburger at 880px for Foldables and Tablets */
     @media (max-width: 880px) {
+
       .navlinks,
       .navactions {
         display: none;
@@ -1717,10 +1731,11 @@
         <a href="#why-us">Why Us</a>
         <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
+        <a href="javascript:void(0)" onclick="openSampleModal()">Get Free Sample</a>
       </nav>
       <div class="navactions">
-        <a class="btn btn-login" href="#courses">Login</a>
-        <a class="btn btn-primary" href="#courses">Get Started</a>
+        <button type="button" class="btn btn-login" onclick="openSampleModal()" aria-label="Get Free Course Sample">Get Sample</button>
+        <a class="btn btn-primary" href="#courses">Buy Now</a>
       </div>
     </div>
   </header>
@@ -1807,7 +1822,8 @@
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="hero-badge">Digital Study Courses</div>
-          <h1>JEE • NEET • Foundation <br class="desktop-br">Exam Preparation Resources <br class="desktop-br">at an Affordable Price</h1>
+          <h1>JEE • NEET • Foundation <br class="desktop-br">Exam Preparation Resources <br class="desktop-br">at an
+            Affordable Price</h1>
           <p class="hero-copy">Structured notes, question banks, practice resources and tests to support your
             preparation at every stage.</p>
 
@@ -1992,7 +2008,8 @@
               <span class="discount-badge">95% OFF</span>
             </div>
             <div class="card-action-row">
-              <button type="button" class="btn-card-sample" onclick="openSampleModal('foundation-9-10')">Free Sample</button>
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('foundation-9-10')">Free
+                Sample</button>
               <button type="button" class="btn-card-buy" onclick="openBuyModal('foundation-9-10')">Buy Now →</button>
             </div>
           </article>
@@ -2366,10 +2383,12 @@
     </section>
 
     <!-- 1. GET FREE SAMPLE MODAL -->
-    <div id="sample-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="sample-modal-title">
+    <div id="sample-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog"
+      aria-labelledby="sample-modal-title">
       <div class="fcai-modal">
         <div class="fcai-modal-header">
-          <button type="button" class="fcai-modal-close" onclick="closeSampleModal()" aria-label="Close modal">&times;</button>
+          <button type="button" class="fcai-modal-close" onclick="closeSampleModal()"
+            aria-label="Close modal">&times;</button>
           <h3 id="sample-modal-title">Get Free Sample Material</h3>
           <p>Instant sample notes & practice questions delivered to your email</p>
         </div>
@@ -2392,7 +2411,8 @@
             </div>
             <div class="fcai-form-group">
               <label class="fcai-label" for="sample-phone">Mobile Number (WhatsApp updates)</label>
-              <input type="tel" id="sample-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10" required>
+              <input type="tel" id="sample-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10"
+                required>
             </div>
             <div class="fcai-form-group">
               <label class="fcai-label" for="sample-email">Email Address (For instant PDF delivery)</label>
@@ -2410,9 +2430,11 @@
     <div id="buy-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="buy-modal-title">
       <div class="fcai-modal">
         <div class="fcai-modal-header">
-          <button type="button" class="fcai-modal-close" onclick="closeBuyModal()" aria-label="Close modal">&times;</button>
+          <button type="button" class="fcai-modal-close" onclick="closeBuyModal()"
+            aria-label="Close modal">&times;</button>
           <h3 id="buy-modal-title">Secure Course Enrollment</h3>
-          <p><span id="buy-modal-course-title">JEE Full Course</span> — <span id="buy-modal-price" style="color: #ffdb3b; font-weight: 800;">₹499</span></p>
+          <p><span id="buy-modal-course-title">JEE Full Course</span> — <span id="buy-modal-price"
+              style="color: #ffdb3b; font-weight: 800;">₹499</span></p>
         </div>
         <div class="fcai-modal-body">
           <div id="buy-modal-status"></div>
@@ -2424,14 +2446,16 @@
             </div>
             <div class="fcai-form-group">
               <label class="fcai-label" for="buy-phone">Mobile Number</label>
-              <input type="tel" id="buy-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10" required>
+              <input type="tel" id="buy-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10"
+                required>
             </div>
             <div class="fcai-form-group">
               <label class="fcai-label" for="buy-email">Email Address (For Lifetime Access Delivery)</label>
               <input type="email" id="buy-email" class="fcai-input" placeholder="student@example.com" required>
             </div>
 
-            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #a99ed6; display: flex; align-items: center; gap: 8px;">
+            <div
+              style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #a99ed6; display: flex; align-items: center; gap: 8px;">
               <span>🔒 256-bit Encrypted Checkout via Razorpay (UPI, GooglePay, PhonePe, Cards, Netbanking)</span>
             </div>
 
@@ -2444,10 +2468,12 @@
     </div>
 
     <!-- 3. SUCCESS CELEBRATION MODAL -->
-    <div id="success-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="success-modal-title">
+    <div id="success-modal" class="fcai-modal-backdrop" aria-hidden="true" role="dialog"
+      aria-labelledby="success-modal-title">
       <div class="fcai-modal" style="text-align: center;">
         <div class="fcai-modal-header" style="text-align: center;">
-          <button type="button" class="fcai-modal-close" onclick="closeSuccessModal()" aria-label="Close modal">&times;</button>
+          <button type="button" class="fcai-modal-close" onclick="closeSuccessModal()"
+            aria-label="Close modal">&times;</button>
           <div style="font-size: 40px; margin-bottom: 8px;">🎉</div>
           <h3 id="success-modal-title">Payment Successful!</h3>
           <p>Your complete course materials have been sent to your email.</p>
@@ -2461,11 +2487,14 @@
 
           <div style="margin: 16px 0;">
             <span style="font-size: 12.5px; color: #b7a9e6;">Your Student Access Code:</span>
-            <div id="success-access-code" style="font-family: monospace; font-size: 18px; font-weight: 800; color: #ffdb3b; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; text-align: center; margin-top: 6px; letter-spacing: 1px;"></div>
+            <div id="success-access-code"
+              style="font-family: monospace; font-size: 18px; font-weight: 800; color: #ffdb3b; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; text-align: center; margin-top: 6px; letter-spacing: 1px;">
+            </div>
           </div>
 
           <p style="font-size: 12.5px; color: #cbd5e1; line-height: 1.5; margin-bottom: 20px;">
-            Check your inbox (and spam folder just in case) for your purchase confirmation and direct download link. You have lifetime access.
+            Check your inbox (and spam folder just in case) for your purchase confirmation and direct download link. You
+            have lifetime access.
           </p>
 
           <button type="button" class="fcai-btn-submit" onclick="closeSuccessModal()">
