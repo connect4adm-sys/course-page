@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="FindCollege.ai - JEE, NEET, and Foundation digital study materials at an affordable price with lifetime access.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <meta property="og:title" content="FindCollege.ai — Digital Study Courses">
+  <meta property="og:description"
+    content="Structured notes, question banks, practice resources and tests to support your exam preparation at every stage.">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#160a45">
+  <title>FindCollege.ai — Digital Study Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #1b124e;
+      --bg-hero: #27146e;
+      --bg-hero-glow: #6425d5;
+      --brand-purple: #7b29e2;
+      --brand-violet: #8c32f8;
+      --brand-yellow: #ffcf11;
+      --text-dark: #18114f;
+      --text-muted: #645f8a;
+      --text-light: #d6d0fa;
+      --border-light: #e8e4f8;
+      --card-shadow: 0 16px 36px rgba(35, 18, 90, 0.08);
+      --container-max: 1140px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text-dark);
+      background-color: #ffffff;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--container-max), calc(100% - 48px));
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ANIMATIONS & KEYFRAMES */
+    @keyframes heroFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heroStudentEnter {
+      from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes doodlePop {
+      0% {
+        opacity: 0;
+        transform: scale(0.65) rotate(-4deg);
+      }
+
+      70% {
+        opacity: 1;
+        transform: scale(1.06) rotate(1.5deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    @keyframes subtlePulseGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 8px 25px rgba(142, 50, 248, 0.45);
+      }
+
+      50% {
+        box-shadow: 0 10px 32px rgba(168, 85, 247, 0.65);
+      }
+    }
+
+    @keyframes floatGentle {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    /* Scroll Reveal System */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-1 {
+      transition-delay: 0.06s;
+    }
+
+    .stagger-2 {
+      transition-delay: 0.16s;
+    }
+
+    .stagger-3 {
+      transition-delay: 0.26s;
+    }
+
+    .stagger-4 {
+      transition-delay: 0.36s;
+    }
+
+    .stagger-5 {
+      transition-delay: 0.46s;
+    }
+
+    .stagger-6 {
+      transition-delay: 0.56s;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      ::before,
+      ::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    /* HEADER */
+    .topbar {
+      background: linear-gradient(90deg, #1b114d 0%, #291768 50%, #221256 100%);
+      color: #fff;
+      position: relative;
+      z-index: 20;
+      isolation: isolate;
+    }
+
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .brand-text strong {
+      font-weight: 900;
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #e5e0ff;
+    }
+
+    .navlinks a {
+      transition: color 0.2s;
+    }
+
+    .navlinks a:hover {
+      color: #fff;
+    }
+
+    .navlinks .dropdown-arrow {
+      font-size: 11px;
+      margin-left: 2px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .navactions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-login {
+      padding: 9px 24px;
+      font-size: 14px;
+      color: #ffffff;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .btn-login:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffffff;
+    }
+
+    .btn-primary {
+      padding: 10px 24px;
+      font-size: 14px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #882ef5 0%, #6922d9 100%);
+      border: none;
+      box-shadow: 0 6px 20px rgba(118, 38, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(118, 38, 235, 0.5);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #160a45 0%, #241164 45%, #180b4b 100%);
+      color: #ffffff;
+      padding-top: 36px;
+      padding-bottom: 185px;
+      overflow: hidden;
+    }
+
+    .hero-bg-art {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-bg-art svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hero-bottom-wave {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 220px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-bottom-wave svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      align-items: flex-end;
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-content {
+      padding-right: 15px;
+      padding-bottom: 10px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      font-size: 13px;
+      font-weight: 600;
+      color: #f1edff;
+      margin-bottom: 22px;
+      letter-spacing: 0.2px;
+      animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      line-height: 1.14;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 18px;
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+    }
+
+    .hero-copy {
+      font-size: 15px;
+      line-height: 1.55;
+      color: #cfc8f8;
+      max-width: 480px;
+      margin-bottom: 28px;
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+    }
+
+    .proof-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-bottom: 34px;
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .proof-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .proof-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+
+    .proof-item:hover .proof-icon {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .proof-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .proof-text {
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .hero-action-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
+    }
+
+    .btn-explore {
+      padding: 14px 28px;
+      font-size: 15px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #9134fa 0%, #7026df 100%);
+      border: none;
+      box-shadow: 0 8px 25px rgba(142, 50, 248, 0.45);
+      border-radius: 999px;
+      animation: subtlePulseGlow 3.5s infinite ease-in-out;
+      transition: all 0.25s ease;
+    }
+
+    .btn-explore:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(142, 50, 248, 0.65);
+    }
+
+    .btn-explore:active {
+      transform: scale(0.98);
+    }
+
+    .starting-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .starting-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #d2cbf7;
+    }
+
+    .starting-price {
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--brand-yellow);
+      line-height: 1;
+      display: inline-block;
+      position: relative;
+    }
+
+    .doodle-underline {
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      height: 8px;
+    }
+
+    /* HERO VISUAL & DOODLES */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .hero-students {
+      width: 112%;
+      max-width: 660px;
+      position: relative;
+      z-index: 5;
+      margin-left: -20px;
+      margin-bottom: -115px;
+      filter: drop-shadow(0 20px 35px rgba(16, 9, 50, 0.45));
+      animation: heroStudentEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
+    }
+
+    .doodle-tag {
+      position: absolute;
+      z-index: 10;
+      font-family: 'Caveat', cursive, sans-serif;
+      color: #ffffff;
+      line-height: 1.15;
+      pointer-events: none;
+    }
+
+    .doodle-tag.left {
+      top: -5px;
+      left: -15px;
+      font-size: 26px;
+      font-weight: 700;
+      animation: doodlePop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s backwards;
+    }
+
+    .doodle-tag.right {
+      top: 15px;
+      right: -10px;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: right;
+      animation: doodlePop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.85s backwards;
+    }
+
+    .doodle-arrow-left {
+      position: absolute;
+      top: 55px;
+      left: 60px;
+      width: 45px;
+      height: 45px;
+    }
+
+    .doodle-arrow-right {
+      position: absolute;
+      top: 60px;
+      right: 25px;
+      width: 35px;
+      height: 45px;
+    }
+
+    /* COURSE CARDS OVERLAP */
+    .courses-section {
+      margin-top: -148px;
+      position: relative;
+      z-index: 10;
+      margin-bottom: 70px;
+    }
+
+    .courses-section .container {
+      position: relative;
+      z-index: 5;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .course-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 16px 16px;
+      box-shadow: 0 16px 36px rgba(27, 14, 80, 0.1);
+      border: 1px solid rgba(225, 220, 248, 0.7);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 50px rgba(27, 14, 80, 0.18);
+      border-color: rgba(142, 50, 248, 0.4);
+    }
+
+    .tag-pill {
+      align-self: flex-start;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .tag-purple {
+      background: #7234ed;
+    }
+
+    .tag-teal {
+      background: #00a896;
+    }
+
+    .tag-orange {
+      background: #f77f00;
+    }
+
+    .tag-pink {
+      background: #e6397a;
+    }
+
+    .course-card h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #17114c;
+      margin-bottom: 4px;
+    }
+
+    .course-sub {
+      font-size: 11.5px;
+      color: #6a668c;
+      margin-bottom: 12px;
+      min-height: 18px;
+    }
+
+    .course-art {
+      height: 92px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .course-art img {
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .course-card:hover .course-art img {
+      transform: translateY(-6px) scale(1.06);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .price-strike {
+      font-size: 14px;
+      color: #8f8ba8;
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    .price-current {
+      font-size: 22px;
+      font-weight: 900;
+      color: #17104b;
+    }
+
+    .discount-badge {
+      margin-left: auto;
+      background: #ffd21f;
+      color: #17114b;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .btn-card {
+      width: 100%;
+      padding: 8px 0;
+      border-radius: 999px;
+      border: 1.5px solid #6b26da;
+      color: #6b26da;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      background: transparent;
+      transition: all 0.2s;
+    }
+
+    .course-card:hover .btn-card {
+      background: #6b26da;
+      color: #ffffff;
+    }
+
+    /* WHAT YOU'LL GET */
+    .what-section {
+      padding: 40px 0 65px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .what-bg-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .what-bg-art svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .what-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      align-items: center;
+      gap: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .what-visual {
+      position: relative;
+    }
+
+    .what-visual img {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .what-visual:hover img {
+      transform: translateY(-8px);
+    }
+
+    .doodle-rays {
+      position: absolute;
+      top: -28px;
+      right: 75px;
+      width: 50px;
+      height: 40px;
+      z-index: 2;
+    }
+
+    .what-kicker {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: #eee9ff;
+      color: #6222d6;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .what-content h2 {
+      font-size: 34px;
+      line-height: 1.18;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+
+    .what-content .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 22px;
+      column-gap: 24px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .feature-icon-box {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      color: #6a24de;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    .feature-icon-box svg {
+      width: 24px;
+      height: 24px;
+      stroke: #6a24de;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #17114b;
+      margin-bottom: 2px;
+    }
+
+    .feature-sub {
+      font-size: 12px;
+      color: #726e95;
+    }
+
+    /* WHY CHOOSE RIBBON */
+    .why-ribbon-section {
+      padding: 10px 0 50px;
+    }
+
+    .why-ribbon {
+      background: linear-gradient(90deg, #170d4c 0%, #29146c 50%, #1e0e54 100%);
+      border-radius: 20px;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+      box-shadow: 0 16px 36px rgba(22, 12, 70, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .why-brand-col {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      padding-right: 28px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+    }
+
+    .why-target-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .why-target-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .why-pillars {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-grow: 1;
+      padding-left: 20px;
+    }
+
+    .why-pillar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .why-pillar-item svg {
+      width: 26px;
+      height: 26px;
+      stroke: #d0c8fa;
+      fill: none;
+      stroke-width: 1.8;
+      flex-shrink: 0;
+    }
+
+    .why-pillar-text {
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+
+    /* REVIEWS SECTION */
+    .reviews-section {
+      padding: 30px 0 60px;
+    }
+
+    .reviews-section h2 {
+      text-align: center;
+      font-size: 30px;
+      font-weight: 900;
+      color: #17104b;
+      margin-bottom: 35px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .review-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 24px;
+      border: 1px solid #ebe8f8;
+      box-shadow: 0 10px 30px rgba(35, 18, 90, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 40px rgba(35, 18, 90, 0.12);
+      border-color: rgba(142, 50, 248, 0.35);
+    }
+
+    .quote-mark {
+      font-size: 34px;
+      line-height: 1;
+      font-family: Georgia, serif;
+      color: #7b2aeb;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .review-text {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #3b3662;
+      margin-bottom: 22px;
+      min-height: 65px;
+    }
+
+    .reviewer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e3dffa;
+    }
+
+    .reviewer-name {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #17114b;
+    }
+
+    .reviewer-role {
+      font-size: 11.5px;
+      color: #78749a;
+    }
+
+    .stars {
+      color: #ffb703;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    /* FINAL CTA BANNER */
+    .cta-banner-section {
+      padding: 10px 0 50px;
+    }
+
+    .cta-banner {
+      position: relative;
+      background: linear-gradient(98deg, #321175 0%, #6823da 50%, #461498 100%);
+      border-radius: 24px;
+      padding: 34px 44px;
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      align-items: center;
+      gap: 32px;
+      color: #ffffff;
+      box-shadow: 0 20px 45px rgba(68, 31, 146, 0.28);
+      overflow: hidden;
+    }
+
+    .cta-banner-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cta-banner-bg svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .cta-books-img,
+    .cta-content,
+    .btn-banner-yellow {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-books-img {
+      width: 140px;
+      height: auto;
+      filter: drop-shadow(0 12px 20px rgba(25, 10, 60, 0.35));
+      animation: floatGentle 4.5s ease-in-out infinite;
+    }
+
+    .cta-content h2 {
+      font-size: 32px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .cta-content p {
+      font-size: 14px;
+      color: #dcd4fa;
+      margin-bottom: 16px;
+      max-width: 520px;
+    }
+
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .trust-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .trust-badge-item svg {
+      width: 15px;
+      height: 15px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .btn-banner-yellow {
+      background: #ffd21f;
+      color: #17114b;
+      padding: 15px 32px;
+      font-size: 16px;
+      font-weight: 900;
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(255, 210, 31, 0.35);
+      border: none;
+    }
+
+    .btn-banner-yellow:hover {
+      transform: translateY(-2px);
+      background: #ffdb3b;
+      box-shadow: 0 12px 28px rgba(255, 210, 31, 0.5);
+    }
+
+    /* RESPONSIVE STYLES */
+    @media (max-width: 1024px) {
+      .navlinks {
+        gap: 16px;
+        font-size: 13.5px;
+      }
+
+      .navactions {
+        gap: 8px;
+      }
+
+      .navactions .btn {
+        padding: 8px 18px;
+        font-size: 13px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content {
+        padding-right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .proof-row {
+        justify-content: center;
+      }
+
+      .hero-action-row {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        margin-top: 36px;
+      }
+
+      .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .what-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .what-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .feature-grid {
+        text-align: left;
+      }
+
+      .why-ribbon {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .why-brand-col {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding-right: 0;
+        padding-bottom: 14px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .why-pillars {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding-left: 0;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-banner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .trust-badges {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Tablet to Mobile Breakpoint: triggers hamburger at 880px for Foldables and Tablets */
+    @media (max-width: 880px) {
+      .navlinks,
+      .navactions {
+        display: none;
+      }
+
+      .navlinks.open {
+        display: flex;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+        background: #1b114d;
+        flex-direction: column;
+        padding: 20px;
+        gap: 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 100;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .desktop-br {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 28px;
+        padding-bottom: 130px;
+      }
+
+      .hero-students {
+        max-width: 500px;
+        margin-left: 0;
+        margin-bottom: -60px;
+      }
+
+      .courses-section {
+        margin-top: -80px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 24px;
+        padding-bottom: 110px;
+      }
+
+      .hero h1 {
+        font-size: clamp(24px, 6.8vw, 32px);
+      }
+
+      .hero-action-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .hero-students {
+        max-width: 420px;
+        margin-left: 0;
+        margin-bottom: -50px;
+      }
+
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .courses-section {
+        margin-top: -60px;
+      }
+
+      .why-pillars {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .doodle-tag.left {
+        left: 0px;
+        top: -5px;
+        font-size: 21px;
+      }
+
+      .doodle-tag.right {
+        right: 0px;
+        top: 10px;
+        font-size: 20px;
+      }
+
+      .cta-banner {
+        padding: 28px 20px;
+      }
+
+      .cta-content h2 {
+        font-size: 24px;
+      }
+
+      .btn-banner-yellow {
+        padding: 12px 24px;
+        font-size: 14px;
+      }
+    }
+
+    /* Small Screen Foldables & Compact Phones (<= 360px: Galaxy Z Fold 5, Moto G4, A55) */
+    @media (max-width: 360px) {
+      .container {
+        width: calc(100% - 20px);
+      }
+
+      .brand-text {
+        font-size: 16px;
+      }
+
+      .brand-logo {
+        width: 30px;
+        height: 30px;
+      }
+
+      .hero h1 {
+        font-size: 22px;
+      }
+
+      .proof-row {
+        gap: 12px;
+      }
+
+      .proof-text {
+        font-size: 11px;
+      }
+
+      .proof-icon {
+        width: 28px;
+        height: 28px;
+      }
+
+      .btn-explore {
+        padding: 12px 22px;
+        font-size: 14px;
+      }
+
+      .starting-price {
+        font-size: 28px;
+      }
+
+      .cta-banner {
+        padding: 24px 16px;
+      }
+
+      .cta-content h2 {
+        font-size: 21px;
+      }
+
+      .doodle-tag.left {
+        font-size: 18px;
+      }
+
+      .doodle-tag.right {
+        font-size: 17px;
+      }
+    }
+
+    /* Ultra-Compact Screens (<= 280px: JioPhone 2) */
+    @media (max-width: 280px) {
+      .container {
+        width: calc(100% - 12px);
+      }
+
+      .brand-text {
+        font-size: 13px;
+        letter-spacing: 0.2px;
+      }
+
+      .brand-logo {
+        width: 24px;
+        height: 24px;
+      }
+
+      .brand {
+        gap: 6px;
+      }
+
+      .hero h1 {
+        font-size: 18px;
+      }
+
+      .proof-item {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .btn-explore {
+        width: 100%;
+        font-size: 12.5px;
+        padding: 10px 14px;
+      }
+
+      .starting-label {
+        font-size: 11px;
+      }
+
+      .starting-price {
+        font-size: 24px;
+      }
+
+      .cta-books-img {
+        width: 80px;
+      }
+
+      .cta-content h2 {
+        font-size: 18px;
+      }
+
+      .what-kicker {
+        font-size: 9.5px;
+        padding: 4px 10px;
+      }
+
+      .what-content h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="FindCollege.ai Home">
+        <img src="logo.png" alt="FindCollege.ai Logo" class="brand-logo" width="36" height="36">
+        <span class="brand-text">FINDCOLLEGE<strong>.AI</strong></span>
+      </a>
+      <button class="menu-toggle" aria-label="Open menu"
+        onclick="document.querySelector('.navlinks').classList.toggle('open')">☰</button>
+      <nav class="navlinks" aria-label="Main Navigation">
+        <a href="#home">Home</a>
+        <a href="#courses">Courses <span class="dropdown-arrow">▼</span></a>
+        <a href="#why-us">Why Us</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="navactions">
+        <a class="btn btn-login" href="#courses">Login</a>
+        <a class="btn btn-primary" href="#courses">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <!-- Stylized irregular vector background -->
+      <div class="hero-bg-art" aria-hidden="true">
+        <svg viewBox="0 0 1440 680" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <!-- Glowing auras centered behind students -->
+            <radialGradient id="heroAuraMain" cx="72%" cy="36%" r="42%">
+              <stop offset="0%" stop-color="#8c34f8" stop-opacity="0.82" />
+              <stop offset="38%" stop-color="#691fd3" stop-opacity="0.55" />
+              <stop offset="70%" stop-color="#3b1285" stop-opacity="0.25" />
+              <stop offset="100%" stop-color="#160a45" stop-opacity="0" />
+            </radialGradient>
+
+            <radialGradient id="heroAuraSide" cx="88%" cy="48%" r="35%">
+              <stop offset="0%" stop-color="#a855f7" stop-opacity="0.45" />
+              <stop offset="50%" stop-color="#601bbd" stop-opacity="0.2" />
+              <stop offset="100%" stop-color="#160a45" stop-opacity="0" />
+            </radialGradient>
+
+            <!-- Upper-right swooping ribbon gradient -->
+            <linearGradient id="heroRibbonGrad" x1="10%" y1="0%" x2="90%" y2="100%">
+              <stop offset="0%" stop-color="#9d4cf9" />
+              <stop offset="45%" stop-color="#7e29e5" />
+              <stop offset="100%" stop-color="#5515af" />
+            </linearGradient>
+
+            <!-- Mid-crest wave gradient behind girl's head -->
+            <linearGradient id="heroMidCrestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8932f6" />
+              <stop offset="55%" stop-color="#691ec8" />
+              <stop offset="100%" stop-color="#461093" />
+            </linearGradient>
+
+            <!-- Lower-right sweeping wave gradient -->
+            <linearGradient id="heroLowerWaveGrad" x1="0%" y1="20%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7d28e2" />
+              <stop offset="60%" stop-color="#5a18b7" />
+              <stop offset="100%" stop-color="#3c0e82" />
+            </linearGradient>
+
+            <!-- Highlight crest stroke gradient -->
+            <linearGradient id="heroHighlightGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#dfc7ff" stop-opacity="0.9" />
+              <stop offset="50%" stop-color="#ba82f9" stop-opacity="0.65" />
+              <stop offset="100%" stop-color="#7e2ae4" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <!-- Radial Glowing Auras centered behind students on the right -->
+          <rect x="450" width="990" height="680" fill="url(#heroAuraMain)" />
+          <rect x="600" width="840" height="680" fill="url(#heroAuraSide)" />
+
+          <!-- Upper Right Sweeping Ribbon Wave (curving across behind girl & boy) -->
+          <path d="M1440 60 C 1320 80, 1180 120, 1070 170 C 990 208, 960 260, 1010 295 C 1070 335, 1260 280, 1440 240 Z"
+            fill="url(#heroRibbonGrad)" opacity="0.92" />
+          <path d="M1440 60 C 1320 80, 1180 120, 1070 170 C 990 208, 960 260, 1010 295" stroke="url(#heroHighlightGrad)"
+            stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.9" />
+
+          <!-- Crest Wave behind Girl's Head / Neck -->
+          <path
+            d="M1440 175 C 1330 195, 1200 215, 1130 265 C 1060 315, 1080 375, 1180 395 C 1290 415, 1380 355, 1440 335 Z"
+            fill="url(#heroMidCrestGrad)" opacity="0.88" />
+          <path d="M1440 175 C 1330 195, 1200 215, 1130 265 C 1085 298, 1075 340, 1110 370" stroke="#c091fd"
+            stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.65" />
+
+          <!-- Lower-Right Sweeping Fluid Wave (behind girl's shoulder & torso) -->
+          <path
+            d="M960 460 C 1080 390, 1240 410, 1370 460 C 1410 475, 1435 500, 1440 520 L 1440 680 L 880 680 C 890 600, 915 500, 960 460 Z"
+            fill="url(#heroLowerWaveGrad)" opacity="0.95" />
+          <path d="M960 460 C 1080 390, 1240 410, 1370 460 C 1410 475, 1435 500, 1440 520" stroke="#b77bfb"
+            stroke-width="2" stroke-linecap="round" fill="none" opacity="0.55" />
+
+          <!-- Right-edge layered soft lavender contour accent -->
+          <path d="M1440 305 C 1380 335, 1350 395, 1390 445 C 1415 475, 1435 485, 1440 490 Z" fill="#ba84fc"
+            opacity="0.32" />
+        </svg>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">Digital Study Courses</div>
+          <h1>JEE • NEET • Foundation <br class="desktop-br">Exam Preparation Resources <br class="desktop-br">at an Affordable Price</h1>
+          <p class="hero-copy">Structured notes, question banks, practice resources and tests to support your
+            preparation at every stage.</p>
+
+          <div class="proof-row">
+            <div class="proof-item">
+              <div class="proof-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M18.178 8c5.096 0 5.096 8 0 8-2.548 0-4.045-2.001-6.178-4-2.133 1.999-3.63 4-6.178 4-5.096 0-5.096-8 0-8 2.548 0 4.045 2.001 6.178 4 2.133-1.999 3.63-4 6.178-4z" />
+                </svg>
+              </div>
+              <div class="proof-text">Lifetime<br>Access</div>
+            </div>
+            <div class="proof-item">
+              <div class="proof-icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="2" y="5" width="20" height="14" rx="2" />
+                  <line x1="2" y1="10" x2="22" y2="10" />
+                </svg>
+              </div>
+              <div class="proof-text">One-time<br>Payment</div>
+            </div>
+            <div class="proof-item">
+              <div class="proof-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </div>
+              <div class="proof-text">Digital<br>Materials</div>
+            </div>
+            <div class="proof-item">
+              <div class="proof-icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                  <line x1="12" y1="18" x2="12.01" y2="18" />
+                </svg>
+              </div>
+              <div class="proof-text">Access on<br>Any Device</div>
+            </div>
+          </div>
+
+          <div class="hero-action-row">
+            <a class="btn btn-explore" href="#courses">Explore All Courses &nbsp;➔</a>
+            <div class="starting-box">
+              <span class="starting-label">Courses Starting at</span>
+              <span class="starting-price">
+                ₹399
+                <svg class="doodle-underline" viewBox="0 0 100 12" fill="none" preserveAspectRatio="none">
+                  <path d="M2 8 C 25 2, 75 2, 98 8" stroke="#ffcf11" stroke-width="4.5" stroke-linecap="round" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <!-- Hand-drawn chalk doodle left -->
+          <div class="doodle-tag left">
+            JEE ✓<br>NEET ✓
+            <svg class="doodle-arrow-left" viewBox="0 0 50 50" fill="none">
+              <path d="M12 5 C 28 8, 38 22, 34 38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M26 36 L 34 40 L 37 31" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <!-- Hand-drawn chalk doodle right -->
+          <div class="doodle-tag right">
+            Class 9–10 ✓<br>Class 6–8 ✓
+            <svg class="doodle-arrow-right" viewBox="0 0 45 50" fill="none">
+              <path d="M35 5 C 20 12, 10 25, 15 40" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M8 35 L 14 42 L 21 37" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <img class="hero-students" src="Smiling Student Duo with Books.png"
+            alt="Smiling students holding study books for JEE, NEET and Foundation exams" width="1476" height="1065"
+            fetchpriority="high">
+        </div>
+      </div>
+      <!-- Full-Width Stylized Irregular Bottom Wave (Transitions hero into white) -->
+      <div class="hero-bottom-wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="waveLeftLavender" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#eee8fd" />
+              <stop offset="50%" stop-color="#dfd2fa" />
+              <stop offset="100%" stop-color="#d3c0f6" />
+            </linearGradient>
+
+            <linearGradient id="waveRightPurple" x1="10%" y1="0%" x2="90%" y2="100%">
+              <stop offset="0%" stop-color="#7826e4" />
+              <stop offset="50%" stop-color="#8e3df6" />
+              <stop offset="100%" stop-color="#5f15ba" />
+            </linearGradient>
+          </defs>
+
+          <!-- Ambient soft purple wave underlay -->
+          <path d="M 320 40 C 480 85, 680 70, 840 40 C 980 65, 1080 50, 1160 25 C 1020 90, 500 110, 320 40 Z"
+            fill="#8c38f4" opacity="0.12" />
+
+          <!-- Left Side Soft Lavender Fluid Wave (behind Card 1 & left margin) -->
+          <path d="M 0 30 C 85 45, 175 75, 230 130 C 275 175, 260 205, 205 220 L 0 220 Z" fill="url(#waveLeftLavender)"
+            opacity="0.95" />
+
+          <!-- Right Side Vibrant Purple Wave (sweeping behind Card 4 and right margin) -->
+          <path
+            d="M 1060 25 C 1175 40, 1310 45, 1440 15 L 1440 185 C 1375 200, 1295 190, 1230 155 C 1150 115, 1105 65, 1060 25 Z"
+            fill="url(#waveRightPurple)" />
+
+          <!-- Highlight stroke on purple wave -->
+          <path d="M 1060 25 C 1105 65, 1150 115, 1230 155 C 1295 190, 1375 200, 1440 185" stroke="#c292fd"
+            stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7" />
+
+          <!-- Right side soft lavender accent layer beneath purple wave -->
+          <path d="M 1140 145 C 1230 195, 1335 215, 1440 210 L 1440 220 L 1140 220 Z" fill="#ede7fa" opacity="0.95" />
+
+          <!-- White Section Undulating Bottom Fill (seals into the white section below) -->
+          <path
+            d="M 0 105 C 110 132, 230 155, 360 145 C 500 132, 620 100, 760 116 C 890 132, 1010 156, 1140 135 C 1250 115, 1360 92, 1440 115 L 1440 220 L 0 220 Z"
+            fill="#ffffff" />
+        </svg>
+      </div>
+    </section>
+    <!-- OVERLAPPING 4 COURSE CARDS -->
+    <section class="courses-section" id="courses" aria-label="Available Study Courses">
+      <!-- Stylized irregular wave backdrop behind cards -->
+      <div class="container">
+        <div class="course-grid">
+          <!-- Card 1: JEE Full Course -->
+          <article class="course-card reveal stagger-1">
+            <span class="tag-pill tag-purple">Class 11–12</span>
+            <h3>JEE Full Course</h3>
+            <div class="course-sub">Physics • Chemistry • Mathematics</div>
+            <div class="course-art">
+              <img src="Physics, Chemistry, and Mathematics Books.png" alt="JEE study books and physics atom">
+            </div>
+            <div class="price-row">
+              <span class="price-strike">₹1,499</span>
+              <span class="price-current">₹499</span>
+              <span class="discount-badge">67% OFF</span>
+            </div>
+            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+          </article>
+
+          <!-- Card 2: NEET Full Course -->
+          <article class="course-card reveal stagger-2">
+            <span class="tag-pill tag-teal">Class 11–12</span>
+            <h3>NEET Full Course</h3>
+            <div class="course-sub">Physics • Chemistry • Biology</div>
+            <div class="course-art">
+              <img src="Glossy Science Books and Stethoscope.png" alt="NEET study books and stethoscope">
+            </div>
+            <div class="price-row">
+              <span class="price-strike">₹1,499</span>
+              <span class="price-current">₹499</span>
+              <span class="discount-badge">67% OFF</span>
+            </div>
+            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+          </article>
+
+          <!-- Card 3: Foundation Course -->
+          <article class="course-card reveal stagger-3">
+            <span class="tag-pill tag-orange">Class 9–10</span>
+            <h3>Foundation Course</h3>
+            <div class="course-sub">Mathematics • Science</div>
+            <div class="course-art">
+              <img src="Glossy Science and Mathematics Books with Flask.png" alt="Foundation course study books">
+            </div>
+            <div class="price-row">
+              <span class="price-strike">₹7980</span>
+              <span class="price-current">₹399</span>
+              <span class="discount-badge">95% OFF</span>
+            </div>
+            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+          </article>
+
+          <!-- Card 4: Junior Foundation -->
+          <article class="course-card reveal stagger-4">
+            <span class="tag-pill tag-pink">Class 6–8</span>
+            <h3>Junior Foundation</h3>
+            <div class="course-sub">Mathematics • Science</div>
+            <div class="course-art">
+              <img src="Glossy Science and Mathematics Rocket.png" alt="Junior foundation course study books">
+            </div>
+            <div class="price-row">
+              <span class="price-strike">₹7980</span>
+              <span class="price-current">₹399</span>
+              <span class="discount-badge">95% OFF</span>
+            </div>
+            <a class="btn-card" href="#courses">View Details &nbsp;➔</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT YOU'LL GET SECTION -->
+    <section class="what-section" id="resources">
+      <div class="what-bg-art" aria-hidden="true">
+        <svg viewBox="0 0 1440 600" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="whatWaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ede7fa" stop-opacity="0.95" />
+              <stop offset="65%" stop-color="#ded0f8" stop-opacity="0.8" />
+              <stop offset="100%" stop-color="#d1bdf6" stop-opacity="0.6" />
+            </linearGradient>
+
+            <linearGradient id="whatWaveGrad2" x1="0%" y1="0%" x2="100%" y2="80%">
+              <stop offset="0%" stop-color="#f6f2fe" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#ece5fb" stop-opacity="0.65" />
+            </linearGradient>
+
+            <!-- Soft ambient glows -->
+            <radialGradient id="whatAuraRight" cx="80%" cy="35%" r="45%">
+              <stop offset="0%" stop-color="#8c34f8" stop-opacity="0.08" />
+              <stop offset="50%" stop-color="#a855f7" stop-opacity="0.03" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+            </radialGradient>
+
+            <radialGradient id="whatAuraLeft" cx="22%" cy="50%" r="35%">
+              <stop offset="0%" stop-color="#7c2ae2" stop-opacity="0.09" />
+              <stop offset="60%" stop-color="#9d4cf9" stop-opacity="0.03" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+
+          <!-- Ambient glowing auras -->
+          <rect width="1440" height="600" fill="url(#whatAuraLeft)" />
+          <rect width="1440" height="600" fill="url(#whatAuraRight)" />
+
+          <!-- Outer soft fluid wave contour behind left of tablets -->
+          <path d="M 0 130 C 85 150, 165 200, 225 280 C 285 360, 290 450, 240 530 C 200 580, 110 600, 0 600 Z"
+            fill="url(#whatWaveGrad2)" />
+
+          <!-- Primary fluid wave hugging the left edge and tablets -->
+          <path d="M 0 210 C 65 230, 135 270, 180 335 C 225 400, 220 485, 165 555 C 125 600, 45 600, 0 600 Z"
+            fill="url(#whatWaveGrad1)" />
+
+          <!-- Subtle accent wave curve highlight stroke -->
+          <path d="M 0 155 C 80 175, 155 220, 210 295 C 265 370, 270 455, 225 535 C 190 585, 105 600, 0 600"
+            stroke="#cbb3fa" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.65" />
+
+          <!-- Delicate floating micro sparkles and accents -->
+          <circle cx="280" cy="140" r="3.5" fill="#a77bf5" opacity="0.35" />
+          <circle cx="310" cy="115" r="2.5" fill="#7a2ce0" opacity="0.4" />
+          <circle cx="260" cy="100" r="2" fill="#c39df8" opacity="0.35" />
+          <circle cx="340" cy="155" r="2" fill="#9d50f8" opacity="0.3" />
+
+          <!-- Floating subtle cross / sparkle on the right -->
+          <path d="M 1260 90 L 1260 102 M 1254 96 L 1266 96" stroke="#b287f9" stroke-width="2" stroke-linecap="round"
+            opacity="0.4" />
+          <circle cx="1290" cy="140" r="3" fill="#8c38f4" opacity="0.25" />
+          <circle cx="1220" cy="170" r="2" fill="#7c28e4" opacity="0.2" />
+        </svg>
+      </div>
+      <div class="container what-grid">
+        <div class="what-visual reveal">
+          <!-- Hand-drawn 3 yellow rays -->
+          <svg class="doodle-rays" viewBox="0 0 50 40" fill="none">
+            <line x1="8" y1="35" x2="16" y2="8" stroke="#ffcf11" stroke-width="3.5" stroke-linecap="round" />
+            <line x1="26" y1="36" x2="35" y2="12" stroke="#ffcf11" stroke-width="3.5" stroke-linecap="round" />
+            <line x1="42" y1="38" x2="48" y2="20" stroke="#ffcf11" stroke-width="3.5" stroke-linecap="round" />
+          </svg>
+          <img src="Interactive Physics Study Tablets.png"
+            alt="Interactive Physics and Exam Preparation Study Tablets with PDF notes" width="1536" height="1024"
+            decoding="async">
+        </div>
+
+        <div class="what-content reveal">
+          <span class="what-kicker">WHAT YOU'LL GET</span>
+          <h2>Complete Preparation<br>Resources in One Course</h2>
+          <p class="subtitle">Everything you need to learn, practise and test your prep.</p>
+
+          <div class="feature-grid">
+            <!-- Feature 1 -->
+            <div class="feature-item">
+              <div class="feature-icon-box">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+              </div>
+              <div>
+                <div class="feature-title">Chapter-wise Study Notes</div>
+                <div class="feature-sub">(Concepts, Formulas &amp; Key Points)</div>
+              </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-item">
+              <div class="feature-icon-box">
+                <svg viewBox="0 0 24 24">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                  <polyline points="2 17 12 22 22 17" />
+                  <polyline points="2 12 12 17 22 12" />
+                </svg>
+              </div>
+              <div>
+                <div class="feature-title">Question Banks</div>
+                <div class="feature-sub">(With Solutions)</div>
+              </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-item">
+              <div class="feature-icon-box">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 11l3 3L22 4" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+              </div>
+              <div>
+                <div class="feature-title">Chapter-wise Practice Tests</div>
+                <div class="feature-sub">(Topic-based)</div>
+              </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-item">
+              <div class="feature-icon-box">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <polyline points="12 7 12 12 15 15" />
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                </svg>
+              </div>
+              <div>
+                <div class="feature-title">Full Mock Tests</div>
+                <div class="feature-sub">(Exam Pattern)</div>
+              </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-item">
+              <div class="feature-icon-box">
+                <svg viewBox="0 0 24 24">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+              </div>
+              <div>
+                <div class="feature-title">Previous Year Questions</div>
+                <div class="feature-sub">(With Solutions)</div>
+              </div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-item">
+              <div class="feature-icon-box">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+              </div>
+              <div>
+                <div class="feature-title">Mind Maps &amp; Revision Sheets</div>
+                <div class="feature-sub">(For Quick Revision)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE RIBBON -->
+    <section class="why-ribbon-section" id="why-us">
+      <div class="container">
+        <div class="why-ribbon reveal">
+          <div class="why-brand-col">
+            <div class="why-target-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <span>Why Choose FindCollege.ai?</span>
+          </div>
+
+          <div class="why-pillars">
+            <div class="why-pillar-item">
+              <svg viewBox="0 0 24 24">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
+              <div class="why-pillar-text">Structured &amp;<br>Exam-Focused</div>
+            </div>
+
+            <div class="why-pillar-item">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+              <div class="why-pillar-text">Affordable<br>&amp; High Value</div>
+            </div>
+
+            <div class="why-pillar-item">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M18.178 8c5.096 0 5.096 8 0 8-2.548 0-4.045-2.001-6.178-4-2.133 1.999-3.63 4-6.178 4-5.096 0-5.096-8 0-8 2.548 0 4.045 2.001 6.178 4 2.133-1.999 3.63-4 6.178-4z" />
+              </svg>
+              <div class="why-pillar-text">Lifetime<br>Access</div>
+            </div>
+
+            <div class="why-pillar-item">
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              <div class="why-pillar-text">Study<br>Anytime, Anywhere</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUSTED BY STUDENTS & PARENTS -->
+    <section class="reviews-section" id="reviews">
+      <div class="container">
+        <h2>Trusted by Students &amp; Parents</h2>
+        <div class="reviews-grid">
+          <!-- Review 1: Aarav Sharma -->
+          <div class="review-card reveal stagger-1">
+            <div>
+              <div class="quote-mark">“</div>
+              <p class="review-text">The notes are very well-structured and the question bank is really useful for
+                practice.</p>
+            </div>
+            <div class="reviewer-row">
+              <div class="reviewer-info">
+                <img class="reviewer-avatar" src="avatar1.png" alt="Aarav Sharma" width="42" height="42">
+                <div>
+                  <div class="reviewer-name">Aarav Sharma</div>
+                  <div class="reviewer-role">Class 12 (JEE Aspirant)</div>
+                </div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+
+          <!-- Review 2: Priya Verma -->
+          <div class="review-card reveal stagger-2">
+            <div>
+              <div class="quote-mark">“</div>
+              <p class="review-text">Great resource for Class 10. It helped me revise important topics and practise more
+                questions.</p>
+            </div>
+            <div class="reviewer-row">
+              <div class="reviewer-info">
+                <img class="reviewer-avatar" src="avatar2.png" alt="Priya Verma" width="42" height="42">
+                <div>
+                  <div class="reviewer-name">Priya Verma</div>
+                  <div class="reviewer-role">Class 10 Student</div>
+                </div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+
+          <!-- Review 3: Rajesh Kumar -->
+          <div class="review-card reveal stagger-3">
+            <div>
+              <div class="quote-mark">“</div>
+              <p class="review-text">Affordable, organised and reliable study material. A good option for serious
+                preparation.</p>
+            </div>
+            <div class="reviewer-row">
+              <div class="reviewer-info">
+                <img class="reviewer-avatar" src="avatar3.png" alt="Rajesh Kumar" width="42" height="42">
+                <div>
+                  <div class="reviewer-name">Rajesh Kumar</div>
+                  <div class="reviewer-role">Parent</div>
+                </div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA BANNER -->
+    <section class="cta-banner-section" id="faq">
+      <div class="container">
+        <div class="cta-banner reveal">
+          <div class="cta-banner-bg" aria-hidden="true">
+            <svg viewBox="0 0 1140 180" fill="none" preserveAspectRatio="none">
+              <defs>
+                <radialGradient id="ctaAura" cx="15%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#9333ea" stop-opacity="0.45" />
+                  <stop offset="100%" stop-color="#321175" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="ctaWaveHighlight" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#9e4bf9" stop-opacity="0.5" />
+                  <stop offset="50%" stop-color="#7c26e2" stop-opacity="0.25" />
+                  <stop offset="100%" stop-color="#5515af" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <rect width="1140" height="180" fill="url(#ctaAura)" />
+              <path d="M 0 180 C 180 120, 380 80, 580 100 C 780 120, 960 70, 1140 20 L 1140 180 Z"
+                fill="url(#ctaWaveHighlight)" />
+            </svg>
+          </div>
+          <img class="cta-books-img" src="Books.png" alt="3D Graduation Cap on Stacked Books" width="470" height="374">
+          <div class="cta-content">
+            <h2>Start Your Preparation Today!</h2>
+            <p>Choose the course that fits your goal and get lifetime access to premium study materials.</p>
+            <div class="trust-badges">
+              <div class="trust-badge-item">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <polyline points="9 12 11 14 15 10" />
+                </svg>
+                <span>Secure Payment</span>
+              </div>
+              <div class="trust-badge-item">
+                <svg viewBox="0 0 24 24">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                <span>Instant Access</span>
+              </div>
+              <div class="trust-badge-item">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M18.178 8c5.096 0 5.096 8 0 8-2.548 0-4.045-2.001-6.178-4-2.133 1.999-3.63 4-6.178 4-5.096 0-5.096-8 0-8 2.548 0 4.045 2.001 6.178 4 2.133-1.999 3.63-4 6.178-4z" />
+                </svg>
+                <span>Lifetime Validity</span>
+              </div>
+            </div>
+          </div>
+          <a class="btn btn-banner-yellow" href="#courses">Explore Courses &nbsp;➔</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Smooth scrolling & mobile menu close
+    document.querySelectorAll('.navlinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('.navlinks').classList.remove('open');
+      });
+    });
+
+    // Intersection Observer for scroll-triggered reveal animations
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.1
+      });
+
+      document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+      });
+    } else {
+      // Fallback for older browsers
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.classList.add('is-visible');
+      });
+    }
+  </script>
+</body>
+
+</html>
