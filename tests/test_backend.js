@@ -248,85 +248,49 @@ async function runTests() {
   await dbUpdateProduct(mockEnv, 'foundation-9-10', { fullCourseFileKeys: 'courses/foundation-9-10-bundle.zip' });
 
   console.log('\n======================================================');
-  console.log('--- 5. Admin Security: Zero Default Passwords & Initial Setup ---');
+  console.log('--- 5. Admin Security: Password-Only Authentication ---');
   console.log('======================================================');
-  // 1. Check setup endpoint
-  const setupStatusRes = await getAdminSetup({ env: mockEnv });
-  const setupStatus = await setupStatusRes.json();
-  assert(setupStatus.setupAllowed === true, 'Initial setup is allowed when no admin exists');
-
-  // 2. Login before setup must return needsSetup
-  const earlyLoginReq = new Request('https://findcollege.ai/api/admin/login', {
+  // 1. Missing password rejected
+  const emptyLoginReq = new Request('https://findcollege.ai/api/admin/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: 'admin', password: 'AnyPassword123!' })
+    body: JSON.stringify({ password: '' })
   });
-  const earlyLoginRes = await adminLogin({ request: earlyLoginReq, env: mockEnv });
-  const earlyLoginData = await earlyLoginRes.json();
-  assert(earlyLoginRes.status === 403, 'Login rejected with 403 when no admin exists');
-  assert(earlyLoginData.needsSetup === true, 'Flags needsSetup: true');
+  const emptyLoginRes = await adminLogin({ request: emptyLoginReq, env: mockEnv });
+  assert(emptyLoginRes.status === 400, 'Missing password rejected with HTTP 400');
 
-  // 3. Attempt setup with weak password (e.g. no numbers or too short)
-  const weakSetupReq = new Request('https://findcollege.ai/api/admin/setup', {
+  // 2. Wrong password rejected
+  const wrongLoginReq = new Request('https://findcollege.ai/api/admin/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: 'admin',
-      password: 'weakpassword',
-      confirmPassword: 'weakpassword'
-    })
+    body: JSON.stringify({ password: 'WrongPasswordXYZ' })
   });
-  const weakSetupRes = await adminSetup({ request: weakSetupReq, env: mockEnv });
-  assert(weakSetupRes.status === 400, 'Weak password rejected by setup endpoint');
+  const wrongLoginRes = await adminLogin({ request: wrongLoginReq, env: mockEnv });
+  assert(wrongLoginRes.status === 401, 'Incorrect password rejected with HTTP 401');
 
-  // 4. Perform legitimate initial setup with strong password
-  const strongAdminPassword = 'FindCollege#Secure2026';
-  const goodSetupReq = new Request('https://findcollege.ai/api/admin/setup', {
+  // 3. Password-only login with standard configured password: FindCollege#2026
+  const goodLoginReq = new Request('https://findcollege.ai/api/admin/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: 'admin',
-      password: strongAdminPassword,
-      confirmPassword: strongAdminPassword
-    })
+    body: JSON.stringify({ password: 'FindCollege#2026' })
   });
-  const goodSetupRes = await adminSetup({ request: goodSetupReq, env: mockEnv });
-  const goodSetupData = await goodSetupRes.json();
-  assert(goodSetupRes.status === 200 || goodSetupRes.status === 201, 'Setup created successfully (HTTP 200/201)');
-  assert(goodSetupData.success === true, 'Admin account initialized');
+  const goodLoginRes = await adminLogin({ request: goodLoginReq, env: mockEnv });
+  const goodLoginData = await goodLoginRes.json();
+  assert(goodLoginRes.status === 200, 'Password-only login succeeds with HTTP 200');
+  assert(goodLoginData.success === true, 'Admin login reports success without needing username');
+  assert(goodLoginRes.headers.get('set-cookie')?.includes('fcai_admin_token='), 'HttpOnly auth cookie is issued');
 
-  // 5. Setup is now locked
-  const lockSetupReq = new Request('https://findcollege.ai/api/admin/setup', {
+  // 4. Custom password via env.ADMIN_PASSWORD
+  const customEnv = { ...mockEnv, ADMIN_PASSWORD: 'MyCustomSuperSecret999#' };
+  const customLoginReq = new Request('https://findcollege.ai/api/admin/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: 'hacker',
-      password: 'HackerPassword123!',
-      confirmPassword: 'HackerPassword123!'
-    })
+    body: JSON.stringify({ password: 'MyCustomSuperSecret999#' })
   });
-  const lockSetupRes = await adminSetup({ request: lockSetupReq, env: mockEnv });
-  assert(lockSetupRes.status === 403, 'Subsequent setup attempts strictly forbidden (HTTP 403 Locked)');
+  const customLoginRes = await adminLogin({ request: customLoginReq, env: customEnv });
+  assert(customLoginRes.status === 200, 'Custom password via env.ADMIN_PASSWORD succeeds');
 
-  // 6. Test login with old hardcoded default password (MUST FAIL)
-  const oldPassReq = new Request('https://findcollege.ai/api/admin/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: 'admin', password: 'FindCollegeAdmin2026!' })
-  });
-  const oldPassRes = await adminLogin({ request: oldPassReq, env: mockEnv });
-  assert(oldPassRes.status === 401, 'Old hardcoded default password rejected with 401');
-
-  // 7. Test login with newly configured strong password (MUST SUCCEED)
-  const realLoginReq = new Request('https://findcollege.ai/api/admin/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: 'admin', password: strongAdminPassword })
-  });
-  const realLoginRes = await adminLogin({ request: realLoginReq, env: mockEnv });
-  assert(realLoginRes.status === 200, 'Login with PBKDF2 hashed password returns HTTP 200');
-
-  // 8. Admin Products API verification
+  // 5. Admin Products API verification with session
   const adminToken = await createAdminJwt('admin', mockEnv.ADMIN_JWT_SECRET);
   const productsReq = new Request('https://findcollege.ai/api/admin/products', {
     headers: { 'Cookie': `fcai_admin_token=${adminToken}` }

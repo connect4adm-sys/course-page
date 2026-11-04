@@ -137,49 +137,15 @@
         <span>FINDCOLLEGE<strong>.AI</strong></span>
       </div>
       <h2 class="auth-title">Admin Portal</h2>
-      <p class="auth-subtitle">Sign in to manage courses, leads, and orders</p>
+      <p class="auth-subtitle">Enter administrator password to access dashboard</p>
       
       <form id="admin-login-form">
         <div class="form-group">
-          <label class="form-label" for="login-username">Admin Username</label>
-          <input type="text" id="login-username" class="form-control" placeholder="admin" required autofocus>
-        </div>
-        <div class="form-group">
           <label class="form-label" for="login-password">Admin Password</label>
-          <input type="password" id="login-password" class="form-control" placeholder="••••••••••••" required>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter admin password" required autofocus>
         </div>
         <div id="login-error" style="color: var(--danger); font-size: 13px; margin-bottom: 14px;"></div>
         <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%;">Sign In to Dashboard →</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 1B. INITIAL ADMIN SETUP SCREEN (Shown when no admin is initialized) -->
-  <div id="setup-section" class="auth-wrapper" style="display: none;">
-    <div class="auth-card">
-      <div class="auth-brand">
-        <img src="/logo.png" alt="FindCollege.ai">
-        <span>FINDCOLLEGE<strong>.AI</strong></span>
-      </div>
-      <h2 class="auth-title">Initial Admin Setup</h2>
-      <p class="auth-subtitle">Welcome! Create your secure administrator credentials to initialize the portal. No hardcoded default passwords exist.</p>
-      
-      <form id="admin-setup-form">
-        <div class="form-group">
-          <label class="form-label" for="setup-username">Desired Admin Username</label>
-          <input type="text" id="setup-username" class="form-control" placeholder="e.g. admin or your name" minlength="3" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="setup-password">Strong Password (Min 10 characters)</label>
-          <input type="password" id="setup-password" class="form-control" placeholder="Uppercase, lowercase, number & symbol" minlength="10" required>
-          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Must contain at least 1 uppercase, 1 lowercase, 1 digit, and 1 special symbol.</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="setup-confirm">Confirm Password</label>
-          <input type="password" id="setup-confirm" class="form-control" placeholder="Confirm password" minlength="10" required>
-        </div>
-        <div id="setup-error" style="color: var(--danger); font-size: 13px; margin-bottom: 14px;"></div>
-        <button type="submit" id="setup-submit-btn" class="btn btn-primary" style="width: 100%;">Create Admin & Sign In →</button>
       </form>
     </div>
   </div>
@@ -454,34 +420,25 @@
         setTimeout(() => t.classList.remove('show'), 4000);
       }
 
-      // Check Session & Setup status on startup
+      // Check Session status on startup
       async function checkInitialState() {
         try {
-          const setupRes = await fetch('/api/admin/setup');
-          const setupData = await setupRes.json();
-          if (setupData && setupData.setupAllowed) {
-            showSetup();
-            return;
+          const res = await fetch('/api/admin/me');
+          const data = await res.json();
+          if (data && data.authenticated) {
+            showApp(data.username || 'Admin');
+          } else {
+            showLogin();
           }
-        } catch (e) {}
-
-        fetch('/api/admin/me')
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.authenticated) {
-              showApp(data.username);
-            } else {
-              showLogin();
-            }
-          })
-          .catch(() => showLogin());
+        } catch (e) {
+          showLogin();
+        }
       }
 
       checkInitialState();
 
       function showApp(username) {
         document.getElementById('login-section').style.display = 'none';
-        document.getElementById('setup-section').style.display = 'none';
         document.getElementById('admin-app').style.display = 'flex';
         document.getElementById('nav-username').textContent = username || 'Admin';
         loadMetrics();
@@ -489,67 +446,12 @@
 
       function showLogin() {
         document.getElementById('login-section').style.display = 'flex';
-        document.getElementById('setup-section').style.display = 'none';
         document.getElementById('admin-app').style.display = 'none';
       }
 
-      function showSetup() {
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('setup-section').style.display = 'flex';
-        document.getElementById('admin-app').style.display = 'none';
-      }
-
-      // Setup Form submission
-      document.getElementById('admin-setup-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('setup-username').value.trim();
-        const password = document.getElementById('setup-password').value;
-        const confirmPassword = document.getElementById('setup-confirm').value;
-        const errEl = document.getElementById('setup-error');
-        const btn = document.getElementById('setup-submit-btn');
-
-        errEl.textContent = '';
-        btn.disabled = true;
-        btn.textContent = 'Configuring credentials...';
-
-        try {
-          const res = await fetch('/api/admin/setup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password, confirmPassword })
-          });
-          const data = await res.json();
-          btn.disabled = false;
-          btn.textContent = 'Create Admin & Sign In →';
-
-          if (data.success) {
-            showToast('Admin account created! Signing in...');
-            // Automatically log in
-            const loginRes = await fetch('/api/admin/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username, password })
-            });
-            const loginData = await loginRes.json();
-            if (loginData.success) {
-              showApp(username);
-            } else {
-              showLogin();
-            }
-          } else {
-            errEl.textContent = data.message || 'Setup failed';
-          }
-        } catch (err) {
-          btn.disabled = false;
-          btn.textContent = 'Create Admin & Sign In →';
-          errEl.textContent = 'Connection error: ' + err.message;
-        }
-      });
-
-      // Login form
+      // Login form (Password-only)
       document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const username = document.getElementById('login-username').value.trim();
         const password = document.getElementById('login-password').value;
         const errEl = document.getElementById('login-error');
         const btn = document.getElementById('login-submit-btn');
@@ -562,21 +464,16 @@
           const res = await fetch('/api/admin/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ password })
           });
           const data = await res.json();
           btn.disabled = false;
           btn.textContent = 'Sign In to Dashboard →';
 
-          if (data.needsSetup) {
-            showSetup();
-            return;
-          }
-
           if (data.success) {
-            showApp(username);
+            showApp(data.username || 'Admin');
           } else {
-            errEl.textContent = data.message || 'Login failed';
+            errEl.textContent = data.message || 'Invalid admin password';
           }
         } catch (err) {
           btn.disabled = false;

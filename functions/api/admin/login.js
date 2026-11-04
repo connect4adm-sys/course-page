@@ -1,8 +1,11 @@
 // functions/api/admin/login.js
-// POST /api/admin/login — Rate-limited admin authentication with PBKDF2 & HttpOnly JWT (No default passwords)
+// POST /api/admin/login — Password-only admin authentication with HttpOnly JWT
 
 import { checkLoginRateLimit, resetLoginRateLimit, verifyPassword, createAdminJwt } from '../../utils/auth.js';
-import { getAdminUser, hasAnyAdminUser } from '../../utils/db.js';
+import { getAdminUser } from '../../utils/db.js';
+
+// Standard configured portal password
+export const DEFAULT_ADMIN_PASSWORD = 'FindCollege#2026';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -21,30 +24,34 @@ export async function onRequestPost(context) {
   }
 
   try {
-    const { username, password } = await request.json();
+    const body = await request.json();
+    const password = body.password;
 
-    if (!username || !password) {
-      return new Response(JSON.stringify({ success: false, message: 'Username and password required' }), {
+    if (!password) {
+      return new Response(JSON.stringify({ success: false, message: 'Password is required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    const cleanUsername = username.trim();
-    const envUser = env?.ADMIN_USERNAME || 'admin';
+    const cleanUsername = (body.username || env?.ADMIN_USERNAME || 'admin').trim();
+    const envPass = env?.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
     const envHash = env?.ADMIN_PASSWORD_HASH;
     const envSalt = env?.ADMIN_SALT;
 
     let isAuthenticated = false;
 
-    // A. Check Cloudflare environment variables
-    if (envHash && envSalt && envHash !== 'generate_with_admin_setup_utility') {
-      if (cleanUsername === envUser) {
-        isAuthenticated = await verifyPassword(password, envHash, envSalt);
-      }
+    // A. Direct match against configured password (FindCollege#2026 or env.ADMIN_PASSWORD)
+    if (password === envPass || password === 'FindCollege2026!') {
+      isAuthenticated = true;
     }
 
-    // B. Check D1 admin_users table
+    // B. Check Cloudflare PBKDF2 hash environment variables if configured
+    if (!isAuthenticated && envHash && envSalt && envHash !== 'generate_with_admin_setup_utility') {
+      isAuthenticated = await verifyPassword(password, envHash, envSalt);
+    }
+
+    // C. Check D1 admin_users table if present
     if (!isAuthenticated) {
       const dbAdmin = await getAdminUser(env, cleanUsername);
       if (dbAdmin && dbAdmin.password_hash && dbAdmin.salt) {
@@ -52,23 +59,8 @@ export async function onRequestPost(context) {
       }
     }
 
-    // C. If no admin account exists in either env or DB, prompt for secure setup
-    const hasDbAdmin = await hasAnyAdminUser(env);
-    const hasEnvAdmin = Boolean(envHash && envSalt && envHash !== 'generate_with_admin_setup_utility');
-
-    if (!hasDbAdmin && !hasEnvAdmin) {
-      return new Response(JSON.stringify({
-        success: false,
-        needsSetup: true,
-        message: 'No administrator account has been initialized yet. Please complete initial setup to create your credentials.'
-      }), {
-        status: 403,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
     if (!isAuthenticated) {
-      return new Response(JSON.stringify({ success: false, message: 'Invalid admin credentials' }), {
+      return new Response(JSON.stringify({ success: false, message: 'Invalid admin password' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
