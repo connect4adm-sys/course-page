@@ -2,7 +2,7 @@
 // POST /api/sample-request — Capture student lead and automatically email sample material
 
 import { validateStudentName, validateEmail, validatePhone, validateCourseId, checkHoneypot } from '../utils/validation.js';
-import { getProductById, insertSampleLead, updateLeadEmailStatus } from '../utils/db.js';
+import { getProductById, insertSampleLead, updateLeadEmailStatus, logEmail } from '../utils/db.js';
 import { generateDownloadToken } from '../utils/storage.js';
 import { sendSampleEmail } from '../utils/email.js';
 
@@ -78,12 +78,34 @@ export async function onRequestPost(context) {
       userAgent
     });
 
-    // 4. Generate secure tokenized expiring download link for the sample PDF (valid for 48 hours)
+    // 4. Strict File Safety Rule: Verify sample file is configured in DB for this exact course
+    const sampleKey = product.sample_file_key ? product.sample_file_key.trim() : '';
+    if (!sampleKey) {
+      console.error(`Missing sample file configuration for course ${product.id}`);
+      await updateLeadEmailStatus(env, leadId, 'failed');
+      await logEmail(env, {
+        recipient: emailCheck.value,
+        emailType: 'sample',
+        referenceId: leadId,
+        deliveryStatus: 'failed',
+        errorMessage: `Admin Alert: Missing sample file assignment for course ${product.id}`
+      });
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Sample study materials for this course are currently being updated by the academic team. Please contact support.',
+        email: emailCheck.value
+      }), {
+        status: 422,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Generate secure tokenized expiring download link for this exact course sample PDF only (valid for 48 hours)
     const { token } = await generateDownloadToken({
       env,
       orderId: 'sample_' + leadId,
       courseId: product.id,
-      fileKey: product.sample_file_key || `samples/${product.id}-sample.pdf`,
+      fileKey: sampleKey,
       customerEmail: emailCheck.value,
       hoursValid: 48
     });
@@ -133,3 +155,4 @@ export async function onRequestPost(context) {
     });
   }
 }
+

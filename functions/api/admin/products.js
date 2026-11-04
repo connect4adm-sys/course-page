@@ -12,7 +12,40 @@ export async function onRequestGet(context) {
 
   try {
     const products = await getProducts(context.env);
-    return new Response(JSON.stringify({ success: true, products }), {
+    const enrichedProducts = await Promise.all(products.map(async p => {
+      const sampleKey = (p.sample_file_key || '').trim();
+      const bundleKey = (p.full_course_file_keys || '').trim();
+
+      let sampleExistsInR2 = false;
+      let bundleExistsInR2 = false;
+
+      if (context.env?.BUCKET) {
+        try {
+          if (sampleKey) {
+            const head = await context.env.BUCKET.head(sampleKey);
+            sampleExistsInR2 = Boolean(head);
+          }
+          if (bundleKey) {
+            const head = await context.env.BUCKET.head(bundleKey);
+            bundleExistsInR2 = Boolean(head);
+          }
+        } catch (e) {
+          // R2 check silent catch
+        }
+      }
+
+      return {
+        ...p,
+        sample_file_key: sampleKey,
+        full_course_file_keys: bundleKey,
+        sampleStatus: sampleKey ? 'configured' : 'missing',
+        bundleStatus: bundleKey ? 'configured' : 'missing',
+        sampleExistsInR2,
+        bundleExistsInR2
+      };
+    }));
+
+    return new Response(JSON.stringify({ success: true, products: enrichedProducts }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -84,3 +117,4 @@ export async function onRequestPut(context) {
     });
   }
 }
+

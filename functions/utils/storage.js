@@ -126,3 +126,4 @@ function generateFallbackDocument({ courseId, customerEmail, filename, token }) 
 </body>
 </html>`;
 }
+

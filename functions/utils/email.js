@@ -229,3 +229,4 @@ export async function sendCourseDeliveryEmail(env, { studentName, email, course,
     emailType: 'purchase'
   });
 }
+

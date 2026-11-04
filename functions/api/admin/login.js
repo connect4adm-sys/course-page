@@ -1,7 +1,8 @@
 // functions/api/admin/login.js
-// POST /api/admin/login — Rate-limited admin authentication with HttpOnly JWT
+// POST /api/admin/login — Rate-limited admin authentication with PBKDF2 & HttpOnly JWT (No default passwords)
 
-import { checkLoginRateLimit, resetLoginRateLimit, verifyPassword, hashPassword, createAdminJwt } from '../../utils/auth.js';
+import { checkLoginRateLimit, resetLoginRateLimit, verifyPassword, createAdminJwt } from '../../utils/auth.js';
+import { getAdminUser, hasAnyAdminUser } from '../../utils/db.js';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -29,23 +30,41 @@ export async function onRequestPost(context) {
       });
     }
 
-    const expectedUsername = env?.ADMIN_USERNAME || 'admin';
-    const storedHash = env?.ADMIN_PASSWORD_HASH;
-    const storedSalt = env?.ADMIN_SALT;
+    const cleanUsername = username.trim();
+    const envUser = env?.ADMIN_USERNAME || 'admin';
+    const envHash = env?.ADMIN_PASSWORD_HASH;
+    const envSalt = env?.ADMIN_SALT;
 
     let isAuthenticated = false;
 
-    // A. Production check with Web Crypto PBKDF2 hash
-    if (storedHash && storedSalt && storedHash !== 'generate_with_admin_setup_utility') {
-      if (username === expectedUsername) {
-        isAuthenticated = await verifyPassword(password, storedHash, storedSalt);
+    // A. Check Cloudflare environment variables
+    if (envHash && envSalt && envHash !== 'generate_with_admin_setup_utility') {
+      if (cleanUsername === envUser) {
+        isAuthenticated = await verifyPassword(password, envHash, envSalt);
       }
-    } else {
-      // B. Initial Setup Mode when ADMIN_PASSWORD_HASH is not yet generated
-      // Allows default temporary setup password 'FindCollegeAdmin2026!' and warns admin to set custom hash
-      if (username === expectedUsername && password === 'FindCollegeAdmin2026!') {
-        isAuthenticated = true;
+    }
+
+    // B. Check D1 admin_users table
+    if (!isAuthenticated) {
+      const dbAdmin = await getAdminUser(env, cleanUsername);
+      if (dbAdmin && dbAdmin.password_hash && dbAdmin.salt) {
+        isAuthenticated = await verifyPassword(password, dbAdmin.password_hash, dbAdmin.salt);
       }
+    }
+
+    // C. If no admin account exists in either env or DB, prompt for secure setup
+    const hasDbAdmin = await hasAnyAdminUser(env);
+    const hasEnvAdmin = Boolean(envHash && envSalt && envHash !== 'generate_with_admin_setup_utility');
+
+    if (!hasDbAdmin && !hasEnvAdmin) {
+      return new Response(JSON.stringify({
+        success: false,
+        needsSetup: true,
+        message: 'No administrator account has been initialized yet. Please complete initial setup to create your credentials.'
+      }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     if (!isAuthenticated) {
@@ -59,7 +78,7 @@ export async function onRequestPost(context) {
     resetLoginRateLimit(clientIp);
 
     const secretKey = env?.ADMIN_JWT_SECRET || 'fallback_admin_jwt_secret_findcollegeai_2026';
-    const token = await createAdminJwt(username, secretKey);
+    const token = await createAdminJwt(cleanUsername, secretKey);
 
     const isLocalhost = request.url.includes('localhost') || request.url.includes('127.0.0.1');
     const secureFlag = isLocalhost ? '' : 'Secure; ';
@@ -67,7 +86,7 @@ export async function onRequestPost(context) {
 
     return new Response(JSON.stringify({
       success: true,
-      username,
+      username: cleanUsername,
       message: 'Login successful'
     }), {
       status: 200,

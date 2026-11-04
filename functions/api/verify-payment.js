@@ -2,7 +2,7 @@
 // POST /api/verify-payment — Cryptographic HMAC-SHA256 verification and automatic course fulfillment
 
 import { verifyPaymentSignature } from '../utils/razorpay.js';
-import { getOrderByOrderId, updateOrderStatusToPaid, updateOrderDeliveryStatus, createCourseEntitlement, getProductById } from '../utils/db.js';
+import { getOrderByOrderId, updateOrderStatusToPaid, updateOrderDeliveryStatus, createCourseEntitlement, getProductById, logEmail } from '../utils/db.js';
 import { generateDownloadToken } from '../utils/storage.js';
 import { sendCourseDeliveryEmail } from '../utils/email.js';
 
@@ -73,9 +73,34 @@ export async function onRequestPost(context) {
       courseId: order.course_id
     });
 
-    // 7. Generate secure tokenized expiring download link for the purchased package (valid for 24 hours)
+    // 7. Strict Course File Safety Rule: Verify full course bundle is configured in DB for this exact course
     const product = await getProductById(env, order.course_id);
-    const bundleKey = product?.full_course_file_keys || `courses/${order.course_id}-bundle.zip`;
+    const bundleKey = product?.full_course_file_keys ? product.full_course_file_keys.trim() : '';
+
+    if (!bundleKey) {
+      console.error(`Missing complete course bundle file key for course ${order.course_id}`);
+      await updateOrderDeliveryStatus(env, order.order_id, 'failed');
+      await logEmail(env, {
+        recipient: order.email,
+        emailType: 'purchase',
+        referenceId: order.order_id,
+        deliveryStatus: 'failed',
+        errorMessage: `Admin Alert: Missing complete bundle assignment for paid course ${order.course_id}. Payment verified, delivery pending admin upload.`
+      });
+
+      return new Response(JSON.stringify({
+        success: true,
+        verified: true,
+        orderId: order.order_id,
+        paymentId: razorpay_payment_id,
+        accessCode,
+        deliveryPending: true,
+        message: 'Payment verified! Your course package is being prepared by our academic team and will be delivered shortly to your email.'
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
     const { token } = await generateDownloadToken({
       env,
@@ -94,7 +119,7 @@ export async function onRequestPost(context) {
     const emailRes = await sendCourseDeliveryEmail(env, {
       studentName: order.student_name,
       email: order.email,
-      course: product || { course_name: order.course_id },
+      course: product,
       orderId: order.order_id,
       paymentId: razorpay_payment_id,
       accessCode,
@@ -128,3 +153,4 @@ export async function onRequestPost(context) {
     });
   }
 }
+

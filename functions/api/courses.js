@@ -13,9 +13,7 @@ export async function onRequestGet(context) {
         courseName: p.course_name,
         classLevel: p.class_level,
         subjects: p.subjects,
-        priceInr: Math.round(p.price_paise / 100),
-        originalPriceInr: Math.round(p.original_price_paise / 100),
-        discountPercent: Math.round(((p.original_price_paise - p.price_paise) / p.original_price_paise) * 100)
+        priceInr: Math.round(p.price_paise / 100)
       }));
 
     return new Response(JSON.stringify({ success: true, courses: activeProducts }), {
@@ -33,3 +31,4 @@ export async function onRequestGet(context) {
     });
   }
 }
+

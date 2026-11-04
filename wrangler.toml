@@ -32,3 +32,4 @@ EMAIL_FROM = "FindCollege.ai <courses@findcollege.ai>"
 # - RESEND_API_KEY
 # - ADMIN_PASSWORD_HASH
 # - ADMIN_JWT_SECRET
+

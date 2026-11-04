@@ -9,7 +9,8 @@ import {
   createCourseEntitlement, 
   getProductById,
   isWebhookProcessed,
-  markWebhookProcessed
+  markWebhookProcessed,
+  logEmail
 } from '../utils/db.js';
 import { generateDownloadToken } from '../utils/storage.js';
 import { sendCourseDeliveryEmail } from '../utils/email.js';
@@ -69,36 +70,48 @@ export async function onRequestPost(context) {
             });
 
             const product = await getProductById(env, order.course_id);
-            const bundleKey = product?.full_course_file_keys || `courses/${order.course_id}-bundle.zip`;
+            const bundleKey = product?.full_course_file_keys ? product.full_course_file_keys.trim() : '';
 
-            const { token } = await generateDownloadToken({
-              env,
-              orderId: order.order_id,
-              courseId: order.course_id,
-              fileKey: bundleKey,
-              customerEmail: order.email,
-              hoursValid: 24
-            });
-
-            const reqUrl = new URL(request.url);
-            const downloadUrl = `${reqUrl.protocol}//${reqUrl.host}/api/download/${token}`;
-            const amountInr = Math.round(order.amount_paise / 100);
-
-            const emailRes = await sendCourseDeliveryEmail(env, {
-              studentName: order.student_name,
-              email: order.email,
-              course: product || { course_name: order.course_id },
-              orderId: order.order_id,
-              paymentId,
-              accessCode,
-              downloadUrl,
-              amountInr
-            });
-
-            if (emailRes.success) {
-              await updateOrderDeliveryStatus(env, order.order_id, 'sent');
-            } else {
+            if (!bundleKey) {
+              console.error(`Missing complete course bundle file key for course ${order.course_id} on webhook`);
               await updateOrderDeliveryStatus(env, order.order_id, 'failed');
+              await logEmail(env, {
+                recipient: order.email,
+                emailType: 'purchase',
+                referenceId: order.order_id,
+                deliveryStatus: 'failed',
+                errorMessage: `Admin Alert: Missing complete bundle assignment for paid course ${order.course_id} on webhook. Payment verified, delivery pending admin upload.`
+              });
+            } else {
+              const { token } = await generateDownloadToken({
+                env,
+                orderId: order.order_id,
+                courseId: order.course_id,
+                fileKey: bundleKey,
+                customerEmail: order.email,
+                hoursValid: 24
+              });
+
+              const reqUrl = new URL(request.url);
+              const downloadUrl = `${reqUrl.protocol}//${reqUrl.host}/api/download/${token}`;
+              const amountInr = Math.round(order.amount_paise / 100);
+
+              const emailRes = await sendCourseDeliveryEmail(env, {
+                studentName: order.student_name,
+                email: order.email,
+                course: product,
+                orderId: order.order_id,
+                paymentId,
+                accessCode,
+                downloadUrl,
+                amountInr
+              });
+
+              if (emailRes.success) {
+                await updateOrderDeliveryStatus(env, order.order_id, 'sent');
+              } else {
+                await updateOrderDeliveryStatus(env, order.order_id, 'failed');
+              }
             }
           } else {
             console.log(`Order ${orderId} is already marked paid. No duplicate delivery sent.`);
@@ -124,3 +137,4 @@ export async function onRequestPost(context) {
     });
   }
 }
+

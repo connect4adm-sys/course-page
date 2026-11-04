@@ -475,3 +475,4 @@
     attachCardTriggers();
   });
 })();
+

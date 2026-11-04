@@ -98,7 +98,17 @@ export async function onRequestPost(context) {
 
     if (action === 'resend_email' || action === 'retry_delivery') {
       const product = await getProductById(env, order.course_id);
-      const bundleKey = product?.full_course_file_keys || `courses/${order.course_id}-bundle.zip`;
+      const bundleKey = product?.full_course_file_keys ? product.full_course_file_keys.trim() : '';
+
+      if (!bundleKey) {
+        return new Response(JSON.stringify({ 
+          success: false, 
+          message: `Cannot deliver course: Complete bundle file key is missing in DB for course ${order.course_id}. Please assign the file key in the Course Catalog before retrying.` 
+        }), { 
+          status: 422, 
+          headers: { 'Content-Type': 'application/json' } 
+        });
+      }
 
       const { token } = await generateDownloadToken({
         env,
@@ -145,3 +155,4 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({ success: false, message: err.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
+

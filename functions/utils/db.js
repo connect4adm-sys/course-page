@@ -11,7 +11,6 @@ const mockMemoryStore = {
     class_level: c.classLevel,
     subjects: c.subjects,
     price_paise: c.pricePaise,
-    original_price_paise: c.originalPricePaise,
     active: 1,
     sample_file_key: c.sampleFileKey,
     full_course_file_keys: c.bundleFileKey,
@@ -22,7 +21,8 @@ const mockMemoryStore = {
   entitlements: [],
   tokens: [],
   emailLogs: [],
-  webhookEvents: []
+  webhookEvents: [],
+  adminUsers: []
 };
 
 export async function getProducts(env) {
@@ -497,3 +497,46 @@ export async function getEmailLogsList(env, { limit = 50, offset = 0 } = {}) {
   }
   return [...mockMemoryStore.emailLogs].reverse().slice(offset, offset + limit);
 }
+
+export async function getAdminUser(env, username) {
+  if (env && env.DB) {
+    try {
+      const res = await env.DB.prepare('SELECT * FROM admin_users WHERE username = ?').bind(username).first();
+      if (res) return res;
+    } catch (e) {
+      console.warn('D1 getAdminUser error:', e.message);
+    }
+  }
+  return mockMemoryStore.adminUsers.find(u => u.username === username) || null;
+}
+
+export async function hasAnyAdminUser(env) {
+  if (env && env.DB) {
+    try {
+      const res = await env.DB.prepare('SELECT COUNT(*) as count FROM admin_users').first();
+      if (res && res.count > 0) return true;
+    } catch (e) {
+      console.warn('D1 hasAnyAdminUser error:', e.message);
+    }
+  }
+  return mockMemoryStore.adminUsers.length > 0;
+}
+
+export async function createAdminUser(env, { username, passwordHash, salt }) {
+  const id = crypto.randomUUID();
+  if (env && env.DB) {
+    try {
+      await env.DB.prepare(`
+        INSERT INTO admin_users (id, username, password_hash, salt, created_at)
+        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+      `).bind(id, username, passwordHash, salt).run();
+      return { id, username };
+    } catch (e) {
+      console.warn('D1 createAdminUser error:', e.message);
+    }
+  }
+  const user = { id, username, password_hash: passwordHash, salt, created_at: new Date().toISOString() };
+  mockMemoryStore.adminUsers.push(user);
+  return user;
+}
+

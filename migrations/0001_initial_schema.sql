@@ -7,19 +7,18 @@ CREATE TABLE IF NOT EXISTS products (
   class_level TEXT NOT NULL,
   subjects TEXT NOT NULL,
   price_paise INTEGER NOT NULL,
-  original_price_paise INTEGER NOT NULL,
   active INTEGER DEFAULT 1,
-  sample_file_key TEXT NOT NULL,
-  full_course_file_keys TEXT NOT NULL,
+  sample_file_key TEXT,
+  full_course_file_keys TEXT,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT OR IGNORE INTO products (id, course_name, class_level, subjects, price_paise, original_price_paise, active, sample_file_key, full_course_file_keys)
+INSERT OR IGNORE INTO products (id, course_name, class_level, subjects, price_paise, active, sample_file_key, full_course_file_keys)
 VALUES 
-  ('jee-full', 'JEE Full Course', 'Class 11-12', 'Physics · Chemistry · Mathematics', 49900, 149900, 1, 'samples/jee-full-sample.pdf', 'courses/jee-full-bundle.zip'),
-  ('neet-full', 'NEET Full Course', 'Class 11-12', 'Physics · Chemistry · Biology', 49900, 149900, 1, 'samples/neet-full-sample.pdf', 'courses/neet-full-bundle.zip'),
-  ('foundation-9-10', 'Foundation Class 9–10', 'Class 9-10', 'Mathematics · Science', 39900, 798000, 1, 'samples/foundation-9-10-sample.pdf', 'courses/foundation-9-10-bundle.zip'),
-  ('junior-6-8', 'Junior Foundation Class 6–8', 'Class 6-8', 'Mathematics · Science', 39900, 798000, 1, 'samples/junior-6-8-sample.pdf', 'courses/junior-6-8-bundle.zip');
+  ('jee-full', 'JEE Full Course', 'Class 11-12', 'Physics · Chemistry · Mathematics', 49900, 1, 'samples/jee-full-sample.pdf', 'courses/jee-full-bundle.zip'),
+  ('neet-full', 'NEET Full Course', 'Class 11-12', 'Physics · Chemistry · Biology', 49900, 1, 'samples/neet-full-sample.pdf', 'courses/neet-full-bundle.zip'),
+  ('foundation-9-10', 'Foundation Class 9–10', 'Class 9-10', 'Mathematics · Science', 39900, 1, 'samples/foundation-9-10-sample.pdf', 'courses/foundation-9-10-bundle.zip'),
+  ('junior-6-8', 'Junior Foundation Class 6–8', 'Class 6-8', 'Mathematics · Science', 39900, 1, 'samples/junior-6-8-sample.pdf', 'courses/junior-6-8-bundle.zip');
 
 CREATE TABLE IF NOT EXISTS sample_leads (
   id TEXT PRIMARY KEY,

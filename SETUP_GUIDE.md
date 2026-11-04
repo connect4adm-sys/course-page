@@ -141,12 +141,17 @@ The following events fire automatically:
 
 The Admin Portal is accessible at `https://findcollege.ai/admin`.
 
-### Default Initial Credentials (Temporary Setup Mode)
-- **Username:** `admin`
-- **Password:** `FindCollegeAdmin2026!`
+### Zero Default Passwords & Initial Setup
+No hardcoded default passwords exist in this platform for security compliance.
 
-### Generating a Custom Production PBKDF2 Password Hash
-In a browser developer console or Node.js environment:
+1. On first visiting `/admin`, the portal automatically prompts for **Initial Admin Account Setup**.
+2. Enter your desired **Admin Username** and a strong password (minimum 10 characters, including uppercase, lowercase, digit, and special symbol).
+3. The password is cryptographically hashed using **PBKDF2-SHA256 (100,000 iterations)** with a unique cryptographic salt.
+4. Once created, initial setup locks permanently.
+
+### Option B: Cloudflare Environment Variables (CI/CD Deployment)
+If you prefer declaring admin credentials directly in Cloudflare Pages Secrets:
+1. Generate the hash:
 ```javascript
 async function genHash(password) {
   const enc = new TextEncoder();
@@ -193,3 +198,4 @@ npx wrangler pages dev .
 # 2. Deploy to Cloudflare Pages (Production)
 npx wrangler pages deploy . --project-name=findcollege-courses --branch=main
 ```
+
