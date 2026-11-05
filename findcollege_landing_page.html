@@ -8,13 +8,13 @@
     content="FindCollege.ai - JEE, NEET, and Foundation digital study materials at an affordable price with lifetime access.">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
-  <meta property="og:title" content="FindCollege.ai — Digital Study Courses">
+  <meta property="og:title" content="FindCollege.ai — Digital Study Resources">
   <meta property="og:description"
     content="Structured notes, question banks, practice resources and tests to support your exam preparation at every stage.">
   <meta property="og:image" content="logo.png">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#160a45">
-  <title>FindCollege.ai — Digital Study Courses</title>
+  <title>FindCollege.ai — Digital Study Resources</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -1215,6 +1215,7 @@
         font-size: 15px;
         gap: 12px;
       }
+
       .faq-answer {
         padding: 0 18px 16px 18px;
         font-size: 14px;
@@ -1945,9 +1946,17 @@
     }
 
     @keyframes diwaliShimmer {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     .diwali-ticker-container {
@@ -2133,13 +2142,23 @@
     }
 
     @keyframes floatDiya1 {
-      0% { transform: translateY(0px) rotate(-3deg); }
-      100% { transform: translateY(-12px) rotate(3deg); }
+      0% {
+        transform: translateY(0px) rotate(-3deg);
+      }
+
+      100% {
+        transform: translateY(-12px) rotate(3deg);
+      }
     }
 
     @keyframes floatDiya2 {
-      0% { transform: translateY(0px) rotate(3deg); }
-      100% { transform: translateY(-14px) rotate(-4deg); }
+      0% {
+        transform: translateY(0px) rotate(3deg);
+      }
+
+      100% {
+        transform: translateY(-14px) rotate(-4deg);
+      }
     }
 
     .diya-flame-anim {
@@ -2148,8 +2167,18 @@
     }
 
     @keyframes flameFlicker {
-      0%, 100% { transform: scale(1); opacity: 0.95; }
-      50% { transform: scale(1.12, 1.22); opacity: 1; filter: drop-shadow(0 0 8px #ffea00); }
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.95;
+      }
+
+      50% {
+        transform: scale(1.12, 1.22);
+        opacity: 1;
+        filter: drop-shadow(0 0 8px #ffea00);
+      }
     }
 
     /* Course Cards Diwali Accents */
@@ -2260,7 +2289,8 @@
         display: flex;
       }
 
-      .diwali-diya-1, .diwali-diya-2 {
+      .diwali-diya-1,
+      .diwali-diya-2 {
         display: none;
       }
     }
@@ -2271,6 +2301,7 @@
         flex-direction: column;
         gap: 3px;
       }
+
       .diwali-timer-wrap {
         font-size: 11px;
       }
@@ -2285,7 +2316,8 @@
     <div class="diwali-ticker-container">
       <div class="diwali-ticker-msg">
         <span class="diwali-ticker-tag">🪔 Diwali Mega Sale</span>
-        <span class="diwali-ticker-text"><strong>Flat 90% OFF</strong> on all 2026 JEE, NEET &amp; Foundation Study Packages!</span>
+        <span class="diwali-ticker-text"><strong>Flat 90% OFF</strong> on all 2026 JEE, NEET &amp; Foundation Study
+          Packages!</span>
       </div>
       <div class="diwali-timer-wrap">
         <span>Offer ends in:</span>
@@ -2411,24 +2443,27 @@
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="diyaBodyGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ffd54f"/>
-                <stop offset="60%" stop-color="#ff8f00"/>
-                <stop offset="100%" stop-color="#b45309"/>
+                <stop offset="0%" stop-color="#ffd54f" />
+                <stop offset="60%" stop-color="#ff8f00" />
+                <stop offset="100%" stop-color="#b45309" />
               </linearGradient>
               <linearGradient id="flameGrad1" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="30%" stop-color="#ffea00"/>
-                <stop offset="70%" stop-color="#ff6d00"/>
-                <stop offset="100%" stop-color="#d50000"/>
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="30%" stop-color="#ffea00" />
+                <stop offset="70%" stop-color="#ff6d00" />
+                <stop offset="100%" stop-color="#d50000" />
               </linearGradient>
             </defs>
             <ellipse cx="32" cy="40" rx="22" ry="7" fill="#8d3000" />
-            <path d="M10 40 C 12 52, 22 58, 32 58 C 42 58, 52 52, 54 40 C 42 43, 22 43, 10 40 Z" fill="url(#diyaBodyGrad1)" stroke="#ffe082" stroke-width="1.2" />
+            <path d="M10 40 C 12 52, 22 58, 32 58 C 42 58, 52 52, 54 40 C 42 43, 22 43, 10 40 Z"
+              fill="url(#diyaBodyGrad1)" stroke="#ffe082" stroke-width="1.2" />
             <ellipse cx="32" cy="40" rx="18" ry="4.5" fill="#fef3c7" opacity="0.65" />
             <circle cx="32" cy="22" r="13" fill="#ffb300" opacity="0.25" />
             <g class="diya-flame-anim">
-              <path d="M32 9 C 36 17, 39 23, 36 30 C 34 35, 30 35, 28 30 C 25 23, 28 17, 32 9 Z" fill="url(#flameGrad1)" />
-              <path d="M32 15 C 34 19, 36 23, 35 27 C 33 29, 31 29, 29 27 C 28 23, 30 19, 32 15 Z" fill="#ffffff" opacity="0.85" />
+              <path d="M32 9 C 36 17, 39 23, 36 30 C 34 35, 30 35, 28 30 C 25 23, 28 17, 32 9 Z"
+                fill="url(#flameGrad1)" />
+              <path d="M32 15 C 34 19, 36 23, 35 27 C 33 29, 31 29, 29 27 C 28 23, 30 19, 32 15 Z" fill="#ffffff"
+                opacity="0.85" />
             </g>
           </svg>
         </div>
@@ -2436,12 +2471,15 @@
         <div class="diwali-floating-diya diwali-diya-2" aria-hidden="true">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="32" cy="40" rx="22" ry="7" fill="#8d3000" />
-            <path d="M10 40 C 12 52, 22 58, 32 58 C 42 58, 52 52, 54 40 C 42 43, 22 43, 10 40 Z" fill="url(#diyaBodyGrad1)" stroke="#ffe082" stroke-width="1.2" />
+            <path d="M10 40 C 12 52, 22 58, 32 58 C 42 58, 52 52, 54 40 C 42 43, 22 43, 10 40 Z"
+              fill="url(#diyaBodyGrad1)" stroke="#ffe082" stroke-width="1.2" />
             <ellipse cx="32" cy="40" rx="18" ry="4.5" fill="#fef3c7" opacity="0.65" />
             <circle cx="32" cy="22" r="13" fill="#ffb300" opacity="0.25" />
             <g class="diya-flame-anim">
-              <path d="M32 9 C 36 17, 39 23, 36 30 C 34 35, 30 35, 28 30 C 25 23, 28 17, 32 9 Z" fill="url(#flameGrad1)" />
-              <path d="M32 15 C 34 19, 36 23, 35 27 C 33 29, 31 29, 29 27 C 28 23, 30 19, 32 15 Z" fill="#ffffff" opacity="0.85" />
+              <path d="M32 9 C 36 17, 39 23, 36 30 C 34 35, 30 35, 28 30 C 25 23, 28 17, 32 9 Z"
+                fill="url(#flameGrad1)" />
+              <path d="M32 15 C 34 19, 36 23, 35 27 C 33 29, 31 29, 29 27 C 28 23, 30 19, 32 15 Z" fill="#ffffff"
+                opacity="0.85" />
             </g>
           </svg>
         </div>
@@ -2701,7 +2739,8 @@
             </div>
 
             <div class="card-action-row">
-              <button type="button" class="btn-card-sample" onclick="openSampleModal('foundation-9-10')">Free Sample</button>
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('foundation-9-10')">Free
+                Sample</button>
               <button type="button" class="btn-card-buy" onclick="openBuyModal('foundation-9-10')">Buy Now →</button>
             </div>
           </article>
@@ -3044,7 +3083,8 @@
         <div class="faq-header reveal">
           <span class="faq-badge">Got Questions?</span>
           <h2>Frequently Asked Questions</h2>
-          <p class="faq-subtitle">Everything you need to know about our courses, study materials, and delivery process.</p>
+          <p class="faq-subtitle">Everything you need to know about our courses, study materials, and delivery process.
+          </p>
         </div>
 
         <div class="faq-list">
@@ -3053,10 +3093,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">01</span>
               <span class="faq-question-text">What is FindCollege.ai?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              FindCollege.ai provides affordable digital study materials for students preparing for JEE, NEET and Foundation-level examinations.
+              FindCollege.ai provides affordable digital study materials for students preparing for JEE, NEET and
+              Foundation-level examinations.
             </div>
           </details>
 
@@ -3065,10 +3108,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">02</span>
               <span class="faq-question-text">What will I get after purchasing a course?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              You will receive the complete digital study materials included in your selected course. The exact materials and subjects depend on the course you purchase.
+              You will receive the complete digital study materials included in your selected course. The exact
+              materials and subjects depend on the course you purchase.
             </div>
           </details>
 
@@ -3077,10 +3123,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">03</span>
               <span class="faq-question-text">Can I see a sample before purchasing?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              Yes! You can request a free sample by selecting your preferred course and submitting your name, mobile number and email address. We will send the relevant sample to your email.
+              Yes! You can request a free sample by selecting your preferred course and submitting your name, mobile
+              number and email address. We will send the relevant sample to your email.
             </div>
           </details>
 
@@ -3089,10 +3138,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">04</span>
               <span class="faq-question-text">Will I receive the sample immediately?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              Yes. Once you successfully submit your details, the selected course sample is automatically sent to your registered email address.
+              Yes. Once you successfully submit your details, the selected course sample is automatically sent to your
+              registered email address.
             </div>
           </details>
 
@@ -3101,10 +3153,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">05</span>
               <span class="faq-question-text">How will I receive my purchased course materials?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              After successful payment verification, your complete course materials will be sent to your registered email address with secure download links.
+              After successful payment verification, your complete course materials will be sent to your registered
+              email address with secure download links.
             </div>
           </details>
 
@@ -3112,11 +3167,15 @@
           <details class="faq-item reveal">
             <summary class="faq-question">
               <span class="faq-question-num">06</span>
-              <span class="faq-question-text">Will I receive materials for all courses after purchasing one course?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-question-text">Will I receive materials for all courses after purchasing one
+                course?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              No. You will receive only the complete materials for the specific course you purchased. Each course is sold separately.
+              No. You will receive only the complete materials for the specific course you purchased. Each course is
+              sold separately.
             </div>
           </details>
 
@@ -3125,10 +3184,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">07</span>
               <span class="faq-question-text">Do you provide video lectures or live classes?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              No. FindCollege.ai currently focuses on digital study materials. Video lectures, live classes and personal coaching are not included.
+              No. FindCollege.ai currently focuses on digital study materials. Video lectures, live classes and personal
+              coaching are not included.
             </div>
           </details>
 
@@ -3137,10 +3199,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">08</span>
               <span class="faq-question-text">Can I access the materials on my mobile phone or laptop?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              Yes. You can download and access your digital study materials on compatible devices that support the respective file formats.
+              Yes. You can download and access your digital study materials on compatible devices that support the
+              respective file formats.
             </div>
           </details>
 
@@ -3149,10 +3214,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">09</span>
               <span class="faq-question-text">How long will I have access to my purchased materials?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              Your purchase includes lifetime access to the purchased course materials. If a download link expires, you can request a fresh access link.
+              Your purchase includes lifetime access to the purchased course materials. If a download link expires, you
+              can request a fresh access link.
             </div>
           </details>
 
@@ -3161,10 +3229,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">10</span>
               <span class="faq-question-text">What payment methods are accepted?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              Payments are processed securely through Razorpay. Available payment methods will be displayed during checkout.
+              Payments are processed securely through Razorpay. Available payment methods will be displayed during
+              checkout.
             </div>
           </details>
 
@@ -3172,11 +3243,15 @@
           <details class="faq-item reveal">
             <summary class="faq-question">
               <span class="faq-question-num">11</span>
-              <span class="faq-question-text">What should I do if I don't receive my sample or purchased materials?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-question-text">What should I do if I don't receive my sample or purchased
+                materials?</span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              First, check your Spam, Promotions and Updates folders. If you still cannot find the email, contact our support team with your registered email address and payment details, if applicable.
+              First, check your Spam, Promotions and Updates folders. If you still cannot find the email, contact our
+              support team with your registered email address and payment details, if applicable.
             </div>
           </details>
 
@@ -3185,10 +3260,13 @@
             <summary class="faq-question">
               <span class="faq-question-num">12</span>
               <span class="faq-question-text">Can I purchase more than one course?</span>
-              <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              <span class="faq-chevron"><svg viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg></span>
             </summary>
             <div class="faq-answer">
-              Yes. You can purchase multiple courses separately. Each purchase will provide access to its respective course materials.
+              Yes. You can purchase multiple courses separately. Each purchase will provide access to its respective
+              course materials.
             </div>
           </details>
         </div>
@@ -3403,7 +3481,7 @@
     (function initDiwaliCountdown() {
       const STORAGE_KEY = 'fcai_diwali_deadline';
       let deadline = localStorage.getItem(STORAGE_KEY);
-      
+
       // If no deadline set or already expired, set deadline to 14h 48m from now
       if (!deadline || parseInt(deadline, 10) <= Date.now()) {
         const targetHours = 14;
@@ -3417,7 +3495,7 @@
       function updateTimer() {
         const now = Date.now();
         let diff = Math.max(0, Math.floor((deadline - now) / 1000));
-        
+
         if (diff <= 0) {
           // Reset fresh window so offer is always fresh & active
           deadline = Date.now() + (14 * 3600 + 48 * 60) * 1000;
