@@ -3,7 +3,7 @@
 
 export const ALLOWED_COURSES = {
   'jee-full': {
-    name: 'JEE Full Course',
+    name: 'JEE Full Resources',
     classLevel: 'Class 11-12',
     subjects: 'Physics · Chemistry · Mathematics',
     pricePaise: 49900,
@@ -11,7 +11,7 @@ export const ALLOWED_COURSES = {
     bundleFileKey: 'courses/jee-full-bundle.zip'
   },
   'neet-full': {
-    name: 'NEET Full Course',
+    name: 'NEET Full Resources',
     classLevel: 'Class 11-12',
     subjects: 'Physics · Chemistry · Biology',
     pricePaise: 49900,
@@ -19,7 +19,7 @@ export const ALLOWED_COURSES = {
     bundleFileKey: 'courses/neet-full-bundle.zip'
   },
   'foundation-9-10': {
-    name: 'Foundation Class 9–10',
+    name: 'Foundation Class 9–10 Resources',
     classLevel: 'Class 9-10',
     subjects: 'Mathematics · Science',
     pricePaise: 39900,
@@ -27,7 +27,7 @@ export const ALLOWED_COURSES = {
     bundleFileKey: 'courses/foundation-9-10-bundle.zip'
   },
   'junior-6-8': {
-    name: 'Junior Foundation Class 6–8',
+    name: 'Junior Foundation Class 6–8 Resources',
     classLevel: 'Class 6-8',
     subjects: 'Mathematics · Science',
     pricePaise: 39900,

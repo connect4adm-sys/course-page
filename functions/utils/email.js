@@ -117,12 +117,12 @@ export async function sendSampleEmail(env, { studentName, email, course, downloa
       </div>
 
       <div class="box">
-        <h4 style="margin: 0 0 8px 0; color: #ffffff;">✨ What's inside the Full Course?</h4>
+        <h4 style="margin: 0 0 8px 0; color: #ffffff;">✨ What's inside the Full Resources Package?</h4>
         <ul style="margin: 0; padding-left: 20px; color: #c4b9ee; font-size: 14px;">
-          <li>Complete Chapter-wise Concept Notes & Formula Sheets</li>
+          <li>Complete Chapter-wise Concept Notes &amp; Formula Sheets</li>
           <li>Curated Question Banks with Step-by-Step Solutions</li>
-          <li>Topic-based Practice Tests & Full Mock Examinations</li>
-          <li>Mind Maps & Quick Revision Summary Sheets</li>
+          <li>Topic-based Practice Tests &amp; Full Mock Examinations</li>
+          <li>Mind Maps &amp; Quick Revision Summary Sheets</li>
           <li>Lifetime Access with Instant Digital Delivery</li>
         </ul>
       </div>
@@ -150,7 +150,7 @@ export async function sendSampleEmail(env, { studentName, email, course, downloa
 }
 
 export async function sendCourseDeliveryEmail(env, { studentName, email, phone, course, orderId, paymentId, accessCode, downloadUrl, amountInr }) {
-  const subject = `Tax Invoice & Course Materials: ${course.course_name} — FindCollege.ai`;
+  const subject = `Tax Invoice & Study Resources: ${course.course_name} — FindCollege.ai`;
   const supportEmail = env?.SUPPORT_EMAIL || 'support@findcollege.ai';
   const invoiceNo = `INV-2026-${String(orderId).replace(/[^a-zA-Z0-9]/g, '').slice(-8).toUpperCase()}`;
   const invoiceDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -206,7 +206,7 @@ export async function sendCourseDeliveryEmail(env, { studentName, email, phone, 
     <div class="body">
       <span class="badge-paid">Payment Verified ✓</span>
       <h1>Congratulations, ${studentName}!</h1>
-      <p style="margin-bottom: 18px;">Thank you for your purchase. Your payment has been verified and your complete course materials are unlocked with <strong>Lifetime Access</strong>.</p>
+      <p style="margin-bottom: 18px;">Thank you for your purchase. Your payment has been verified and your complete study resources are unlocked with <strong>Lifetime Access</strong>.</p>
       
       <!-- FORMAL INVOICE CARD -->
       <div class="invoice-card">
@@ -280,7 +280,7 @@ export async function sendCourseDeliveryEmail(env, { studentName, email, phone, 
 
       <!-- DOWNLOAD BUTTON -->
       <div style="text-align: center;">
-        <a href="${downloadUrl}" class="btn-download" target="_blank">🚀 Download Full Course Materials</a>
+        <a href="${downloadUrl}" class="btn-download" target="_blank">🚀 Download Full Study Resources</a>
       </div>
 
       <p style="font-size: 12.5px; color: #c4b9ee; line-height: 1.5;">
@@ -300,7 +300,7 @@ export async function sendCourseDeliveryEmail(env, { studentName, email, phone, 
 </html>
 `;
 
-  const text = `FindCollege.ai — Tax Invoice & Course Materials
+  const text = `FindCollege.ai — Tax Invoice & Study Resources
 ==============================================
 Invoice No: ${invoiceNo}
 Date: ${invoiceDate}
@@ -309,7 +309,7 @@ Status: PAID (₹${amountInr})
 Student Name: ${studentName}
 Email: ${email}
 Phone: ${phone || 'N/A'}
-Course: ${course.course_name}
+Resources: ${course.course_name}
 Order ID: ${orderId}
 Payment ID: ${paymentId || 'Verified'}
 Access Code: ${accessCode}
@@ -318,7 +318,7 @@ Regular Price: ₹${regularPrice}
 Diwali Discount (90% OFF): -₹${discountAmount}
 Amount Paid (GST Inclusive): ₹${amountInr}
 
-Download your course materials:
+Download your study resources:
 ${downloadUrl}
 
 Support: ${supportEmail}
@@ -345,14 +345,14 @@ export async function sendAdminPaymentAlertEmail(env, { studentName, email, phon
 <html>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c0520; color: #fff; padding: 20px;">
   <div style="max-width: 580px; margin: 0 auto; background: #160c38; border: 1px solid rgba(255,215,0,0.4); border-radius: 12px; padding: 24px;">
-    <h2 style="color: #ffd700; margin-top: 0;">🎉 New Course Sale Verified!</h2>
+    <h2 style="color: #ffd700; margin-top: 0;">🎉 New Study Resources Sale Verified!</h2>
     <p>A new customer has successfully completed payment on FindCollege.ai.</p>
     
     <div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 16px; margin: 16px 0; font-size: 13.5px; line-height: 1.6;">
       <div><strong>Customer Name:</strong> ${studentName}</div>
       <div><strong>Customer Email:</strong> ${email}</div>
       <div><strong>Customer Phone:</strong> ${phone || 'N/A'}</div>
-      <div><strong>Course Purchased:</strong> ${course.course_name}</div>
+      <div><strong>Resources Purchased:</strong> ${course.course_name}</div>
       <div><strong>Amount Received:</strong> <span style="color: #34d399; font-weight: 800; font-size: 16px;">₹${amountInr}</span></div>
       <div><strong>Invoice Number:</strong> ${invoiceNo}</div>
       <div><strong>Razorpay Order ID:</strong> <code>${orderId}</code></div>

@@ -654,10 +654,10 @@
         const dateStr = new Date(order.paid_at || order.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
         const courseNames = {
-          'jee-full': 'JEE Full Course (Physics, Chemistry, Mathematics)',
-          'neet-full': 'NEET Full Course (Physics, Chemistry, Biology)',
-          'foundation-9-10': 'Foundation Class 9–10 (Science & Mathematics)',
-          'junior-6-8': 'Junior Foundation Class 6–8 (Science & Mathematics)'
+          'jee-full': 'JEE Full Resources (Physics, Chemistry, Mathematics)',
+          'neet-full': 'NEET Full Resources (Physics, Chemistry, Biology)',
+          'foundation-9-10': 'Foundation Class 9–10 Resources (Science & Mathematics)',
+          'junior-6-8': 'Junior Foundation Class 6–8 Resources (Science & Mathematics)'
         };
         const courseName = courseNames[order.course_id] || order.course_id;
 
