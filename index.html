@@ -1928,10 +1928,379 @@
         font-size: 20px;
       }
     }
+
+    /* ==========================================================================
+       DIWALI MEGA SALE FESTIVE THEME & PROMOTIONS
+       ========================================================================== */
+    .diwali-ticker-bar {
+      background: linear-gradient(90deg, #18032b 0%, #3e0c70 30%, #b45309 70%, #d97706 100%);
+      background-size: 200% 100%;
+      animation: diwaliShimmer 10s ease infinite;
+      color: #ffffff;
+      padding: 9px 16px;
+      position: relative;
+      z-index: 100;
+      border-bottom: 1.5px solid rgba(255, 215, 0, 0.45);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    @keyframes diwaliShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .diwali-ticker-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .diwali-ticker-msg {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .diwali-ticker-tag {
+      background: #ffb703;
+      color: #1a0826;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.6px;
+      box-shadow: 0 0 10px rgba(255, 183, 3, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .diwali-ticker-msg strong {
+      color: #ffdb3b;
+      font-weight: 800;
+    }
+
+    .diwali-timer-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: #fde68a;
+      font-weight: 600;
+    }
+
+    .diwali-timer-boxes {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .diwali-time-box {
+      background: rgba(18, 4, 34, 0.7);
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-weight: 800;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: #ffffff;
+      min-width: 24px;
+      text-align: center;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .diwali-ticker-cta {
+      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      color: #19092c;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 6px 15px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgba(255, 152, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .diwali-ticker-cta:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 4px 15px rgba(255, 193, 7, 0.75);
+    }
+
+    /* Hero Diwali Badge */
+    .diwali-hero-badge {
+      background: linear-gradient(90deg, rgba(255, 183, 3, 0.16) 0%, rgba(138, 43, 226, 0.22) 100%) !important;
+      border: 1.5px solid rgba(255, 215, 0, 0.65) !important;
+      color: #fde68a !important;
+      box-shadow: 0 0 16px rgba(255, 183, 3, 0.22) !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diwali-badge-pill {
+      background: #ffb703;
+      color: #1a0826;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Hero Starting Box Festive Meta */
+    .starting-box.diwali-starting-box {
+      gap: 2px;
+    }
+
+    .starting-label-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .starting-diwali-tag {
+      background: rgba(255, 183, 3, 0.2);
+      border: 1px solid rgba(255, 183, 3, 0.6);
+      color: #ffdb3b;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .starting-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .starting-price-meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .starting-price-strike {
+      font-size: 14px;
+      color: #bfaee3;
+      text-decoration: line-through;
+      font-weight: 600;
+    }
+
+    .starting-save-pill {
+      font-size: 11px;
+      color: #ffd700;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    /* Floating Festive Diyas */
+    .diwali-floating-diya {
+      position: absolute;
+      pointer-events: none;
+      z-index: 6;
+      filter: drop-shadow(0 0 16px rgba(255, 193, 7, 0.65));
+    }
+
+    .diwali-diya-1 {
+      top: 15%;
+      left: 1.5%;
+      width: 58px;
+      height: 58px;
+      animation: floatDiya1 5.5s ease-in-out infinite alternate;
+    }
+
+    .diwali-diya-2 {
+      bottom: 22%;
+      right: 2.5%;
+      width: 52px;
+      height: 52px;
+      animation: floatDiya2 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatDiya1 {
+      0% { transform: translateY(0px) rotate(-3deg); }
+      100% { transform: translateY(-12px) rotate(3deg); }
+    }
+
+    @keyframes floatDiya2 {
+      0% { transform: translateY(0px) rotate(3deg); }
+      100% { transform: translateY(-14px) rotate(-4deg); }
+    }
+
+    .diya-flame-anim {
+      transform-origin: 32px 30px;
+      animation: flameFlicker 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes flameFlicker {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.12, 1.22); opacity: 1; filter: drop-shadow(0 0 8px #ffea00); }
+    }
+
+    /* Course Cards Diwali Accents */
+    .card-diwali-ribbon {
+      background: linear-gradient(90deg, #ff8f00 0%, #f59e0b 50%, #d97706 100%);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+    }
+
+    .course-card {
+      border: 1.5px solid rgba(255, 193, 7, 0.35);
+      position: relative;
+    }
+
+    .course-card:hover {
+      border-color: rgba(255, 179, 0, 0.85);
+      box-shadow: 0 24px 50px rgba(27, 14, 80, 0.16), 0 0 22px rgba(255, 183, 3, 0.3);
+    }
+
+    .price-discount-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    /* Mobile Sticky Diwali Bar */
+    .diwali-mobile-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(22, 5, 41, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1.5px solid rgba(255, 215, 0, 0.5);
+      padding: 10px 16px;
+      z-index: 999;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+      align-items: center;
+      justify-content: space-between;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .diwali-mobile-bar.visible {
+      transform: translateY(0);
+    }
+
+    .diwali-mobile-text {
+      display: flex;
+      flex-direction: column;
+      color: #ffffff;
+    }
+
+    .diwali-mobile-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffb703;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .diwali-mobile-sub {
+      font-size: 11px;
+      color: #e2d9f3;
+      font-weight: 500;
+    }
+
+    .diwali-mobile-btn {
+      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      color: #19092c;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(255, 152, 0, 0.45);
+    }
+
+    @media (max-width: 880px) {
+      .diwali-ticker-container {
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        padding: 2px 0;
+      }
+
+      .diwali-ticker-cta {
+        display: none;
+      }
+
+      .diwali-mobile-bar {
+        display: flex;
+      }
+
+      .diwali-diya-1, .diwali-diya-2 {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .diwali-ticker-msg {
+        font-size: 11px;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .diwali-timer-wrap {
+        font-size: 11px;
+      }
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- TOP DIWALI FESTIVE SALE TICKER -->
+  <aside class="diwali-ticker-bar" aria-label="Diwali Mega Sale Announcement">
+    <div class="diwali-ticker-container">
+      <div class="diwali-ticker-msg">
+        <span class="diwali-ticker-tag">🪔 Diwali Mega Sale</span>
+        <span class="diwali-ticker-text"><strong>Flat 90% OFF</strong> on all 2026 JEE, NEET &amp; Foundation Study Packages!</span>
+      </div>
+      <div class="diwali-timer-wrap">
+        <span>Offer ends in:</span>
+        <div class="diwali-timer-boxes" id="diwaliCountdown" aria-live="polite">
+          <span class="diwali-time-box" id="diwaliHours">14</span>h :
+          <span class="diwali-time-box" id="diwaliMinutes">48</span>m :
+          <span class="diwali-time-box" id="diwaliSeconds">35</span>s
+        </div>
+      </div>
+      <a class="diwali-ticker-cta" href="#courses">
+        <span>Claim 90% OFF</span>
+        <span>→</span>
+      </a>
+    </div>
+  </aside>
 
   <!-- HEADER -->
   <header class="topbar">
@@ -2037,8 +2406,52 @@
         </svg>
       </div>
       <div class="container hero-grid">
+        <!-- Floating Festive Diwali Diyas -->
+        <div class="diwali-floating-diya diwali-diya-1" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="diyaBodyGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffd54f"/>
+                <stop offset="60%" stop-color="#ff8f00"/>
+                <stop offset="100%" stop-color="#b45309"/>
+              </linearGradient>
+              <linearGradient id="flameGrad1" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="30%" stop-color="#ffea00"/>
+                <stop offset="70%" stop-color="#ff6d00"/>
+                <stop offset="100%" stop-color="#d50000"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="32" cy="40" rx="22" ry="7" fill="#8d3000" />
+            <path d="M10 40 C 12 52, 22 58, 32 58 C 42 58, 52 52, 54 40 C 42 43, 22 43, 10 40 Z" fill="url(#diyaBodyGrad1)" stroke="#ffe082" stroke-width="1.2" />
+            <ellipse cx="32" cy="40" rx="18" ry="4.5" fill="#fef3c7" opacity="0.65" />
+            <circle cx="32" cy="22" r="13" fill="#ffb300" opacity="0.25" />
+            <g class="diya-flame-anim">
+              <path d="M32 9 C 36 17, 39 23, 36 30 C 34 35, 30 35, 28 30 C 25 23, 28 17, 32 9 Z" fill="url(#flameGrad1)" />
+              <path d="M32 15 C 34 19, 36 23, 35 27 C 33 29, 31 29, 29 27 C 28 23, 30 19, 32 15 Z" fill="#ffffff" opacity="0.85" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="diwali-floating-diya diwali-diya-2" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="32" cy="40" rx="22" ry="7" fill="#8d3000" />
+            <path d="M10 40 C 12 52, 22 58, 32 58 C 42 58, 52 52, 54 40 C 42 43, 22 43, 10 40 Z" fill="url(#diyaBodyGrad1)" stroke="#ffe082" stroke-width="1.2" />
+            <ellipse cx="32" cy="40" rx="18" ry="4.5" fill="#fef3c7" opacity="0.65" />
+            <circle cx="32" cy="22" r="13" fill="#ffb300" opacity="0.25" />
+            <g class="diya-flame-anim">
+              <path d="M32 9 C 36 17, 39 23, 36 30 C 34 35, 30 35, 28 30 C 25 23, 28 17, 32 9 Z" fill="url(#flameGrad1)" />
+              <path d="M32 15 C 34 19, 36 23, 35 27 C 33 29, 31 29, 29 27 C 28 23, 30 19, 32 15 Z" fill="#ffffff" opacity="0.85" />
+            </g>
+          </svg>
+        </div>
+
         <div class="hero-content">
-          <div class="hero-badge">Digital Study Courses</div>
+          <div class="hero-badge diwali-hero-badge">
+            <span class="diwali-badge-icon">🪔</span>
+            <span>DIWALI DHAMAKA SALE • FLAT 90% OFF</span>
+            <span class="diwali-badge-pill">LIMITED TIME</span>
+          </div>
           <h1>JEE • NEET • Foundation <br class="desktop-br">Exam Preparation Resources <br class="desktop-br">at an
             Affordable Price</h1>
           <p class="hero-copy">Structured notes, question banks, practice resources and tests to support your
@@ -2086,14 +2499,23 @@
 
           <div class="hero-action-row">
             <a class="btn btn-explore" href="#courses">Explore All Courses &nbsp;➔</a>
-            <div class="starting-box">
-              <span class="starting-label">Courses Starting at</span>
-              <span class="starting-price">
-                ₹399
-                <svg class="doodle-underline" viewBox="0 0 100 12" fill="none" preserveAspectRatio="none">
-                  <path d="M2 8 C 25 2, 75 2, 98 8" stroke="#ffcf11" stroke-width="4.5" stroke-linecap="round" />
-                </svg>
-              </span>
+            <div class="starting-box diwali-starting-box">
+              <div class="starting-label-row">
+                <span class="starting-label">Courses Starting at</span>
+                <span class="starting-diwali-tag">Diwali Special</span>
+              </div>
+              <div class="starting-price-wrap">
+                <span class="starting-price">
+                  ₹399
+                  <svg class="doodle-underline" viewBox="0 0 100 12" fill="none" preserveAspectRatio="none">
+                    <path d="M2 8 C 25 2, 75 2, 98 8" stroke="#ffcf11" stroke-width="4.5" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <div class="starting-price-meta">
+                  <span class="starting-price-strike">₹3,990</span>
+                  <span class="starting-save-pill">90% OFF</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2175,6 +2597,7 @@
         <div class="course-grid">
           <!-- Card 1: JEE Full Course -->
           <article class="course-card reveal stagger-1">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
             <span class="tag-pill tag-purple">Class 11–12</span>
             <h3>JEE Full Course</h3>
             <div class="course-sub">Physics • Chemistry • Mathematics</div>
@@ -2183,10 +2606,12 @@
             </div>
             <div class="price-row">
               <span class="price-current">₹499</span>
-              <span class="price-strike">₹4,990</span>
-              <span class="discount-badge">90% OFF</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹4,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
             </div>
-            <div class="diwali-offer-tag">🪔 Diwali Offer</div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹4,491</div>
 
             <div class="card-features">
               <div class="card-features-label">Course Includes:</div>
@@ -2209,6 +2634,7 @@
 
           <!-- Card 2: NEET Full Course -->
           <article class="course-card reveal stagger-2">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
             <span class="tag-pill tag-teal">Class 11–12</span>
             <h3>NEET Full Course</h3>
             <div class="course-sub">Physics • Chemistry • Biology</div>
@@ -2217,10 +2643,12 @@
             </div>
             <div class="price-row">
               <span class="price-current">₹499</span>
-              <span class="price-strike">₹4,990</span>
-              <span class="discount-badge">90% OFF</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹4,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
             </div>
-            <div class="diwali-offer-tag">🪔 Diwali Offer</div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹4,491</div>
 
             <div class="card-features">
               <div class="card-features-label">Course Includes:</div>
@@ -2243,6 +2671,7 @@
 
           <!-- Card 3: Foundation Course -->
           <article class="course-card reveal stagger-3">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
             <span class="tag-pill tag-orange">Class 9–10</span>
             <h3>Foundation Course</h3>
             <div class="course-sub">Mathematics • Science</div>
@@ -2251,10 +2680,12 @@
             </div>
             <div class="price-row">
               <span class="price-current">₹399</span>
-              <span class="price-strike">₹3,990</span>
-              <span class="discount-badge">90% OFF</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹3,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
             </div>
-            <div class="diwali-offer-tag">🪔 Diwali Offer</div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹3,591</div>
 
             <div class="card-features">
               <div class="card-features-label">Course Includes:</div>
@@ -2277,6 +2708,7 @@
 
           <!-- Card 4: Junior Foundation -->
           <article class="course-card reveal stagger-4">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
             <span class="tag-pill tag-pink">Class 6–8</span>
             <h3>Junior Foundation</h3>
             <div class="course-sub">Mathematics • Science</div>
@@ -2285,10 +2717,12 @@
             </div>
             <div class="price-row">
               <span class="price-current">₹399</span>
-              <span class="price-strike">₹3,990</span>
-              <span class="discount-badge">90% OFF</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹3,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
             </div>
-            <div class="diwali-offer-tag">🪔 Diwali Offer</div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹3,591</div>
 
             <div class="card-features">
               <div class="card-features-label">Course Includes:</div>
@@ -2937,6 +3371,15 @@
       </div>
     </div>
 
+    <!-- STICKY BOTTOM DIWALI CONVERSION BAR (Mobile/Tablet) -->
+    <aside class="diwali-mobile-bar" id="diwaliMobileBar" aria-label="Quick Diwali Discount">
+      <div class="diwali-mobile-text">
+        <span class="diwali-mobile-title">🪔 Diwali Mega Sale LIVE</span>
+        <span class="diwali-mobile-sub">Flat 90% OFF • Starting at just ₹399</span>
+      </div>
+      <a class="diwali-mobile-btn" href="#courses">Grab Offer ➔</a>
+    </aside>
+
   </main>
 
   <!-- Razorpay Standard Checkout SDK -->
@@ -2955,6 +3398,61 @@
         document.querySelector('.navlinks').classList.remove('open');
       });
     });
+
+    // Real-Time Diwali Offer Countdown Timer & Mobile Bar Trigger
+    (function initDiwaliCountdown() {
+      const STORAGE_KEY = 'fcai_diwali_deadline';
+      let deadline = localStorage.getItem(STORAGE_KEY);
+      
+      // If no deadline set or already expired, set deadline to 14h 48m from now
+      if (!deadline || parseInt(deadline, 10) <= Date.now()) {
+        const targetHours = 14;
+        const targetMinutes = 48;
+        deadline = Date.now() + (targetHours * 3600 + targetMinutes * 60) * 1000;
+        localStorage.setItem(STORAGE_KEY, deadline.toString());
+      } else {
+        deadline = parseInt(deadline, 10);
+      }
+
+      function updateTimer() {
+        const now = Date.now();
+        let diff = Math.max(0, Math.floor((deadline - now) / 1000));
+        
+        if (diff <= 0) {
+          // Reset fresh window so offer is always fresh & active
+          deadline = Date.now() + (14 * 3600 + 48 * 60) * 1000;
+          localStorage.setItem(STORAGE_KEY, deadline.toString());
+          diff = Math.floor((deadline - Date.now()) / 1000);
+        }
+
+        const hours = Math.floor(diff / 3600);
+        const minutes = Math.floor((diff % 3600) / 60);
+        const seconds = diff % 60;
+
+        const hEl = document.getElementById('diwaliHours');
+        const mEl = document.getElementById('diwaliMinutes');
+        const sEl = document.getElementById('diwaliSeconds');
+
+        if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+        if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+        if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+
+      // Sticky mobile bar display on scroll past hero
+      const mobileBar = document.getElementById('diwaliMobileBar');
+      if (mobileBar) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            mobileBar.classList.add('visible');
+          } else {
+            mobileBar.classList.remove('visible');
+          }
+        }, { passive: true });
+      }
+    })();
 
     // Intersection Observer for scroll-triggered reveal animations
     if ('IntersectionObserver' in window) {
