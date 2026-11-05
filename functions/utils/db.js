@@ -133,6 +133,28 @@ export async function insertSampleLead(env, { id, courseId, studentName, phone, 
   });
 }
 
+export async function getRecentSampleLead(env, email, courseId, withinMinutes = 15) {
+  if (env && env.DB) {
+    try {
+      const res = await env.DB.prepare(`
+        SELECT * FROM sample_leads 
+        WHERE LOWER(email) = LOWER(?) AND course_id = ? 
+          AND created_at >= datetime('now', '-' || ? || ' minutes')
+        ORDER BY created_at DESC LIMIT 1
+      `).bind(email, courseId, withinMinutes).first();
+      if (res) return res;
+    } catch (e) {
+      console.warn('D1 getRecentSampleLead error:', e.message);
+    }
+  }
+  const cutoff = Date.now() - (withinMinutes * 60 * 1000);
+  return mockMemoryStore.leads.find(l => 
+    l.email && l.email.toLowerCase() === email.toLowerCase() && 
+    l.course_id === courseId && 
+    new Date(l.created_at).getTime() >= cutoff
+  ) || null;
+}
+
 export async function updateLeadEmailStatus(env, leadId, status) {
   if (env && env.DB) {
     try {

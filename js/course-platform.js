@@ -78,6 +78,34 @@
     var formEl = document.getElementById('sample-request-form');
     if (formEl) formEl.reset();
 
+    var emailInput = document.getElementById('sample-email');
+    if (emailInput) {
+      emailInput.disabled = false;
+    }
+
+    var submitBtn = document.getElementById('sample-submit-btn');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Send Me Free Sample Now ➔';
+      submitBtn.style.opacity = '';
+      submitBtn.style.cursor = '';
+    }
+
+    // Check if user already requested this course recently
+    var sentKey = 'fcai_sample_' + course.id;
+    var lastSent = localStorage.getItem(sentKey);
+    if (lastSent && (Date.now() - parseInt(lastSent, 10)) < 15 * 60 * 1000) {
+      if (statusEl) {
+        statusEl.innerHTML = '<div class="fcai-alert fcai-alert-success"><h4>🎉 Sample Already Sent!</h4><p>Your sample resources have arrived! Please check your email inbox.</p></div>';
+      }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '✓ Sample Already Sent';
+        submitBtn.style.opacity = '0.65';
+        submitBtn.style.cursor = 'not-allowed';
+      }
+    }
+
     if (window.FCAI_Pixel) {
       window.FCAI_Pixel.trackViewContent(course);
     }
@@ -94,85 +122,131 @@
     var form = document.getElementById('sample-request-form');
     if (!form) return;
 
+    var emailInput = document.getElementById('sample-email');
+    var courseSelect = document.getElementById('sample-course-select');
+    var honeypotInput = document.getElementById('sample-hp');
+    var submitBtn = document.getElementById('sample-submit-btn');
+    var statusEl = document.getElementById('sample-modal-status');
+
+    if (courseSelect) {
+      courseSelect.addEventListener('change', function () {
+        var newCourseId = courseSelect.value;
+        var lastSent = localStorage.getItem('fcai_sample_' + newCourseId);
+        if (lastSent && (Date.now() - parseInt(lastSent, 10)) < 15 * 60 * 1000) {
+          if (statusEl) statusEl.innerHTML = '<div class="fcai-alert fcai-alert-success"><h4>🎉 Sample Already Sent!</h4><p>Your sample resources have arrived! Please check your email inbox.</p></div>';
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '✓ Sample Already Sent';
+            submitBtn.style.opacity = '0.65';
+            submitBtn.style.cursor = 'not-allowed';
+          }
+        } else {
+          if (statusEl) statusEl.innerHTML = '';
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Send Me Free Sample Now ➔';
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+          }
+          if (emailInput) emailInput.disabled = false;
+        }
+      });
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      var nameInput = document.getElementById('sample-name');
-      var emailInput = document.getElementById('sample-email');
-      var phoneInput = document.getElementById('sample-phone');
-      var courseSelect = document.getElementById('sample-course-select');
-      var honeypotInput = document.getElementById('sample-hp');
-      var submitBtn = document.getElementById('sample-submit-btn');
-      var statusEl = document.getElementById('sample-modal-status');
-
-      var name = (nameInput?.value || '').trim();
       var email = (emailInput?.value || '').trim();
-      var phone = (phoneInput?.value || '').trim();
       var courseId = courseSelect?.value || 'jee-full';
       var honeypot = honeypotInput?.value || '';
 
-      // Frontend validation
-      if (name.length < 2) {
-        statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">Please enter your valid full name.</div>';
-        nameInput.focus();
-        return;
-      }
+      // Frontend email validation (zero other details needed!)
       if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-        statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">Please enter a valid email address.</div>';
-        emailInput.focus();
-        return;
-      }
-      var cleanPhone = phone.replace(/\D/g, '');
-      if (cleanPhone.length > 10) cleanPhone = cleanPhone.slice(-10);
-      if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
-        statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">Please enter a valid 10-digit Indian mobile number.</div>';
-        phoneInput.focus();
+        if (statusEl) statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">Please enter a valid email address to receive your sample.</div>';
+        if (emailInput) emailInput.focus();
         return;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Sending Sample... <span class="fcai-spinner"></span>';
-      statusEl.innerHTML = '';
+      // Check if button is already locked / already sent
+      var sentKey = 'fcai_sample_' + courseId;
+      var lastSent = localStorage.getItem(sentKey);
+      if (lastSent && (Date.now() - parseInt(lastSent, 10)) < 15 * 60 * 1000) {
+        if (statusEl) statusEl.innerHTML = '<div class="fcai-alert fcai-alert-success"><h4>🎉 Sample Already Sent!</h4><p>Your sample resources have arrived! Please check your email inbox.</p></div>';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '✓ Sample Already Sent';
+          submitBtn.style.opacity = '0.65';
+          submitBtn.style.cursor = 'not-allowed';
+        }
+        return;
+      }
+
+      // LOCK BUTTON IMMEDIATELY to prevent duplicate or repeated clicks
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending Sample... <span class="fcai-spinner"></span>';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
+      }
+      if (statusEl) statusEl.innerHTML = '';
 
       fetch('/api/sample-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: name,
           email: email,
-          phone: cleanPhone,
           courseId: courseId,
           honeypot: honeypot
         })
       })
       .then(function (res) { return res.json(); })
       .then(function (res) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Get Free Sample Now →';
-
         if (res.success) {
-          var targetCourse = currentCourses[courseId] || { name: 'Course' };
-          statusEl.innerHTML = [
-            '<div class="fcai-alert fcai-alert-success">',
-            '  <h4>🎉 Check Your Email!</h4>',
-            '  <p>' + res.message + '</p>',
-            '  <p style="font-size: 13px; margin-top: 8px;">Sent to: <strong>' + res.email + '</strong></p>',
-            '</div>'
-          ].join('');
+          var targetCourse = currentCourses[courseId] || { name: 'Resources' };
 
-          form.reset();
+          // Permanently lock button for this resource so user cannot repeatedly press it
+          localStorage.setItem(sentKey, Date.now().toString());
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '✓ Sample Already Sent';
+            submitBtn.style.opacity = '0.65';
+            submitBtn.style.cursor = 'not-allowed';
+          }
+          if (emailInput) emailInput.disabled = true;
+
+          // Message in English: "Your Sample Resources Have Arrived!"
+          if (statusEl) {
+            statusEl.innerHTML = [
+              '<div class="fcai-alert fcai-alert-success">',
+              '  <h4>🎉 Your Sample Resources Have Arrived!</h4>',
+              '  <p>' + (res.message || 'Your sample resources have arrived! Please check your email inbox.') + '</p>',
+              '  <p style="font-size: 13px; margin-top: 8px;">Sent to: <strong>' + res.email + '</strong> (Check your Inbox &amp; Spam/Promotions folder)</p>',
+              '</div>'
+            ].join('');
+          }
 
           if (window.FCAI_Pixel) {
             window.FCAI_Pixel.trackLead(targetCourse);
           }
         } else {
-          statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">' + (res.message || 'Submission failed. Please try again.') + '</div>';
+          // Re-enable if error occurred
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Send Me Free Sample Now ➔';
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+          }
+          if (statusEl) statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">' + (res.message || 'Submission failed. Please try again.') + '</div>';
         }
       })
       .catch(function (err) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Get Free Sample Now →';
-        statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">Network error. Please check your connection and try again.</div>';
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Send Me Free Sample Now ➔';
+          submitBtn.style.opacity = '';
+          submitBtn.style.cursor = '';
+        }
+        if (statusEl) statusEl.innerHTML = '<div class="fcai-alert fcai-alert-error">Network error. Please check your connection and try again.</div>';
       });
     });
   }

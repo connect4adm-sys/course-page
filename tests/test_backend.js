@@ -152,6 +152,36 @@ async function runTests() {
   // Restore sample file for junior-6-8
   await dbUpdateProduct(mockEnv, 'junior-6-8', { sampleFileKey: 'samples/junior-6-8-sample.pdf' });
 
+  console.log('\n--- 3C. Zero-Friction Sample (Email Only) & Duplicate Spam Prevention ---');
+  // 1. Request sample with ONLY email (no name, no phone)
+  const quickSampleReq = new Request('https://findcollege.ai/api/sample-request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: 'quicklearner@example.com',
+      courseId: 'class-10'
+    })
+  });
+  const quickSampleRes = await postSampleRequest({ request: quickSampleReq, env: mockEnv });
+  const quickSampleData = await quickSampleRes.json();
+  assert(quickSampleRes.status === 200, 'Sample request with ONLY email succeeds with HTTP 200');
+  assert(quickSampleData.success === true, 'Zero-friction sample flagged as successful');
+  assert(quickSampleData.message.includes('Your sample resources have arrived'), 'Confirmation message in English confirms delivery');
+
+  // 2. Immediate duplicate button press prevention
+  const dupeSampleReq = new Request('https://findcollege.ai/api/sample-request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: 'quicklearner@example.com',
+      courseId: 'class-10'
+    })
+  });
+  const dupeSampleRes = await postSampleRequest({ request: dupeSampleReq, env: mockEnv });
+  const dupeSampleData = await dupeSampleRes.json();
+  assert(dupeSampleRes.status === 200, 'Duplicate request handled gracefully');
+  assert(dupeSampleData.alreadySent === true, 'Repeated button clicks detected as alreadySent');
+
   console.log('\n======================================================');
   console.log('--- 4. Strict Course-to-File Paid Course Delivery ---');
   console.log('======================================================');

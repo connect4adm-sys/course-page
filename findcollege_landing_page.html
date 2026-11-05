@@ -3660,7 +3660,7 @@
           <button type="button" class="fcai-modal-close" onclick="closeSampleModal()"
             aria-label="Close modal">&times;</button>
           <h3 id="sample-modal-title">Get Free Sample Material</h3>
-          <p>Instant sample notes & practice questions delivered to your email</p>
+          <p>Instant sample material sent to your email. Zero extra details needed!</p>
         </div>
         <div class="fcai-modal-body">
           <div id="sample-modal-status"></div>
@@ -3679,20 +3679,11 @@
               </select>
             </div>
             <div class="fcai-form-group">
-              <label class="fcai-label" for="sample-name">Student Full Name</label>
-              <input type="text" id="sample-name" class="fcai-input" placeholder="e.g. Aarav Sharma" required>
-            </div>
-            <div class="fcai-form-group">
-              <label class="fcai-label" for="sample-phone">Mobile Number (WhatsApp updates)</label>
-              <input type="tel" id="sample-phone" class="fcai-input" placeholder="10-digit mobile number" maxlength="10"
-                required>
-            </div>
-            <div class="fcai-form-group">
-              <label class="fcai-label" for="sample-email">Email Address (For instant PDF delivery)</label>
-              <input type="email" id="sample-email" class="fcai-input" placeholder="student@example.com" required>
+              <label class="fcai-label" for="sample-email">Email Address (Where you'll receive the sample PDF)</label>
+              <input type="email" id="sample-email" class="fcai-input" placeholder="student@example.com" required autocomplete="email">
             </div>
             <button type="submit" id="sample-submit-btn" class="fcai-btn-submit">
-              Get Free Sample Now →
+              Send Me Free Sample Now ➔
             </button>
           </form>
         </div>

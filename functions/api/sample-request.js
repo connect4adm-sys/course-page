@@ -2,7 +2,7 @@
 // POST /api/sample-request — Capture student lead and automatically email sample material
 
 import { validateStudentName, validateEmail, validatePhone, validateCourseId, checkHoneypot } from '../utils/validation.js';
-import { getProductById, insertSampleLead, updateLeadEmailStatus, logEmail } from '../utils/db.js';
+import { getProductById, insertSampleLead, updateLeadEmailStatus, getRecentSampleLead, logEmail } from '../utils/db.js';
 import { generateDownloadToken } from '../utils/storage.js';
 import { sendSampleEmail } from '../utils/email.js';
 
@@ -25,10 +25,9 @@ export async function onRequestPost(context) {
     // 1. Honeypot anti-spam check
     if (checkHoneypot(honeypot)) {
       console.warn('Bot detected via honeypot submission');
-      // Return simulated success to avoid tipping off spammers
       return new Response(JSON.stringify({ 
         success: true, 
-        message: 'Check your email! Your sample study material has been sent successfully.',
+        message: 'Your sample resources have arrived! Please check your email inbox.',
         email: email || ''
       }), {
         status: 200,
@@ -36,22 +35,13 @@ export async function onRequestPost(context) {
       });
     }
 
-    // 2. Validate inputs
-    const nameCheck = validateStudentName(name);
-    if (!nameCheck.valid) {
-      return new Response(JSON.stringify({ success: false, message: nameCheck.message }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    }
-
+    // 2. Validate email strictly (only email is required for free sample)
     const emailCheck = validateEmail(email);
     if (!emailCheck.valid) {
       return new Response(JSON.stringify({ success: false, message: emailCheck.message }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
 
-    const phoneCheck = validatePhone(phone);
-    if (!phoneCheck.valid) {
-      return new Response(JSON.stringify({ success: false, message: phoneCheck.message }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-    }
-
+    // 3. Validate course ID
     const courseCheck = validateCourseId(courseId);
     if (!courseCheck.valid) {
       return new Response(JSON.stringify({ success: false, message: courseCheck.message }), { status: 400, headers: { 'Content-Type': 'application/json' } });
@@ -59,19 +49,52 @@ export async function onRequestPost(context) {
 
     const product = await getProductById(env, courseCheck.value);
     if (!product) {
-      return new Response(JSON.stringify({ success: false, message: 'Requested course not found in catalog' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ success: false, message: 'Requested resource not found in catalog' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    // Name & Phone are completely optional for free sample — zero friction!
+    let studentName = 'Student';
+    if (name && typeof name === 'string' && name.trim().length >= 2) {
+      const nameCheck = validateStudentName(name);
+      if (nameCheck.valid) studentName = nameCheck.value;
+    } else if (emailCheck.value) {
+      const prefix = emailCheck.value.split('@')[0];
+      if (/^[a-zA-Z]/.test(prefix)) {
+        studentName = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+      }
+    }
+
+    let studentPhone = 'N/A';
+    if (phone && (typeof phone === 'string' || typeof phone === 'number')) {
+      const phoneCheck = validatePhone(phone);
+      if (phoneCheck.valid) studentPhone = phoneCheck.value;
+    }
+
+    // 4. Rate-limit & duplicate spam protection: prevent repeated clicks for same email + course within 15 mins
+    const recentLead = await getRecentSampleLead(env, emailCheck.value, product.id, 15);
+    if (recentLead) {
+      return new Response(JSON.stringify({
+        success: true,
+        alreadySent: true,
+        message: 'Your sample resources have already arrived! Please check your email inbox.',
+        email: emailCheck.value,
+        courseName: product.course_name
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     const clientIp = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || null;
     const userAgent = request.headers.get('user-agent') || null;
 
-    // 3. Save Lead in D1
+    // 5. Save Lead in D1
     const leadId = crypto.randomUUID();
     await insertSampleLead(env, {
       id: leadId,
       courseId: product.id,
-      studentName: nameCheck.value,
-      phone: phoneCheck.value,
+      studentName,
+      phone: studentPhone,
       email: emailCheck.value,
       emailStatus: 'pending',
       ipAddress: clientIp,
@@ -115,7 +138,7 @@ export async function onRequestPost(context) {
 
     // 5. Send automated sample email via Resend
     const emailResult = await sendSampleEmail(env, {
-      studentName: nameCheck.value,
+      studentName,
       email: emailCheck.value,
       course: product,
       downloadUrl,
@@ -140,7 +163,7 @@ export async function onRequestPost(context) {
     // 6. Return verified confirmation
     return new Response(JSON.stringify({
       success: true,
-      message: 'Check your email! Your sample study material has been sent successfully.',
+      message: 'Your sample resources have arrived! Please check your email inbox.',
       email: emailCheck.value,
       courseName: product.course_name
     }), {
