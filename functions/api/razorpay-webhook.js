@@ -13,7 +13,7 @@ import {
   logEmail
 } from '../utils/db.js';
 import { generateDownloadToken } from '../utils/storage.js';
-import { sendCourseDeliveryEmail } from '../utils/email.js';
+import { sendCourseDeliveryEmail, sendAdminPaymentAlertEmail } from '../utils/email.js';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -99,6 +99,7 @@ export async function onRequestPost(context) {
               const emailRes = await sendCourseDeliveryEmail(env, {
                 studentName: order.student_name,
                 email: order.email,
+                phone: order.phone,
                 course: product,
                 orderId: order.order_id,
                 paymentId,
@@ -111,6 +112,22 @@ export async function onRequestPost(context) {
                 await updateOrderDeliveryStatus(env, order.order_id, 'sent');
               } else {
                 await updateOrderDeliveryStatus(env, order.order_id, 'failed');
+              }
+
+              // Instant notification to Admin
+              try {
+                await sendAdminPaymentAlertEmail(env, {
+                  studentName: order.student_name,
+                  email: order.email,
+                  phone: order.phone,
+                  course: product,
+                  orderId: order.order_id,
+                  paymentId,
+                  accessCode,
+                  amountInr
+                });
+              } catch (adminErr) {
+                console.warn('Webhook admin alert error:', adminErr.message);
               }
             }
           } else {

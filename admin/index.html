@@ -125,6 +125,39 @@
       .nav-tabs { width: 100%; overflow-x: auto; padding-bottom: 4px; }
       .courses-grid { grid-template-columns: 1fr; }
     }
+
+    /* Professional Printable Tax Invoice Modal */
+    .invoice-modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+    .invoice-modal-dialog { background: #ffffff; color: #1e1b4b; border-radius: 12px; width: 100%; max-width: 680px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); overflow: hidden; margin: auto; }
+    .invoice-modal-actions { background: #f3f4f6; padding: 12px 20px; display: flex; justify-content: flex-end; gap: 10px; border-bottom: 1px solid #e5e7eb; }
+    .invoice-sheet { padding: 32px 30px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #111827; }
+    .inv-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #8c38f4; padding-bottom: 16px; margin-bottom: 20px; }
+    .inv-brand-name { font-size: 22px; font-weight: 800; color: #1b114d; letter-spacing: 0.5px; }
+    .inv-brand-sub { font-size: 11.5px; color: #6b7280; margin-top: 3px; }
+    .inv-badge-paid { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 800; font-size: 11px; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; display: inline-block; margin-bottom: 4px; }
+    .inv-meta-right { text-align: right; font-size: 12.5px; color: #4b5563; line-height: 1.5; }
+    .inv-meta-right strong { color: #111827; }
+    .inv-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; font-size: 12.5px; }
+    .inv-party-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6b7280; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .inv-party-content { line-height: 1.6; color: #374151; }
+    .inv-party-content strong { color: #111827; font-size: 13.5px; }
+    .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+    .inv-table th { background: #f9fafb; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 10px 12px; font-weight: 700; color: #374151; text-align: left; }
+    .inv-table td { padding: 12px; border-bottom: 1px solid #f3f4f6; color: #374151; }
+    .inv-table .text-right { text-align: right; }
+    .inv-summary-box { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+    .inv-summary-table { width: 280px; font-size: 13px; }
+    .inv-summary-table td { padding: 6px 0; }
+    .inv-total-row { font-size: 16px; font-weight: 800; color: #1b114d; border-top: 1.5px solid #1b114d; }
+    .inv-footer { border-top: 1px solid #e5e7eb; padding-top: 16px; font-size: 11px; color: #9ca3af; text-align: center; line-height: 1.5; }
+
+    @media print {
+      body * { visibility: hidden !important; }
+      #printable-invoice, #printable-invoice * { visibility: visible !important; }
+      #printable-invoice { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; box-shadow: none; border: none; }
+      .no-print { display: none !important; }
+      .invoice-modal-backdrop { background: transparent !important; position: static !important; }
+    }
   </style>
 </head>
 <body>
@@ -389,6 +422,19 @@
     </main>
   </div>
 
+  <!-- TAX INVOICE PREVIEW & PRINT MODAL -->
+  <div id="invoice-modal" class="invoice-modal-backdrop" style="display: none;">
+    <div class="invoice-modal-dialog">
+      <div class="invoice-modal-actions no-print">
+        <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn btn-secondary btn-sm" onclick="closeInvoiceModal()">✕ Close</button>
+      </div>
+      <div id="printable-invoice" class="invoice-sheet">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast"></div>
 
   <script>
@@ -561,6 +607,8 @@
         try {
           const res = await fetch(`/api/admin/orders?search=${search}&status=${status}&courseId=${courseId}`);
           const data = await res.json();
+          window.currentOrders = data.orders || [];
+
           if (!data.orders || data.orders.length === 0) {
             tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--text-muted);">No orders recorded yet.</td></tr>';
             return;
@@ -578,7 +626,10 @@
               <td><span class="badge badge-${o.delivery_status}">${(o.delivery_status || 'pending').toUpperCase()}</span></td>
               <td>
                 ${o.payment_status === 'paid' ? `
-                  <button class="btn btn-secondary btn-sm" onclick="resendOrderAccess('${o.order_id}')">Resend Access ✉️</button>
+                  <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary btn-sm" onclick="resendOrderAccess('${escapeHtml(o.order_id)}')">Resend ✉️</button>
+                    <button class="btn btn-primary btn-sm" onclick="openInvoiceModal('${escapeHtml(o.order_id)}')">Invoice 📄</button>
+                  </div>
                 ` : `<span style="font-size: 11px; color: var(--text-muted);">Unpaid</span>`}
               </td>
             </tr>
@@ -587,6 +638,116 @@
           tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--danger);">Failed to load orders</td></tr>';
         }
       }
+
+      window.openInvoiceModal = function(orderId) {
+        const order = (window.currentOrders || []).find(o => o.order_id === orderId);
+        if (!order) {
+          showToast('Order not found', true);
+          return;
+        }
+
+        const amountInr = Math.round(order.amount_paise / 100);
+        const regularPrice = amountInr >= 499 ? 4990 : 3990;
+        const discountAmount = regularPrice - amountInr;
+        const gstInclusive = Math.round((amountInr * 18) / 118);
+        const invoiceNo = 'INV-2026-' + String(order.order_id).replace(/[^a-zA-Z0-9]/g, '').slice(-8).toUpperCase();
+        const dateStr = new Date(order.paid_at || order.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        const courseNames = {
+          'jee-full': 'JEE Full Course (Physics, Chemistry, Mathematics)',
+          'neet-full': 'NEET Full Course (Physics, Chemistry, Biology)',
+          'foundation-9-10': 'Foundation Class 9–10 (Science & Mathematics)',
+          'junior-6-8': 'Junior Foundation Class 6–8 (Science & Mathematics)'
+        };
+        const courseName = courseNames[order.course_id] || order.course_id;
+
+        const sheetEl = document.getElementById('printable-invoice');
+        sheetEl.innerHTML = `
+          <div class="inv-header">
+            <div>
+              <div class="inv-brand-name">FINDCOLLEGE.AI</div>
+              <div class="inv-brand-sub">Digital Educational Services & Study Resources</div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 2px;">Support: support@findcollege.ai • India</div>
+            </div>
+            <div class="inv-meta-right">
+              <div><span class="inv-badge-paid">Payment Verified ✓</span></div>
+              <div><strong>Invoice No:</strong> ${invoiceNo}</div>
+              <div><strong>Date:</strong> ${dateStr}</div>
+              <div><strong>Status:</strong> PAID</div>
+            </div>
+          </div>
+
+          <div class="inv-parties">
+            <div>
+              <div class="inv-party-title">Billed To (Customer)</div>
+              <div class="inv-party-content">
+                <strong>${escapeHtml(order.student_name)}</strong><br>
+                Email: ${escapeHtml(order.email)}<br>
+                Phone: ${escapeHtml(order.phone || 'N/A')}
+              </div>
+            </div>
+            <div>
+              <div class="inv-party-title">Transaction & Verification</div>
+              <div class="inv-party-content">
+                <strong>Payment Mode:</strong> Online (Razorpay)<br>
+                <strong>Payment ID:</strong> ${escapeHtml(order.payment_id || 'Verified')}<br>
+                <strong>Order ID:</strong> ${escapeHtml(order.order_id)}<br>
+                <strong>Access Code:</strong> <span style="font-family: monospace; font-weight: 700; color: #7c3aed;">${escapeHtml(order.access_code || 'FCAI-ACTIVE')}</span>
+              </div>
+            </div>
+          </div>
+
+          <table class="inv-table">
+            <thead>
+              <tr>
+                <th>Item / Description</th>
+                <th class="text-right">Regular Price</th>
+                <th class="text-right">Festive Discount</th>
+                <th class="text-right">Total (INR)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>${escapeHtml(courseName)}</strong><br>
+                  <span style="font-size: 11.5px; color: #6b7280;">Complete digital bundle, chapter notes, question banks, mock tests, mind maps (Lifetime Access)</span>
+                </td>
+                <td class="text-right"><del>₹${regularPrice.toLocaleString('en-IN')}</del></td>
+                <td class="text-right" style="color: #059669; font-weight: 700;">-₹${discountAmount.toLocaleString('en-IN')} (90% OFF)</td>
+                <td class="text-right" style="font-weight: 700;">₹${amountInr.toLocaleString('en-IN')}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="inv-summary-box">
+            <table class="inv-summary-table">
+              <tr>
+                <td style="color: #6b7280;">Subtotal:</td>
+                <td class="text-right">₹${amountInr.toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td style="color: #6b7280;">GST (18% Inclusive):</td>
+                <td class="text-right">₹${gstInclusive}</td>
+              </tr>
+              <tr class="inv-total-row">
+                <td style="padding-top: 8px;">Total Paid:</td>
+                <td class="text-right" style="padding-top: 8px; color: #7c3aed;">₹${amountInr.toLocaleString('en-IN')}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="inv-footer">
+            This is an official computer-generated Tax Invoice and Purchase Receipt for digital education resources.<br>
+            FindCollege.ai • Lifetime Access Guaranteed
+          </div>
+        `;
+
+        document.getElementById('invoice-modal').style.display = 'flex';
+      };
+
+      window.closeInvoiceModal = function() {
+        document.getElementById('invoice-modal').style.display = 'none';
+      };
 
       window.resendOrderAccess = async function(orderId) {
         if (!confirm(`Resend course access email to order ${orderId}?`)) return;

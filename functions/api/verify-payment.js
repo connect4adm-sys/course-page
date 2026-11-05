@@ -4,7 +4,7 @@
 import { verifyPaymentSignature } from '../utils/razorpay.js';
 import { getOrderByOrderId, updateOrderStatusToPaid, updateOrderDeliveryStatus, createCourseEntitlement, getProductById, logEmail } from '../utils/db.js';
 import { generateDownloadToken } from '../utils/storage.js';
-import { sendCourseDeliveryEmail } from '../utils/email.js';
+import { sendCourseDeliveryEmail, sendAdminPaymentAlertEmail } from '../utils/email.js';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -114,11 +114,12 @@ export async function onRequestPost(context) {
     const reqUrl = new URL(request.url);
     const downloadUrl = `${reqUrl.protocol}//${reqUrl.host}/api/download/${token}`;
 
-    // 8. Automatic course delivery email via Resend
+    // 8. Automatic course delivery & Tax Invoice email via Resend to student
     const amountInr = Math.round(order.amount_paise / 100);
     const emailRes = await sendCourseDeliveryEmail(env, {
       studentName: order.student_name,
       email: order.email,
+      phone: order.phone,
       course: product,
       orderId: order.order_id,
       paymentId: razorpay_payment_id,
@@ -132,6 +133,22 @@ export async function onRequestPost(context) {
     } else {
       await updateOrderDeliveryStatus(env, order.order_id, 'failed');
       console.warn(`Course delivery email failed for paid order ${order.order_id}:`, emailRes.error);
+    }
+
+    // 9. Instant payment notification & invoice alert to Admin
+    try {
+      await sendAdminPaymentAlertEmail(env, {
+        studentName: order.student_name,
+        email: order.email,
+        phone: order.phone,
+        course: product,
+        orderId: order.order_id,
+        paymentId: razorpay_payment_id,
+        accessCode,
+        amountInr
+      });
+    } catch (adminErr) {
+      console.warn('Failed to dispatch admin sale notification:', adminErr.message);
     }
 
     return new Response(JSON.stringify({
