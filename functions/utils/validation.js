@@ -18,13 +18,55 @@ export const ALLOWED_COURSES = {
     sampleFileKey: 'samples/neet-full-sample.pdf',
     bundleFileKey: 'courses/neet-full-bundle.zip'
   },
+  'class-10': {
+    name: 'Class 10 Foundation Resources',
+    classLevel: 'Class 10',
+    subjects: 'Mathematics · Science',
+    pricePaise: 39900,
+    sampleFileKey: 'samples/class-10-sample.pdf',
+    bundleFileKey: 'courses/class-10-bundle.zip'
+  },
+  'class-9': {
+    name: 'Class 9 Foundation Resources',
+    classLevel: 'Class 9',
+    subjects: 'Mathematics · Science',
+    pricePaise: 39900,
+    sampleFileKey: 'samples/class-9-sample.pdf',
+    bundleFileKey: 'courses/class-9-bundle.zip'
+  },
+  'class-8': {
+    name: 'Class 8 Foundation Resources',
+    classLevel: 'Class 8',
+    subjects: 'Mathematics · Science',
+    pricePaise: 29900,
+    sampleFileKey: 'samples/class-8-sample.pdf',
+    bundleFileKey: 'courses/class-8-bundle.zip'
+  },
+  'class-7': {
+    name: 'Class 7 Foundation Resources',
+    classLevel: 'Class 7',
+    subjects: 'Mathematics · Science',
+    pricePaise: 29900,
+    sampleFileKey: 'samples/class-7-sample.pdf',
+    bundleFileKey: 'courses/class-7-bundle.zip'
+  },
+  'class-6': {
+    name: 'Class 6 Foundation Resources',
+    classLevel: 'Class 6',
+    subjects: 'Mathematics · Science',
+    pricePaise: 29900,
+    sampleFileKey: 'samples/class-6-sample.pdf',
+    bundleFileKey: 'courses/class-6-bundle.zip'
+  },
+  // Backward-compatible aliases for legacy orders/tests
   'foundation-9-10': {
     name: 'Foundation Class 9–10 Resources',
     classLevel: 'Class 9-10',
     subjects: 'Mathematics · Science',
     pricePaise: 39900,
     sampleFileKey: 'samples/foundation-9-10-sample.pdf',
-    bundleFileKey: 'courses/foundation-9-10-bundle.zip'
+    bundleFileKey: 'courses/foundation-9-10-bundle.zip',
+    isAlias: true
   },
   'junior-6-8': {
     name: 'Junior Foundation Class 6–8 Resources',
@@ -32,7 +74,8 @@ export const ALLOWED_COURSES = {
     subjects: 'Mathematics · Science',
     pricePaise: 39900,
     sampleFileKey: 'samples/junior-6-8-sample.pdf',
-    bundleFileKey: 'courses/junior-6-8-bundle.zip'
+    bundleFileKey: 'courses/junior-6-8-bundle.zip',
+    isAlias: true
   }
 };
 

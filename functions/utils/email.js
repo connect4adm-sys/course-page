@@ -154,7 +154,7 @@ export async function sendCourseDeliveryEmail(env, { studentName, email, phone, 
   const supportEmail = env?.SUPPORT_EMAIL || 'support@findcollege.ai';
   const invoiceNo = `INV-2026-${String(orderId).replace(/[^a-zA-Z0-9]/g, '').slice(-8).toUpperCase()}`;
   const invoiceDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-  const regularPrice = amountInr >= 499 ? 4990 : 3990;
+  const regularPrice = amountInr >= 499 ? 4990 : (amountInr >= 399 ? 3990 : 2990);
   const discountAmount = regularPrice - amountInr;
   const gstInclusive = Math.round((amountInr * 18) / 118);
 

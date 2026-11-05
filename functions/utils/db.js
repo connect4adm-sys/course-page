@@ -5,17 +5,19 @@ import { ALLOWED_COURSES } from './validation.js';
 
 // In-memory fallback stores for local testing when D1 binding is not yet attached
 const mockMemoryStore = {
-  products: Object.entries(ALLOWED_COURSES).map(([id, c]) => ({
-    id,
-    course_name: c.name,
-    class_level: c.classLevel,
-    subjects: c.subjects,
-    price_paise: c.pricePaise,
-    active: 1,
-    sample_file_key: c.sampleFileKey,
-    full_course_file_keys: c.bundleFileKey,
-    updated_at: new Date().toISOString()
-  })),
+  products: Object.entries(ALLOWED_COURSES)
+    .filter(([_, c]) => !c.isAlias)
+    .map(([id, c]) => ({
+      id,
+      course_name: c.name,
+      class_level: c.classLevel,
+      subjects: c.subjects,
+      price_paise: c.pricePaise,
+      active: 1,
+      sample_file_key: c.sampleFileKey,
+      full_course_file_keys: c.bundleFileKey,
+      updated_at: new Date().toISOString()
+    })),
   leads: [],
   orders: [],
   entitlements: [],
@@ -29,12 +31,12 @@ export async function getProducts(env) {
   if (env && env.DB) {
     try {
       const { results } = await env.DB.prepare('SELECT * FROM products ORDER BY price_paise DESC').all();
-      if (results && results.length > 0) return results;
+      if (results && results.length > 0) return results.filter(p => !ALLOWED_COURSES[p.id]?.isAlias);
     } catch (e) {
       console.warn('D1 getProducts query error:', e.message);
     }
   }
-  return mockMemoryStore.products;
+  return mockMemoryStore.products.filter(p => !ALLOWED_COURSES[p.id]?.isAlias);
 }
 
 export async function getProductById(env, courseId) {
@@ -46,7 +48,25 @@ export async function getProductById(env, courseId) {
       console.warn('D1 getProductById query error:', e.message);
     }
   }
-  return mockMemoryStore.products.find(p => p.id === courseId) || null;
+  const fromStore = mockMemoryStore.products.find(p => p.id === courseId);
+  if (fromStore) return fromStore;
+  if (ALLOWED_COURSES[courseId]) {
+    const c = ALLOWED_COURSES[courseId];
+    const created = {
+      id: courseId,
+      course_name: c.name,
+      class_level: c.classLevel,
+      subjects: c.subjects,
+      price_paise: c.pricePaise,
+      active: 1,
+      sample_file_key: c.sampleFileKey,
+      full_course_file_keys: c.bundleFileKey,
+      updated_at: new Date().toISOString()
+    };
+    mockMemoryStore.products.push(created);
+    return created;
+  }
+  return null;
 }
 
 export async function updateProduct(env, id, { courseName, pricePaise, active, sampleFileKey, fullCourseFileKeys }) {
@@ -62,14 +82,29 @@ export async function updateProduct(env, id, { courseName, pricePaise, active, s
       WHERE id = ?
     `).bind(courseName, pricePaise, active, sampleFileKey, fullCourseFileKeys, id).run();
   }
-  const idx = mockMemoryStore.products.findIndex(p => p.id === id);
-  if (idx !== -1) {
-    if (courseName !== undefined) mockMemoryStore.products[idx].course_name = courseName;
-    if (pricePaise !== undefined) mockMemoryStore.products[idx].price_paise = pricePaise;
-    if (active !== undefined) mockMemoryStore.products[idx].active = active;
-    if (sampleFileKey !== undefined) mockMemoryStore.products[idx].sample_file_key = sampleFileKey;
-    if (fullCourseFileKeys !== undefined) mockMemoryStore.products[idx].full_course_file_keys = fullCourseFileKeys;
-    mockMemoryStore.products[idx].updated_at = new Date().toISOString();
+  let p = mockMemoryStore.products.find(p => p.id === id);
+  if (!p && ALLOWED_COURSES[id]) {
+    const c = ALLOWED_COURSES[id];
+    p = {
+      id,
+      course_name: c.name,
+      class_level: c.classLevel,
+      subjects: c.subjects,
+      price_paise: c.pricePaise,
+      active: 1,
+      sample_file_key: c.sampleFileKey,
+      full_course_file_keys: c.bundleFileKey,
+      updated_at: new Date().toISOString()
+    };
+    mockMemoryStore.products.push(p);
+  }
+  if (p) {
+    if (courseName !== undefined) p.course_name = courseName;
+    if (pricePaise !== undefined) p.price_paise = pricePaise;
+    if (active !== undefined) p.active = active;
+    if (sampleFileKey !== undefined) p.sample_file_key = sampleFileKey;
+    if (fullCourseFileKeys !== undefined) p.full_course_file_keys = fullCourseFileKeys;
+    p.updated_at = new Date().toISOString();
   }
 }
 

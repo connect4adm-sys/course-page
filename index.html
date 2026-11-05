@@ -585,10 +585,44 @@
       z-index: 5;
     }
 
+    .resource-tabs-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 auto 30px;
+      flex-wrap: wrap;
+    }
+
+    .resource-tab-btn {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid rgba(140, 56, 244, 0.25);
+      color: #17114c;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(27, 14, 80, 0.06);
+    }
+
+    .resource-tab-btn:hover {
+      border-color: #8c38f4;
+      background: #f7f3ff;
+      transform: translateY(-2px);
+    }
+
+    .resource-tab-btn.active {
+      background: linear-gradient(135deg, #8c38f4 0%, #6817c7 100%);
+      color: #ffffff;
+      border-color: #8c38f4;
+      box-shadow: 0 6px 20px rgba(140, 56, 244, 0.35);
+    }
+
     .course-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 20px;
     }
 
     .course-card {
@@ -2438,11 +2472,13 @@
         padding: 7px 14px;
         font-size: 11.5px;
       }
+
       .bestie-share-card {
         padding: 14px 16px;
         text-align: center;
         justify-content: center;
       }
+
       .bestie-share-content {
         flex-direction: column;
         gap: 6px;
@@ -2686,13 +2722,13 @@
               </div>
               <div class="starting-price-wrap">
                 <span class="starting-price">
-                  ₹399
+                  ₹299
                   <svg class="doodle-underline" viewBox="0 0 100 12" fill="none" preserveAspectRatio="none">
                     <path d="M2 8 C 25 2, 75 2, 98 8" stroke="#ffcf11" stroke-width="4.5" stroke-linecap="round" />
                   </svg>
                 </span>
                 <div class="starting-price-meta">
-                  <span class="starting-price-strike">₹3,990</span>
+                  <span class="starting-price-strike">₹2,990</span>
                   <span class="starting-save-pill">90% OFF</span>
                 </div>
               </div>
@@ -2770,13 +2806,21 @@
         </svg>
       </div>
     </section>
-    <!-- OVERLAPPING 4 COURSE CARDS -->
-    <section class="courses-section" id="courses" aria-label="Available Study Courses">
+    <!-- OVERLAPPING 7 RESOURCE CARDS -->
+    <section class="courses-section" id="courses" aria-label="Available Study Resources">
       <!-- Stylized irregular wave backdrop behind cards -->
       <div class="container">
+        <!-- Resource Category Filter Tabs -->
+        <div class="resource-tabs-wrapper">
+          <button type="button" class="resource-tab-btn active" onclick="filterResources('all', this)">✨ All Resources (7)</button>
+          <button type="button" class="resource-tab-btn" onclick="filterResources('11-12', this)">🎯 Class 11–12 (JEE &amp; NEET)</button>
+          <button type="button" class="resource-tab-btn" onclick="filterResources('9-10', this)">🚀 Class 9–10</button>
+          <button type="button" class="resource-tab-btn" onclick="filterResources('6-8', this)">🌟 Class 6–8</button>
+        </div>
+
         <div class="course-grid">
           <!-- Card 1: JEE Full Resources -->
-          <article class="course-card reveal stagger-1">
+          <article class="course-card reveal stagger-1" data-category="11-12">
             <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
             <span class="tag-pill tag-purple">Class 11–12</span>
             <h3>JEE Full Resources</h3>
@@ -2813,7 +2857,7 @@
           </article>
 
           <!-- Card 2: NEET Full Resources -->
-          <article class="course-card reveal stagger-2">
+          <article class="course-card reveal stagger-2" data-category="11-12">
             <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
             <span class="tag-pill tag-teal">Class 11–12</span>
             <h3>NEET Full Resources</h3>
@@ -2849,14 +2893,14 @@
             </div>
           </article>
 
-          <!-- Card 3: Foundation Resources -->
-          <article class="course-card reveal stagger-3">
+          <!-- Card 3: Class 10 Foundation Resources -->
+          <article class="course-card reveal stagger-3" data-category="9-10">
             <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
-            <span class="tag-pill tag-orange">Class 9–10</span>
-            <h3>Foundation Resources</h3>
+            <span class="tag-pill tag-orange">Class 10</span>
+            <h3>Class 10 Resources</h3>
             <div class="course-sub">Mathematics • Science</div>
             <div class="course-art">
-              <img src="Glossy Science and Mathematics Books with Flask.png" alt="Foundation course study books">
+              <img src="Glossy Science and Mathematics Books with Flask.png" alt="Class 10 Foundation course study books">
             </div>
             <div class="price-row">
               <span class="price-current">₹399</span>
@@ -2881,20 +2925,19 @@
             </div>
 
             <div class="card-action-row">
-              <button type="button" class="btn-card-sample" onclick="openSampleModal('foundation-9-10')">Free
-                Sample</button>
-              <button type="button" class="btn-card-buy" onclick="openBuyModal('foundation-9-10')">Buy Now →</button>
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('class-10')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('class-10')">Buy Now →</button>
             </div>
           </article>
 
-          <!-- Card 4: Junior Foundation Resources -->
-          <article class="course-card reveal stagger-4">
+          <!-- Card 4: Class 9 Foundation Resources -->
+          <article class="course-card reveal stagger-4" data-category="9-10">
             <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
-            <span class="tag-pill tag-pink">Class 6–8</span>
-            <h3>Junior Foundation Resources</h3>
+            <span class="tag-pill tag-orange">Class 9</span>
+            <h3>Class 9 Resources</h3>
             <div class="course-sub">Mathematics • Science</div>
             <div class="course-art">
-              <img src="Glossy Science and Mathematics Rocket.png" alt="Junior foundation course study books">
+              <img src="Interactive Physics Study Tablets.png" alt="Class 9 Foundation course study books">
             </div>
             <div class="price-row">
               <span class="price-current">₹399</span>
@@ -2919,8 +2962,119 @@
             </div>
 
             <div class="card-action-row">
-              <button type="button" class="btn-card-sample" onclick="openSampleModal('junior-6-8')">Free Sample</button>
-              <button type="button" class="btn-card-buy" onclick="openBuyModal('junior-6-8')">Buy Now →</button>
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('class-9')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('class-9')">Buy Now →</button>
+            </div>
+          </article>
+
+          <!-- Card 5: Class 8 Foundation Resources -->
+          <article class="course-card reveal stagger-1" data-category="6-8">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
+            <span class="tag-pill tag-pink">Class 8</span>
+            <h3>Class 8 Resources</h3>
+            <div class="course-sub">Mathematics • Science</div>
+            <div class="course-art">
+              <img src="Glossy Science and Mathematics Rocket.png" alt="Class 8 Junior foundation course study books">
+            </div>
+            <div class="price-row">
+              <span class="price-current">₹299</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹2,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
+            </div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹2,691</div>
+
+            <div class="card-features">
+              <div class="card-features-label">Resources Include:</div>
+              <ul class="card-features-list">
+                <li><span class="feat-dot">✓</span> Chapterwise Notes</li>
+                <li><span class="feat-dot">✓</span> 5000+ Question and Answers</li>
+                <li><span class="feat-dot">✓</span> 20000+ Daily Practice Problems with Solutions</li>
+                <li><span class="feat-dot">✓</span> 5000+ Chapterwise Question Bank</li>
+                <li><span class="feat-dot">✓</span> Smart Booklets</li>
+                <li><span class="feat-dot">✓</span> Olympiad, IIT and NEET level preparation</li>
+                <li><span class="feat-dot">✓</span> Upadated 2026 Materials</li>
+              </ul>
+            </div>
+
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('class-8')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('class-8')">Buy Now →</button>
+            </div>
+          </article>
+
+          <!-- Card 6: Class 7 Foundation Resources -->
+          <article class="course-card reveal stagger-2" data-category="6-8">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
+            <span class="tag-pill tag-pink">Class 7</span>
+            <h3>Class 7 Resources</h3>
+            <div class="course-sub">Mathematics • Science</div>
+            <div class="course-art">
+              <img src="Books.png" alt="Class 7 Junior foundation course study books">
+            </div>
+            <div class="price-row">
+              <span class="price-current">₹299</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹2,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
+            </div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹2,691</div>
+
+            <div class="card-features">
+              <div class="card-features-label">Resources Include:</div>
+              <ul class="card-features-list">
+                <li><span class="feat-dot">✓</span> Chapterwise Notes</li>
+                <li><span class="feat-dot">✓</span> 5000+ Question and Answers</li>
+                <li><span class="feat-dot">✓</span> 20000+ Daily Practice Problems with Solutions</li>
+                <li><span class="feat-dot">✓</span> 5000+ Chapterwise Question Bank</li>
+                <li><span class="feat-dot">✓</span> Smart Booklets</li>
+                <li><span class="feat-dot">✓</span> Olympiad, IIT and NEET level preparation</li>
+                <li><span class="feat-dot">✓</span> Upadated 2026 Materials</li>
+              </ul>
+            </div>
+
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('class-7')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('class-7')">Buy Now →</button>
+            </div>
+          </article>
+
+          <!-- Card 7: Class 6 Foundation Resources -->
+          <article class="course-card reveal stagger-3" data-category="6-8">
+            <div class="card-diwali-ribbon"><span>🪔</span> DIWALI MEGA SALE • 90% OFF</div>
+            <span class="tag-pill tag-pink">Class 6</span>
+            <h3>Class 6 Resources</h3>
+            <div class="course-sub">Mathematics • Science</div>
+            <div class="course-art">
+              <img src="Glossy Science and Mathematics Rocket.png" alt="Class 6 Junior foundation course study books">
+            </div>
+            <div class="price-row">
+              <span class="price-current">₹299</span>
+              <div class="price-discount-wrap">
+                <span class="price-strike">₹2,990</span>
+                <span class="discount-badge">90% OFF</span>
+              </div>
+            </div>
+            <div class="diwali-offer-tag">🪔 Diwali Offer • Save ₹2,691</div>
+
+            <div class="card-features">
+              <div class="card-features-label">Resources Include:</div>
+              <ul class="card-features-list">
+                <li><span class="feat-dot">✓</span> Chapterwise Notes</li>
+                <li><span class="feat-dot">✓</span> 5000+ Question and Answers</li>
+                <li><span class="feat-dot">✓</span> 20000+ Daily Practice Problems with Solutions</li>
+                <li><span class="feat-dot">✓</span> 5000+ Chapterwise Question Bank</li>
+                <li><span class="feat-dot">✓</span> Smart Booklets</li>
+                <li><span class="feat-dot">✓</span> Olympiad, IIT and NEET level preparation</li>
+                <li><span class="feat-dot">✓</span> Upadated 2026 Materials</li>
+              </ul>
+            </div>
+
+            <div class="card-action-row">
+              <button type="button" class="btn-card-sample" onclick="openSampleModal('class-6')">Free Sample</button>
+              <button type="button" class="btn-card-buy" onclick="openBuyModal('class-6')">Buy Now →</button>
             </div>
           </article>
         </div>
@@ -2936,7 +3090,8 @@
           </div>
           <button type="button" class="btn-whatsapp-bestie" onclick="shareWithBestie()">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
             </svg>
             Share with Study Bestie 📲
           </button>
@@ -3242,11 +3397,12 @@
         <div class="faq-header reveal">
           <span class="faq-badge">Got Questions?</span>
           <h2>Frequently Asked Questions</h2>
-          <p class="faq-subtitle">Everything you need to know about our study resources, materials, and delivery process.</p>
+          <p class="faq-subtitle">Everything you need to know about our study resources, materials, and delivery
+            process.</p>
           <div class="faq-insta-banner">
-            <span>Koi bhi doubt ya question ho?</span>
-            <a href="https://www.instagram.com/admission360_/" target="_blank" rel="noopener noreferrer">
-              DM us on Instagram @admission360_ 💬
+            <span>If any doubt or question?</span>
+            <a href="https://www.instagram.com/findcollege.ai/" target="_blank" rel="noopener noreferrer">
+              DM us on Instagram @findcollege.ai 💬
             </a>
           </div>
         </div>
@@ -3262,7 +3418,8 @@
                 </svg></span>
             </summary>
             <div class="faq-answer">
-              FindCollege.ai provides affordable digital study materials and resources for students preparing for JEE, NEET and
+              FindCollege.ai provides affordable digital study materials and resources for students preparing for JEE,
+              NEET and
               Foundation-level examinations.
             </div>
           </details>
@@ -3277,7 +3434,8 @@
                 </svg></span>
             </summary>
             <div class="faq-answer">
-              You will receive the complete digital study materials included in your selected resource package. The exact
+              You will receive the complete digital study materials included in your selected resource package. The
+              exact
               materials and subjects depend on the package you purchase.
             </div>
           </details>
@@ -3338,7 +3496,8 @@
                 </svg></span>
             </summary>
             <div class="faq-answer">
-              No. You will receive only the complete materials for the specific resource package you purchased. Each package is
+              No. You will receive only the complete materials for the specific resource package you purchased. Each
+              package is
               sold separately.
             </div>
           </details>
@@ -3353,7 +3512,8 @@
                 </svg></span>
             </summary>
             <div class="faq-answer">
-              No. FindCollege.ai currently focuses on digital study materials and resources. Video lectures, live classes and personal
+              No. FindCollege.ai currently focuses on digital study materials and resources. Video lectures, live
+              classes and personal
               coaching are not included.
             </div>
           </details>
@@ -3429,7 +3589,8 @@
                 </svg></span>
             </summary>
             <div class="faq-answer">
-              Yes. You can purchase multiple resource packages separately. Each purchase will provide access to its respective
+              Yes. You can purchase multiple resource packages separately. Each purchase will provide access to its
+              respective
               study resources.
             </div>
           </details>
@@ -3508,10 +3669,13 @@
             <div class="fcai-form-group">
               <label class="fcai-label" for="sample-course-select">Selected Resources</label>
               <select id="sample-course-select" class="fcai-select" required>
-                <option value="jee-full">JEE Full Resources (Class 11-12)</option>
-                <option value="neet-full">NEET Full Resources (Class 11-12)</option>
-                <option value="foundation-9-10">Foundation Resources (Class 9-10)</option>
-                <option value="junior-6-8">Junior Foundation Resources (Class 6-8)</option>
+                <option value="jee-full">JEE Full Resources (Class 11–12) — ₹499</option>
+                <option value="neet-full">NEET Full Resources (Class 11–12) — ₹499</option>
+                <option value="class-10">Class 10 Foundation Resources — ₹399</option>
+                <option value="class-9">Class 9 Foundation Resources — ₹399</option>
+                <option value="class-8">Class 8 Foundation Resources — ₹299</option>
+                <option value="class-7">Class 7 Foundation Resources — ₹299</option>
+                <option value="class-6">Class 6 Foundation Resources — ₹299</option>
               </select>
             </div>
             <div class="fcai-form-group">
@@ -3617,21 +3781,23 @@
     <aside class="diwali-mobile-bar" id="diwaliMobileBar" aria-label="Quick Diwali Discount">
       <div class="diwali-mobile-text">
         <span class="diwali-mobile-title">🪔 Diwali Mega Sale LIVE</span>
-        <span class="diwali-mobile-sub">Flat 90% OFF • Starting at just ₹399</span>
+        <span class="diwali-mobile-sub">Flat 90% OFF • Starting at just ₹299</span>
       </div>
       <a class="diwali-mobile-btn" href="#courses">Grab Offer ➔</a>
     </aside>
 
     <!-- FLOATING INSTAGRAM DIRECT TRIGGER (FOR DOUBTS) -->
-    <a href="https://www.instagram.com/admission360_/" target="_blank" rel="noopener noreferrer" class="insta-doubt-pill" title="Have a doubt? DM us on Instagram">
+    <a href="https://www.instagram.com/findcollege.ai/" target="_blank" rel="noopener noreferrer"
+      class="insta-doubt-pill" title="Have a doubt? DM us on Instagram">
       <span class="insta-icon-wrap">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
           <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
           <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
         </svg>
       </span>
-      <span>Doubt hai? <strong>DM on Insta 💬</strong></span>
+      <span>Any Doubt? <strong>DM on Insta 💬</strong></span>
     </a>
 
   </main>
@@ -3653,10 +3819,25 @@
       });
     });
 
+    // Resource Category Filter Tabs Action
+    window.filterResources = function (category, btn) {
+      document.querySelectorAll('.resource-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    };
+
     // WhatsApp Bestie Share Action
     window.shareWithBestie = function () {
       const shareUrl = window.location.href;
-      const shareMsg = encodeURIComponent("Hey! 🔥 Check out these 2026 JEE, NEET & Foundation complete digital study materials on FindCollege.ai.\n\n🪔 Flat 90% OFF Diwali Mega Sale is live right now starting at ₹399!\n\nCheck here: " + shareUrl);
+      const shareMsg = encodeURIComponent("Hey! 🔥 Check out these 2026 JEE, NEET & Foundation complete digital study materials on FindCollege.ai.\n\n🪔 Flat 90% OFF Diwali Mega Sale is live right now starting at ₹299!\n\nCheck here: " + shareUrl);
       window.open("https://api.whatsapp.com/send?text=" + shareMsg, "_blank");
     };
 

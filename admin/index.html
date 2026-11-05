@@ -271,11 +271,16 @@
         <div class="filter-bar">
           <input type="text" id="leads-search" placeholder="Search name, email, phone..." style="min-width: 250px;">
           <select id="leads-course-filter">
-            <option value="">All Courses</option>
-            <option value="jee-full">JEE Full Course</option>
-            <option value="neet-full">NEET Full Course</option>
-            <option value="foundation-9-10">Foundation 9–10</option>
-            <option value="junior-6-8">Junior Foundation 6–8</option>
+            <option value="">All Resources</option>
+            <option value="jee-full">JEE Full Resources (Class 11–12)</option>
+            <option value="neet-full">NEET Full Resources (Class 11–12)</option>
+            <option value="class-10">Class 10 Foundation Resources</option>
+            <option value="class-9">Class 9 Foundation Resources</option>
+            <option value="class-8">Class 8 Foundation Resources</option>
+            <option value="class-7">Class 7 Foundation Resources</option>
+            <option value="class-6">Class 6 Foundation Resources</option>
+            <option value="foundation-9-10">Foundation 9–10 (Legacy)</option>
+            <option value="junior-6-8">Junior Foundation 6–8 (Legacy)</option>
           </select>
           <button id="leads-refresh-btn" class="btn btn-secondary btn-sm">Refresh</button>
         </div>
@@ -320,11 +325,16 @@
             <option value="failed">Failed</option>
           </select>
           <select id="orders-course-filter">
-            <option value="">All Courses</option>
-            <option value="jee-full">JEE Full Course</option>
-            <option value="neet-full">NEET Full Course</option>
-            <option value="foundation-9-10">Foundation 9–10</option>
-            <option value="junior-6-8">Junior Foundation 6–8</option>
+            <option value="">All Resources</option>
+            <option value="jee-full">JEE Full Resources (Class 11–12)</option>
+            <option value="neet-full">NEET Full Resources (Class 11–12)</option>
+            <option value="class-10">Class 10 Foundation Resources</option>
+            <option value="class-9">Class 9 Foundation Resources</option>
+            <option value="class-8">Class 8 Foundation Resources</option>
+            <option value="class-7">Class 7 Foundation Resources</option>
+            <option value="class-6">Class 6 Foundation Resources</option>
+            <option value="foundation-9-10">Foundation 9–10 (Legacy)</option>
+            <option value="junior-6-8">Junior Foundation 6–8 (Legacy)</option>
           </select>
           <button id="orders-refresh-btn" class="btn btn-secondary btn-sm">Refresh</button>
         </div>
@@ -647,7 +657,7 @@
         }
 
         const amountInr = Math.round(order.amount_paise / 100);
-        const regularPrice = amountInr >= 499 ? 4990 : 3990;
+        const regularPrice = amountInr >= 499 ? 4990 : (amountInr >= 399 ? 3990 : 2990);
         const discountAmount = regularPrice - amountInr;
         const gstInclusive = Math.round((amountInr * 18) / 118);
         const invoiceNo = 'INV-2026-' + String(order.order_id).replace(/[^a-zA-Z0-9]/g, '').slice(-8).toUpperCase();
@@ -656,6 +666,11 @@
         const courseNames = {
           'jee-full': 'JEE Full Resources (Physics, Chemistry, Mathematics)',
           'neet-full': 'NEET Full Resources (Physics, Chemistry, Biology)',
+          'class-10': 'Class 10 Foundation Resources (Science & Mathematics)',
+          'class-9': 'Class 9 Foundation Resources (Science & Mathematics)',
+          'class-8': 'Class 8 Foundation Resources (Science & Mathematics)',
+          'class-7': 'Class 7 Foundation Resources (Science & Mathematics)',
+          'class-6': 'Class 6 Foundation Resources (Science & Mathematics)',
           'foundation-9-10': 'Foundation Class 9–10 Resources (Science & Mathematics)',
           'junior-6-8': 'Junior Foundation Class 6–8 Resources (Science & Mathematics)'
         };

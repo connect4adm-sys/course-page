@@ -7,6 +7,7 @@ import { onRequestPost as postSampleRequest } from '../functions/api/sample-requ
 import { onRequestPost as postCreateOrder } from '../functions/api/create-order.js';
 import { onRequestPost as postVerifyPayment } from '../functions/api/verify-payment.js';
 import { onRequestPost as postWebhook } from '../functions/api/razorpay-webhook.js';
+import { onRequestPost as postPaymentWebhook } from '../functions/api/payment/webhook.js';
 import { onRequestGet as getDownload } from '../functions/api/download/[token].js';
 import { onRequestPost as adminSetup, onRequestGet as getAdminSetup } from '../functions/api/admin/setup.js';
 import { onRequestPost as adminLogin } from '../functions/api/admin/login.js';
@@ -67,11 +68,16 @@ async function runTests() {
   const coursesRes = await getCourses({ env: mockEnv });
   const coursesData = await coursesRes.json();
   assert(coursesRes.status === 200, 'GET /api/courses returns HTTP 200');
-  assert(coursesData.courses.length === 4, 'Catalog contains exactly 4 approved products');
+  assert(coursesData.courses.length === 7, 'Catalog contains exactly 7 approved products');
 
   const approvedPrices = {
     'jee-full': 499,
     'neet-full': 499,
+    'class-10': 399,
+    'class-9': 399,
+    'class-8': 299,
+    'class-7': 299,
+    'class-6': 299,
     'foundation-9-10': 399,
     'junior-6-8': 399
   };
@@ -298,7 +304,8 @@ async function runTests() {
   const productsRes = await adminProducts({ request: productsReq, env: mockEnv });
   const productsData = await productsRes.json();
   assert(productsRes.status === 200, 'Admin products endpoint accessible with session');
-  assert(productsData.products.every(p => p.sampleStatus === 'configured' && p.bundleStatus === 'configured'), 'All 4 courses report both Sample and Full Course as configured');
+  assert(productsData.products.length === 7, 'Admin products list contains all 7 resources');
+  assert(productsData.products.every(p => p.sampleStatus === 'configured' && p.bundleStatus === 'configured'), 'All 7 courses report both Sample and Full Course as configured');
 
   console.log('\n======================================================');
   console.log('--- 6. Razorpay Webhooks HMAC-SHA256 & Replay Protection ---');
@@ -333,15 +340,16 @@ async function runTests() {
   const validWhData = await validWhRes.json();
   assert(validWhRes.status === 200, 'Valid HMAC webhook accepted (HTTP 200)');
 
-  // Replay attempt
-  const replayWhReq = new Request('https://findcollege.ai/api/razorpay-webhook', {
+  // Direct test of dashboard endpoint /api/payment/webhook
+  const directWhReq = new Request('https://findcollege.ai/api/payment/webhook', {
     method: 'POST',
     headers: { 'x-razorpay-signature': validWhSig },
     body: whPayload
   });
-  const replayWhRes = await postWebhook({ request: replayWhReq, env: mockEnv });
-  const replayWhData = await replayWhRes.json();
-  assert(replayWhData.status === 'already_processed', 'Duplicate webhook event rejected idempotently');
+  const directWhRes = await postPaymentWebhook({ request: directWhReq, env: mockEnv });
+  const directWhData = await directWhRes.json();
+  assert(directWhRes.status === 200, 'Direct dashboard endpoint /api/payment/webhook handles webhook successfully');
+  assert(directWhData.status === 'already_processed', 'Dashboard endpoint /api/payment/webhook respects idempotency');
 
   console.log(`\n======================================================`);
   console.log(`Test Suite Results: ${passed} PASSED, ${failed} FAILED`);

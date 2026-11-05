@@ -6,10 +6,15 @@
   'use strict';
 
   var currentCourses = {
-    'jee-full': { id: 'jee-full', name: 'JEE Full Resources', priceInr: 499 },
-    'neet-full': { id: 'neet-full', name: 'NEET Full Resources', priceInr: 499 },
+    'jee-full': { id: 'jee-full', name: 'JEE Full Resources (Class 11–12)', priceInr: 499 },
+    'neet-full': { id: 'neet-full', name: 'NEET Full Resources (Class 11–12)', priceInr: 499 },
+    'class-10': { id: 'class-10', name: 'Class 10 Foundation Resources', priceInr: 399 },
+    'class-9': { id: 'class-9', name: 'Class 9 Foundation Resources', priceInr: 399 },
+    'class-8': { id: 'class-8', name: 'Class 8 Foundation Resources', priceInr: 299 },
+    'class-7': { id: 'class-7', name: 'Class 7 Foundation Resources', priceInr: 299 },
+    'class-6': { id: 'class-6', name: 'Class 6 Foundation Resources', priceInr: 299 },
     'foundation-9-10': { id: 'foundation-9-10', name: 'Foundation Class 9–10 Resources', priceInr: 399 },
-    'junior-6-8': { id: 'junior-6-8', name: 'Junior Foundation Class 6–8 Resources', priceInr: 399 }
+    'junior-6-8': { id: 'junior-6-8', name: 'Junior Foundation Class 6–8 Resources', priceInr: 299 }
   };
 
   // Fetch live backend catalog on load
